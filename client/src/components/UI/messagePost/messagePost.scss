@@ -1,0 +1,65 @@
+.messagePost{
+    color: #000;
+    width: 100%;
+    background-color: #fff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    box-sizing: border-box;
+
+    .messagePost-container{
+        display: flex;
+        width: 100%;
+    }
+    .message-contant{
+        display: block;
+        .message-text p{
+            word-break: break-all;
+        }
+    }
+    .message-info{
+        margin-top: 10px;
+    }
+    .user-info{
+        display: flex;
+    }
+    .likes{
+        display: flex;
+        gap: 10px;
+        color:rgba(0, 0, 0, 0.7);
+        margin-left: auto;
+        align-items: center;
+        h5{
+            font-size: 16px;
+        }
+    }
+    .message-rewiews{
+        margin-top: 10px;
+    }
+    .likes.active{
+        color: #000;
+        .svg{
+            fill: red;
+            & > * {
+               stroke: red; 
+            }
+        }
+    }
+    .user-name{
+        line-height: 15px;
+        font-size: 24px;
+        font-weight: 700;
+    }
+    .user-email, .time-create{
+        margin-left: 5px;
+        color: rgba(0, 0, 0, 0.677);
+    }
+    .user-image{
+        margin-right: 15px;
+        height: 30px;
+        img{
+            border-radius: 50%;
+            height: 100%;
+            width: 30px;
+        }
+    }
+}

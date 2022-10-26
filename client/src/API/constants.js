@@ -1,0 +1,1 @@
+export const selverPath = 'http://localhost:5000/api'

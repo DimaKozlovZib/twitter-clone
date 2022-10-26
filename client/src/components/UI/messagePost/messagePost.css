@@ -1,0 +1,64 @@
+.messagePost {
+  color: #000;
+  width: 100%;
+  background-color: #fff;
+  padding: 10px 15px;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+.messagePost .messagePost-container {
+  display: flex;
+  width: 100%;
+}
+.messagePost .message-contant {
+  display: block;
+}
+.messagePost .message-contant .message-text p {
+  word-break: break-all;
+}
+.messagePost .message-info {
+  margin-top: 10px;
+}
+.messagePost .user-info {
+  display: flex;
+}
+.messagePost .likes {
+  display: flex;
+  gap: 10px;
+  color: rgba(0, 0, 0, 0.7);
+  margin-left: auto;
+  align-items: center;
+}
+.messagePost .likes h5 {
+  font-size: 16px;
+}
+.messagePost .message-rewiews {
+  margin-top: 10px;
+}
+.messagePost .likes.active {
+  color: #000;
+}
+.messagePost .likes.active .svg {
+  fill: red;
+}
+.messagePost .likes.active .svg > * {
+  stroke: red;
+}
+.messagePost .user-name {
+  line-height: 15px;
+  font-size: 24px;
+  font-weight: 700;
+}
+.messagePost .user-email, .messagePost .time-create {
+  margin-left: 5px;
+  color: rgba(0, 0, 0, 0.677);
+}
+.messagePost .user-image {
+  margin-right: 15px;
+  height: 30px;
+}
+.messagePost .user-image img {
+  border-radius: 50%;
+  height: 100%;
+  width: 30px;
+}/*# sourceMappingURL=messagePost.css.map */
