@@ -1,0 +1,38 @@
+.FormInput {
+  display: flex;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.6);
+  padding: 0px 5px 5px;
+  align-items: center;
+  margin-top: 6px;
+}
+.FormInput input {
+  display: block;
+  height: 25px;
+  width: 100%;
+  border: none;
+  color: rgba(0, 0, 0, 0.6);
+  font-weight: 600;
+}
+.FormInput input::-moz-placeholder {
+  color: rgba(0, 0, 0, 0.6);
+}
+.FormInput input:-ms-input-placeholder {
+  color: rgba(0, 0, 0, 0.6);
+}
+.FormInput input::placeholder {
+  color: rgba(0, 0, 0, 0.6);
+}
+.FormInput img {
+  margin-right: 10px;
+  width: 12px;
+  opacity: 0.8;
+}
+.FormInput.focus {
+  border-bottom: 2px solid rgb(0, 0, 0);
+}
+.FormInput.focus img {
+  opacity: 1;
+}
+.FormInput.focus input {
+  color: #000;
+}/*# sourceMappingURL=FormInput.css.map */

@@ -1,0 +1,60 @@
+.RegistrationForm{
+    background-color: #fff;
+    width: 100%;
+    border-radius: 15px;
+    max-width: 400px;
+    box-sizing: border-box;
+    padding: 40px 20px 35px;
+    margin: auto;
+
+    &-title{
+        text-align: center;
+        font-weight: bold;
+    }
+    &-form{
+        display: block;
+        width: 100%;
+
+        & > *{
+            margin-top: 15px;
+            display: block;
+        }
+    }
+    &_submit-button{
+        display: flex;
+        justify-content: center;
+
+        button{
+            margin-top: 6px;
+            font-size: 16px;
+            border-radius: 20px;
+            color: #fff;
+            padding: 10px 25px;
+            background: #00aaec;
+            transition: background 0.1s linear;
+            &:hover{
+                background: #0288bd;
+            }
+        }
+    }
+    .login{
+        margin-top: 30px;
+        text-align: center;
+        color: rgba(0, 0, 0, 0.7);
+        &:hover{
+            color: rgba(0, 0, 0, 0.9);
+        }
+        a{
+            color: inherit; 
+        }
+    }
+}
+
+#root{
+    height: 100%;
+    width: 100%;
+}
+body{
+    width: 100vw;
+    height: 100vh;
+}
