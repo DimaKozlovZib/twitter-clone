@@ -11,7 +11,10 @@ const path = require("path")
 const errorHandler = require('./middleware/ErrorHandingMiddleware');
 const cookieParser = require("cookie-parser");
 
-app.use(cors())
+app.use(cors({
+    credentials: true,
+    origin: process.env.CLIENT_URL
+}))
 app.use(express.json())
 app.use(cookieParser())
 app.use(express.static(path.resolve(__dirname, "static")))

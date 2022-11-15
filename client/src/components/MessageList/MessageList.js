@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getMessages } from '../../API/getMessages';
+import { getMessages } from '../../API/messagesApi.js';
 import MessagePost from '../UI/messagePost/messagePost';
 
 const MessageList = () => {

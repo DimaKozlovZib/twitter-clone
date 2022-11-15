@@ -52,35 +52,48 @@ class userRouter {
 
     }
     async login(req, res, next) {
-        const { email, password } = req.body
-        const user = await User.findOne({ where: { email } })
-        if (!user) {
-            return next(ApiError.badRequest("Пользователь не найден."))
+        try {
+            const { email, id } = req.user
+            const user = await User.findOne({ where: { email } })
+            if (!user) {
+                return next(ApiError.badRequest("Пользователь не найден."))
+            }
+            //let comparePassword = bcrypt.compareSync(password, user.password)
+            //if (!comparePassword) {
+            //    return next(ApiError.badRequest("Указан не верный пароль."))
+            //}
+            const { accessToken, refreshToken } = generateJwt({ id, email })
+            res.cookie('refreshToken', refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
+
+            return res.json({ accessToken, user })
+        } catch (error) {
+            console.log(error)
         }
-        let comparePassword = bcrypt.compareSync(password, user.password)
-        if (!comparePassword) {
-            return next(ApiError.badRequest("Указан не верный пароль."))
-        }
-        const tokens = generateJwt(user.id, user.email)
-        return res.json(tokens)
     }
 
     async auth(req, res) {
         try {
-            const token = req.headers.authorization.split(' ')[1]
+            const { refreshToken } = req.cookies;
+            console.log(refreshToken)
 
-            if (!token) {
-                return res.status(401).json({ message: 'не авторизован1' })
+
+            if (!refreshToken) {
+                return res.status(401).json({ message: 'не авторизован' })
             }
-            const decoded = jwt.verify(token, process.env.SECRET_REFRESH_KEY)
-            console.log(decoded)
+            const { id, email } = jwt.verify(refreshToken, process.env.SECRET_REFRESH_KEY)
+            const user = await User.findOne({ where: { id } })
+            if (!user) {
+                return next(ApiError.badRequest("Пользователь не найден."))
+            }
+            const { newRefreshToken, accessToken } = generateJwt({ id, email })
 
-            const tokens = generateJwt(id, email)
+            res.cookie('refreshToken', newRefreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
 
-            return res.json(tokens)
+            return res.json({ accessToken, newRefreshToken })
 
         } catch (error) {
-            return res.status(401).json({ message: 'не авторизован1' })
+            console.log(error)
+            return res.status(401).json({ message: 'не авторизован' })
         }
     }
     async getFriends(req, res) {

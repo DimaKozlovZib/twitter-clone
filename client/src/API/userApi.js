@@ -11,8 +11,10 @@ export const registration = async (name, email, password, age) => {
     }
 }
 
-export const login = async (email, password) => {
-    const response = await $host.post('/user/login', { email, password })
+
+
+export const login = async () => {
+    const response = await $authHost.post('/user/login', {})
     return response;
 }
 
