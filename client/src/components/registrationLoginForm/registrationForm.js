@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { useState } from 'react';
 import FormInput from '../UI/FormInput/FormInput';
 import './Form.css';
 import nameFormInput from '../../images/nameFormImg.svg';

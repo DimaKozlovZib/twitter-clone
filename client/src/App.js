@@ -13,7 +13,7 @@ function App() {
     try {
       if (!isAuth) {
         let response = await login()
-        if (response?.status !== 200) {
+        if (response && response.status !== 200) {
           dispatch({ type: 'ADD_USER', payload: response.data.user })
           dispatch({ type: 'set_ISAUTH', payload: true })
           return;

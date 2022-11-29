@@ -4,7 +4,7 @@ import Layout from './Layout';
 
 const MessagesPage = () => {
     return (
-        <Layout>
+        <Layout navPageName='home'>
             <MessageList />
         </Layout>
     );

@@ -1,10 +1,12 @@
 import React from 'react';
 import Header from '../Header/Header';
 
-const Layout = ({ children }) => {
+const Layout = ({ navPageName, children }) => {
     return (
         <>
-            <Header />
+            <Header>
+                {navPageName}
+            </Header>
             <main>
                 {children}
             </main>
