@@ -1,0 +1,21 @@
+.NullAvatar{
+    background-color: #DEE2E6;
+    border-radius: 50%;
+    height: 32px;
+    width: 32px;
+    display: flex;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgb(202, 202, 202);
+    svg{
+        height: 20px;
+        stroke: #7d8387;
+        fill: #7d8387;
+        border-radius: 5px;
+    }
+}
+.user-avatar img{
+    height: 25px;
+    width: 25px;
+}

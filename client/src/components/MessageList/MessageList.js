@@ -18,7 +18,7 @@ const MessageList = () => {
 
     console.log(messagesList)
     return (
-        <div>
+        <div className='messagesList'>
             {
                 messagesList.length > 0 ? <><MessagePost messageObject={messagesList[2]} /></> : ''
             }

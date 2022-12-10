@@ -12,6 +12,7 @@ const User = sequelize.define('user', {
 
 const Message = sequelize.define('message', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    userId: { type: DataTypes.INTEGER, allowNull: false },
     text: { type: DataTypes.STRING, allowNull: false },
     likesNum: { type: DataTypes.INTEGER, defaultValue: 0 },
     img: { type: DataTypes.STRING, unique: true, },
@@ -42,6 +43,7 @@ User.hasMany(Likes)
 
 Message.hasMany(Likes)
 Message.belongsTo(Hashtag)
+Message.belongsTo(User)
 
 Image.belongsTo(Message)
 Image.belongsTo(User)

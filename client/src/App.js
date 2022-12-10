@@ -13,9 +13,10 @@ function App() {
     try {
       if (!isAuth) {
         let response = await login()
-        if (response && response.status !== 200) {
+        console.log(response && response.status === 200)
+        if (response && response.status === 200) {
           dispatch({ type: 'ADD_USER', payload: response.data.user })
-          dispatch({ type: 'set_ISAUTH', payload: true })
+          dispatch({ type: 'SET_ISAUTH', payload: true })
           return;
         }
         dispatch({ type: 'set_ISAUTH', payload: false })
@@ -23,7 +24,6 @@ function App() {
     } catch (error) {
       console.error(error)
     }
-
   }
   useEffect(() => {
     getToken()

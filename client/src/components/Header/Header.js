@@ -3,33 +3,23 @@ import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
 import { useSelector } from 'react-redux';
 import LogoIcon from "../../images/LogoIcon.png";
-import account from "../../images/account.svg"
+import UserAvatar from '../UI/UserAvatar/UserAvatar';
 
 const Header = memo(({ children }) => {
-    const [menu, setMenu] = useState('');
     const { isAuth, user } = useSelector(state => state)
-    const History = useNavigate()
-
-    const openMobileMenu = () => setMenu(menu === 'active' ? '' : 'active')
+    //const History = useNavigate()
 
     const userIsAuth = (
         <>
             <div className='user-avatar'>
                 <Link className='user-avatar-link'>
-                    <div className='guest-avatar'>
-                        {
-                            !user?.url ?
-                                (<svg width="18" height="22" viewBox="0 0 18 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M13.5714 5.44444C13.5714 6.62318 13.0898 7.75365 12.2325 8.58714C11.3752 9.42064 10.2124 9.88889 9 9.88889C7.78758 9.88889 6.62482 9.42064 5.76751 8.58714C4.9102 7.75365 4.42857 6.62318 4.42857 5.44444C4.42857 4.2657 4.9102 3.13524 5.76751 2.30175C6.62482 1.46825 7.78758 1 9 1C10.2124 1 11.3752 1.46825 12.2325 2.30175C13.0898 3.13524 13.5714 4.2657 13.5714 5.44444ZM9 13.2222C6.87827 13.2222 4.84344 14.0417 3.34315 15.5003C1.84285 16.9589 1 18.9372 1 21H17C17 18.9372 16.1571 16.9589 14.6569 15.5003C13.1566 14.0417 11.1217 13.2222 9 13.2222Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>) : <img src={user?.url} alt="" />
-                        }
-                    </div>
+                    <UserAvatar url={user?.url} />
                 </Link>
             </div>
             <button className='write-message blue-button'>
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M15.414 0.586C15.0389 0.211058 14.5303 0.000427246 14 0.000427246C13.4697 0.000427246 12.9611 0.211058 12.586 0.586L5 8.172V11H7.828L15.414 3.414C15.7889 3.03894 15.9996 2.53033 15.9996 2C15.9996 1.46967 15.7889 0.961056 15.414 0.586Z" />
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M0 4C0 3.46957 0.210714 2.96086 0.585786 2.58579C0.960859 2.21071 1.46957 2 2 2H6C6.26522 2 6.51957 2.10536 6.70711 2.29289C6.89464 2.48043 7 2.73478 7 3C7 3.26522 6.89464 3.51957 6.70711 3.70711C6.51957 3.89464 6.26522 4 6 4H2V14H12V10C12 9.73478 12.1054 9.48043 12.2929 9.29289C12.4804 9.10536 12.7348 9 13 9C13.2652 9 13.5196 9.10536 13.7071 9.29289C13.8946 9.48043 14 9.73478 14 10V14C14 14.5304 13.7893 15.0391 13.4142 15.4142C13.0391 15.7893 12.5304 16 12 16H2C1.46957 16 0.960859 15.7893 0.585786 15.4142C0.210714 15.0391 0 14.5304 0 14V4Z" />
+                    <path fillRule="evenodd" clipRule="evenodd" d="M0 4C0 3.46957 0.210714 2.96086 0.585786 2.58579C0.960859 2.21071 1.46957 2 2 2H6C6.26522 2 6.51957 2.10536 6.70711 2.29289C6.89464 2.48043 7 2.73478 7 3C7 3.26522 6.89464 3.51957 6.70711 3.70711C6.51957 3.89464 6.26522 4 6 4H2V14H12V10C12 9.73478 12.1054 9.48043 12.2929 9.29289C12.4804 9.10536 12.7348 9 13 9C13.2652 9 13.5196 9.10536 13.7071 9.29289C13.8946 9.48043 14 9.73478 14 10V14C14 14.5304 13.7893 15.0391 13.4142 15.4142C13.0391 15.7893 12.5304 16 12 16H2C1.46957 16 0.960859 15.7893 0.585786 15.4142C0.210714 15.0391 0 14.5304 0 14V4Z" />
                 </svg>
             </button>
         </>

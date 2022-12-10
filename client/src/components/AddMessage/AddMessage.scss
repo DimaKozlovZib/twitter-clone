@@ -1,0 +1,32 @@
+.AddMessage{
+    background-color: #ffffff;
+    display: flex;
+    align-items: start;
+    padding: 10px 15px;
+    border-radius: 10px;
+    .submit-btn{
+        background-color: #00aaec;
+        border-radius: 50%;
+    }
+    form{
+        margin-left: 15px;
+        flex: 1 1 auto;
+    }
+    .input-wrapper{
+        border-radius: 15px;
+        display: flex;
+        input{
+            padding: 0px 5px;
+            flex: 1 1 auto;
+            border: none;
+            border-bottom: 2px solid rgb(202, 202, 202);
+            box-sizing: border-box;
+            margin-right: 10px;
+        }
+    }
+    .error-addMessage{
+        text-align: center;
+        color: rgb(209, 2, 2);
+        margin-top: 10px;
+    }
+}

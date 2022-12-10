@@ -1,23 +1,28 @@
-const { Message, Image } = require('../models/models')
+const { Message, Image, User } = require('../models/models')
 const uuid = require("uuid")
 const path = require("path")
 const ApiError = require("../error/ApiError")
 
 class messageRouter {
-    async addMessage(req, res) {
+    async addMessage(req, res, next) {
         try {
             const { text } = req.body;
+            const { id } = req.user;
 
-            if (text) {
-                const { img } = req.files
-                let filename = uuid.v4() + ".jpg";
+            if (text && id) {
 
-                img.mv(path.resolve(__dirname, '..', 'static', filename))
+                if (req.files && req.files.img) {
+                    const { img } = req.files;
+                    const message = await Message.create({ text, img: filename, })
+                    let filename = uuid.v4() + ".jpg";
 
-                const message = await Message.create({ text, img: filename })
-                const image = await Image.create({ url: filename, messageId: message.id })
+                    img.mv(path.resolve(__dirname, '..', 'static', filename))
+                    const image = await Image.create({ url: filename, messageId: message.id })
+                }
+                const user = User.findOne({ id })
+                const message = await Message.create({ text, userId: id })
 
-                return res.json({ message, image })
+                return res.json({ message })
             }
             next(ApiError.badRequest("bad request"))
         } catch (error) {
@@ -44,7 +49,10 @@ class messageRouter {
         const Page = page ? page : 1;
         const indexFirstElement = (Page - 1) * Limit;
 
-        const AllMessages = await Message.findAndCountAll({ limit: Limit, offset: indexFirstElement })
+        const AllMessages = await Message.findAndCountAll({
+            limit: Limit, offset: indexFirstElement,
+            include: User
+        })
 
         return res.json(AllMessages)
     }

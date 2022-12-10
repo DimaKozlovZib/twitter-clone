@@ -1,0 +1,27 @@
+.AddMessage {
+  background-color: #ffffff;
+  display: flex;
+  align-items: start;
+  padding: 10px 15px;
+  border-radius: 10px;
+}
+.AddMessage .submit-btn {
+  background-color: #00aaec;
+  border-radius: 50%;
+}
+.AddMessage form {
+  margin-left: 15px;
+  flex: 1 1 auto;
+}
+.AddMessage .input-wrapper {
+  border-radius: 15px;
+  display: flex;
+}
+.AddMessage .input-wrapper input {
+  padding: 0px 5px;
+  flex: 1 1 auto;
+  border: none;
+  border-bottom: 2px solid rgb(202, 202, 202);
+  box-sizing: border-box;
+  margin-right: 10px;
+}/*# sourceMappingURL=AddMessage.css.map */

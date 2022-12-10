@@ -3,10 +3,8 @@
   width: 100%;
   background-color: #fff;
   padding: 10px 15px;
-  border-radius: 5px;
+  border-radius: 10px;
   box-sizing: border-box;
-}
-.messagePost .messagePost-container {
   display: flex;
   width: 100%;
 }
