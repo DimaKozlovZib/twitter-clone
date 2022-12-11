@@ -16,10 +16,10 @@ class messageRouter {
                     const message = await Message.create({ text, img: filename, })
                     let filename = uuid.v4() + ".jpg";
 
+
                     img.mv(path.resolve(__dirname, '..', 'static', filename))
                     const image = await Image.create({ url: filename, messageId: message.id })
                 }
-                const user = User.findOne({ id })
                 const message = await Message.create({ text, userId: id })
 
                 return res.json({ message })

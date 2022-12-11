@@ -24,4 +24,9 @@
   border-bottom: 2px solid rgb(202, 202, 202);
   box-sizing: border-box;
   margin-right: 10px;
+}
+.AddMessage .error-addMessage {
+  text-align: center;
+  color: rgb(209, 2, 2);
+  margin-top: 10px;
 }/*# sourceMappingURL=AddMessage.css.map */

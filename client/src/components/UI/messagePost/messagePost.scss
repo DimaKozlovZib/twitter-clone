@@ -1,62 +1,58 @@
-.messagePost{
+.messagePost {
     color: #000;
+    margin-top: 10px;
     width: 100%;
     background-color: #fff;
     padding: 10px 15px;
     border-radius: 10px;
     box-sizing: border-box;
     display: flex;
-        width: 100%;
-    .message-contant{
+    width: 100%;
+    .message-contant {
         display: block;
-        .message-text p{
+        flex: 1 1 auto;
+        margin-left: 15px;
+        .message-text p {
             word-break: break-all;
         }
     }
-    .message-info{
-        margin-top: 10px;
+    .message-info {
+        margin-top: 5px;
     }
-    .user-info{
+    .user-info {
         display: flex;
+        font-family: "Nunito", sans-serif;
     }
-    .likes{
+    .likes {
+        margin-right: 10px;
         display: flex;
-        gap: 10px;
-        color:rgba(0, 0, 0, 0.7);
+        gap: 6px;
+        color: rgba(0, 0, 0, 0.7);
         margin-left: auto;
         align-items: center;
-        h5{
+        h5 {
             font-size: 16px;
         }
     }
-    .message-rewiews{
+    .message-rewiews {
         margin-top: 10px;
     }
-    .likes.active{
+    .likes.active {
         color: #000;
-        .svg{
+        .svg {
             fill: red;
             & > * {
-               stroke: red; 
+                stroke: red;
             }
         }
     }
-    .user-name{
-        line-height: 15px;
-        font-size: 24px;
-        font-weight: 700;
+    .user-name {
+        line-height: 20.5px;
+        font-size: 20px;
+        font-weight: 600;
     }
-    .user-email, .time-create{
+    .user-email {
         margin-left: 5px;
         color: rgba(0, 0, 0, 0.677);
-    }
-    .user-image{
-        margin-right: 15px;
-        height: 30px;
-        img{
-            border-radius: 50%;
-            height: 100%;
-            width: 30px;
-        }
     }
 }

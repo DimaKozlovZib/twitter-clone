@@ -1,5 +1,6 @@
 .messagePost {
   color: #000;
+  margin-top: 10px;
   width: 100%;
   background-color: #fff;
   padding: 10px 15px;
@@ -10,19 +11,23 @@
 }
 .messagePost .message-contant {
   display: block;
+  flex: 1 1 auto;
+  margin-left: 15px;
 }
 .messagePost .message-contant .message-text p {
   word-break: break-all;
 }
 .messagePost .message-info {
-  margin-top: 10px;
+  margin-top: 5px;
 }
 .messagePost .user-info {
   display: flex;
+  font-family: "Nunito", sans-serif;
 }
 .messagePost .likes {
+  margin-right: 10px;
   display: flex;
-  gap: 10px;
+  gap: 6px;
   color: rgba(0, 0, 0, 0.7);
   margin-left: auto;
   align-items: center;
@@ -43,20 +48,11 @@
   stroke: red;
 }
 .messagePost .user-name {
-  line-height: 15px;
-  font-size: 24px;
-  font-weight: 700;
+  line-height: 20.5px;
+  font-size: 20px;
+  font-weight: 600;
 }
-.messagePost .user-email, .messagePost .time-create {
+.messagePost .user-email {
   margin-left: 5px;
   color: rgba(0, 0, 0, 0.677);
-}
-.messagePost .user-image {
-  margin-right: 15px;
-  height: 30px;
-}
-.messagePost .user-image img {
-  border-radius: 50%;
-  height: 100%;
-  width: 30px;
 }/*# sourceMappingURL=messagePost.css.map */

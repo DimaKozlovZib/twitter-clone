@@ -1,36 +1,11 @@
 import React, { useState } from 'react';
-import account from "../../../images/account.svg";
+import UserAvatar from '../UserAvatar/UserAvatar';
 import "./messagePost.css";
 
 const MessagePost = ({ messageObject }) => {
-    console.log(messageObject)
     const { user, text, createdAt, likesNum } = messageObject;
-    const { imageUrl, name, email } = user;
+    const { img, name, email } = user;
     const [activeLikeClass, setActiveLikeClass] = useState('');
-
-    const whenMessageCreate = () => {
-        const date = new Date()
-        const [year, month, day, hours, minutes] = createdAt.match(/(\d+)/g)
-
-        const yearNow = date.getFullYear();
-        console.log(year, yearNow)
-        if (Number(year) !== yearNow) return (yearNow - year) + 'г назад';
-
-        const monthNow = date.getMonth() + 1;
-        console.log(month, monthNow)
-        if (Number(month) !== monthNow) return (monthNow - month) + 'м назад';
-
-        const dayNow = date.getDate();
-        if (Number(day) !== dayNow) return (dayNow - day) + 'д назад';
-
-        const hoursNow = date.getHours();
-        if (Number(hours) !== hoursNow) return (hoursNow - hours) + 'ч назад';
-
-        const minutesNow = date.getHours();
-        if (Number(minutes) !== minutesNow) return (minutesNow - minutes) + 'мин назад';
-
-        return '1 мин назад'
-    }
 
     const postLike = () => {
         setActiveLikeClass(activeLikeClass === 'active' ? '' : 'active')
@@ -39,18 +14,15 @@ const MessagePost = ({ messageObject }) => {
     return (
         <div className='messagePost'>
             <div className='user-image'>
-                <img src={account} alt="" />
+                <UserAvatar url={img}></UserAvatar>
             </div>
             <div className='message-contant'>
                 <div className='user-info'>
                     <div className='user-name'>
-                        name
+                        {name}
                     </div>
                     <div className='user-email'>
                         @{email.match(/^([^@]+)/)[0]}
-                    </div>
-                    <div className='time-create'>
-                        {'• ' + whenMessageCreate()}
                     </div>
                 </div>
                 <div className='message-info'>

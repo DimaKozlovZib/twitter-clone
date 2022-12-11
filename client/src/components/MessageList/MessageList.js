@@ -15,12 +15,11 @@ const MessageList = () => {
         getData()
     }, [pageNum]);
 
-
-    console.log(messagesList)
     return (
         <div className='messagesList'>
             {
-                messagesList.length > 0 ? <><MessagePost messageObject={messagesList[2]} /></> : ''
+                messagesList.length > 0 ?
+                    messagesList.map(item => <MessagePost messageObject={item} alt={item.id} />) : ''
             }
         </div>
     );
