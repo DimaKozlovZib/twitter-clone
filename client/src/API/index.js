@@ -31,7 +31,7 @@ async function updateTokens(error) {
 $authHost.interceptors.response.use((config) => config,
     async (error) => {
         if (error.response.status === 401) {
-            updateTokens(error)
+            return await updateTokens(error)
         }
     })
 $authHost.interceptors.request.use(authInterceptor)

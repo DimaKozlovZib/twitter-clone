@@ -56,7 +56,7 @@ class userRouter {
             const { email, id } = req.user
             const user = await User.findOne({ where: { email } })
             if (!user) {
-                return next(ApiError.badRequest("Пользователь не найден."))
+                return res.status(401).json({ message: 'не авторизован' })
             }
             //let comparePassword = bcrypt.compareSync(password, user.password)
             //if (!comparePassword) {
@@ -67,7 +67,7 @@ class userRouter {
 
             return res.json({ accessToken, user })
         } catch (error) {
-            console.log(error)
+            console.error(errors)
         }
     }
 
