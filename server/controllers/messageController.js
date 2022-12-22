@@ -1,7 +1,9 @@
-const { Message, Image, User } = require('../models/models')
+const { Message, Image, User, Likes } = require('../models/models')
 const uuid = require("uuid")
 const path = require("path")
 const ApiError = require("../error/ApiError")
+const jwt = require("jsonwebtoken")
+const { Sequelize } = require("sequelize");
 
 class messageRouter {
     async addMessage(req, res, next) {
@@ -43,18 +45,83 @@ class messageRouter {
     }
 
     async getMessages(req, res) {
-        const { page, limit } = req.query;
+        try {
+            const token = req.headers.authorization?.split(' ')[1]
+            let decoded;
+            if (token) {
+                decoded = jwt.verify(token, process.env.SECRET_ACCESS_KEY)
+            }
 
-        const Limit = limit || 20;
-        const Page = page ? page : 1;
-        const indexFirstElement = (Page - 1) * Limit;
+            const { page, limit } = req.query;
 
-        const AllMessages = await Message.findAndCountAll({
-            limit: Limit, offset: indexFirstElement,
-            include: User
-        })
+            const Limit = limit || 20;
+            const Page = page ? page : 1;
+            const indexFirstElement = (Page - 1) * Limit;
 
-        return res.json(AllMessages)
+            if (token && decoded) {
+                const AllMessages = await Message.findAndCountAll({
+                    limit: Limit, offset: indexFirstElement,
+                    include: [
+                        {
+                            model: User,
+                            attributes: ['img', 'name', 'email', 'id'],
+                            raw: true
+                        }, {
+                            model: Likes,
+                            where: {
+                                userId: decoded.id
+                            },
+                            required: false
+                        }
+                    ]
+                })
+
+                return res.json(AllMessages)
+            }
+            const AllMessages = await Message.findAndCountAll({
+                limit: Limit, offset: indexFirstElement,
+                include: User
+            })
+
+            return res.json(AllMessages)
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+    async likeMessage(req, res, next) {
+        try {
+            const { type, mesId } = req.body.params;
+            const { id } = req.user;
+
+            if (type === 'add' && mesId) {
+                await Likes.create({ messageId: mesId, userId: id })
+                await Message.increment('likesNum', {
+                    by: 1,
+                    where: {
+                        id: mesId
+                    }
+                })
+
+                return res.json({ likeIsActive: true, })
+
+            } else if (type === 'delete' && mesId) {
+                await Likes.destroy({ where: { messageId: mesId, userId: id } })
+                await Message.decrement('likesNum', {
+                    by: 1,
+                    where: {
+                        id: mesId
+                    }
+                })
+
+                return res.json({ likeIsActive: false, })
+
+            } else {
+                next(ApiError.badRequest('не правильный запрос'))
+            }
+        } catch (error) {
+            next(ApiError.badRequest(error.message))
+        }
     }
 }
 module.exports = new messageRouter()

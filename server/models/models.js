@@ -20,8 +20,8 @@ const Message = sequelize.define('message', {
 
 const Likes = sequelize.define('likes', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    userId: { type: DataTypes.INTEGER, allowNull: false, unique: true, },
-    messageId: { type: DataTypes.INTEGER, allowNull: false, unique: true, },
+    userId: { type: DataTypes.INTEGER, allowNull: false, unique: false },
+    messageId: { type: DataTypes.INTEGER, allowNull: false, },
 })
 const Friends = sequelize.define('friends', {
     count: { type: DataTypes.INTEGER },
