@@ -1,0 +1,74 @@
+.profile-header {
+    font-family: 'Nunito', sans-serif;
+    margin-top: 25px;
+}
+
+.userInfo{
+    display: flex;
+    width: 100%;
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px 20px;
+    box-sizing: border-box;
+
+    &__avatar{
+        margin-top: -95px;
+        width: 150px;
+
+        & > *{
+            border: 3px solid rgb(202, 202, 202);
+        }
+    }
+    .user-avatar img, .NullAvatar{
+        height: auto;
+        width: 150px;
+        aspect-ratio: 1/1;
+    }
+    .info-about-user{
+        margin-left: 15px;
+    }
+    .user-name{
+        font-weight: 700;
+        min-width: 200px;
+        font-size: 26px;
+        line-height: 28px;
+    }
+    .user-email{
+        min-width: 200px;
+        margin-top: 5px;
+        font-size: 16px;
+        line-height: 15px;
+        color: rgba($color: #000000, $alpha: 0.8);
+    }
+    .edit-button{
+        margin-left: auto;
+    }
+
+    @media (max-width: 600px) {
+        &{
+            display: block;
+        }
+        & > * {
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+        .user-name, .edit-button{
+            margin-top: 10px;
+        }
+        .info-about-user{
+            margin-left: 0;
+        }
+    }
+}
+.profile-cover{
+    background-position: center;
+    aspect-ratio: 2.5;
+    max-height: 251px;
+    width: 100%;
+    background-size: cover;
+    padding-top: 25px;
+    margin-bottom: -25px;
+    border-radius: 10px 10px 0px 0px;
+}
+

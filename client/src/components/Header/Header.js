@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
 import { useSelector } from 'react-redux';
@@ -11,11 +11,7 @@ const Header = memo(({ children }) => {
 
     const userIsAuth = (
         <>
-            <div className='user-avatar'>
-                <Link className='user-avatar-link'>
-                    <UserAvatar url={user?.url} />
-                </Link>
-            </div>
+            <UserAvatar url={user?.url} id={user.id} />
             <button className='write-message blue-button'>
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M15.414 0.586C15.0389 0.211058 14.5303 0.000427246 14 0.000427246C13.4697 0.000427246 12.9611 0.211058 12.586 0.586L5 8.172V11H7.828L15.414 3.414C15.7889 3.03894 15.9996 2.53033 15.9996 2C15.9996 1.46967 15.7889 0.961056 15.414 0.586Z" />

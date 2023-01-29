@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getAuthMessages, getMessages } from '../../API/messagesApi.js';
+import { getMessages } from '../../API/messagesApi.js';
 import MessagePost from '../UI/messagePost/messagePost';
 
-const MessageList = () => {
+const MessageList = ({ onlyThisUserId }) => {
     const [pageNum, setPageNum] = useState(1);
     const [messagesList, setMessagesList] = useState([]);
     const { isAuth, user } = useSelector(state => state)
@@ -11,9 +11,7 @@ const MessageList = () => {
     useEffect(() => {
         async function getData() {
             if (isAuth !== null) {
-                const apiFunc = isAuth ? getAuthMessages : getMessages
-                const fetchResult = await apiFunc(pageNum)
-                console.log(fetchResult)
+                const fetchResult = await getMessages({ pageNum, onlyThisUserId, isAuth })
                 const messagesLimitList = fetchResult?.data.rows;
                 setMessagesList([...messagesList, ...messagesLimitList])
             }

@@ -8,7 +8,9 @@ const Layout = ({ navPageName, children }) => {
                 {navPageName}
             </Header>
             <main>
-                {children}
+                <div className='container'>
+                    {children}
+                </div>
             </main>
         </>
     );

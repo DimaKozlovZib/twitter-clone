@@ -11,14 +11,19 @@ export const registration = async (name, email, password, age) => {
     }
 }
 
-
-
 export const login = async () => {
     const response = await $authHost.post('/user/login', {})
     return response;
 }
 
-//export const authCheck = async () => {
-//    const response = await $host.post('/user/auth', { email, password })
-//    return response;
-//}
+export const getUser = async (id, isAuth) => {
+    try {
+        const requestHost = isAuth ? $authHost : $host;
+        const response = await requestHost.get(`/user/${id}`)
+        console.log(response)
+        return response;
+    } catch (error) {
+        console.error(error)
+        return error
+    }
+}

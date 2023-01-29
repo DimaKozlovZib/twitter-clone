@@ -3,7 +3,8 @@ const bcrypt = require("bcrypt")
 const uuid = require("uuid")
 const path = require("path")
 const jwt = require("jsonwebtoken")
-const { User, Image } = require("../models/models")
+const { User, Image, Message } = require("../models/models")
+const { Sequelize } = require("../db")
 
 const generateJwt = (payload) => {
     const accessToken = jwt.sign(
@@ -74,17 +75,18 @@ class userRouter {
     async auth(req, res) {
         try {
             const { refreshToken } = req.cookies;
-            console.log(refreshToken)
-
 
             if (!refreshToken) {
                 return res.status(401).json({ message: 'не авторизован' })
             }
+
             const { id, email } = jwt.verify(refreshToken, process.env.SECRET_REFRESH_KEY)
             const user = await User.findOne({ where: { id } })
+
             if (!user) {
                 return next(ApiError.badRequest("Пользователь не найден."))
             }
+
             const { newRefreshToken, accessToken } = generateJwt({ id, email })
 
             res.cookie('refreshToken', newRefreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
@@ -100,7 +102,29 @@ class userRouter {
 
     }
     async getUser(req, res) {
+        const { id } = req.params;
+        const { isAuth } = req.user;
 
+        const userObj = await User.findOne({ where: { id }, attributes: ['img', 'name', 'email', 'id'], })
+        const messages = await Message.findAndCountAll({
+            where: { userId: id },
+            attributes: [
+                [Sequelize.fn('sum', Sequelize.col('likesNum')), 'total_likesNum'],
+            ],
+            group: ['likesNum'],
+            raw: true
+        });
+
+        const user = {
+            ...userObj.dataValues,
+            countMessages: messages.count[0].count,
+            totalLikesNum: +messages.rows[0].total_likesNum
+        }
+
+        if (isAuth && req.user.id === +id) {
+            return res.json({ user, canEdit: true })
+        }
+        return res.json({ user, canEdit: false })
     }
 }
 module.exports = new userRouter()

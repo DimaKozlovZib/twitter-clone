@@ -8,7 +8,7 @@ const MessagePost = ({ messageObject, isAuth, userId }) => {
     const { img, name, email } = user;
     const [likesNumState, setLikesNumState] = useState(likesNum);
 
-    const condition = likes.length !== 0 && likes[0].userId === userId && likes[0].messageId === id;
+    const condition = likes && likes.length !== 0 && likes[0].userId === userId && likes[0].messageId === id;
 
     const [activeLikeClass, setActiveLikeClass] = useState(condition ? 'active' : '');
 
@@ -27,7 +27,7 @@ const MessagePost = ({ messageObject, isAuth, userId }) => {
     return (
         <div className='messagePost'>
             <div className='user-image'>
-                <UserAvatar url={img}></UserAvatar>
+                <UserAvatar url={img} id={user.id}></UserAvatar>
             </div>
             <div className='message-contant'>
                 <div className='user-info'>

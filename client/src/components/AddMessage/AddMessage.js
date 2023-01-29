@@ -5,7 +5,7 @@ import UserAvatar from '../UI/UserAvatar/UserAvatar';
 import './AddMessage.css'
 
 const AddMessage = () => {
-    const { user } = useSelector(state => state.user)
+    const { user, isAuth } = useSelector(state => state)
     const [value, setValue] = useState('');
     const [error, setError] = useState(false);
 
@@ -25,9 +25,7 @@ const AddMessage = () => {
 
     return (
         <div className='AddMessage'>
-            <div className='user-avatar'>
-                <UserAvatar url={user?.url} />
-            </div>
+            <UserAvatar url={user?.url} id={user.id} />
             <form onSubmit={AddMessage} onChange={onChange} className='AddMessage-form'>
                 <div className='input-wrapper'>
                     <input type="text" placeholder='Что нового?' />
