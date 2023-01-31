@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import FormInput from '../UI/FormInput/FormInput';
+import FormInput from '../../components/FormInput/FormInput';
 import './Form.css';
 import nameFormInput from '../../images/nameFormImg.svg';
 import emailFormInput from '../../images/emailFormImg.svg';

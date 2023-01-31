@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getMessages } from '../../API/messagesApi.js';
-import MessagePost from '../UI/messagePost/messagePost';
+import MessagePost from '../../components/messagePost/messagePost';
 
 const MessageList = ({ onlyThisUserId }) => {
     const [pageNum, setPageNum] = useState(1);

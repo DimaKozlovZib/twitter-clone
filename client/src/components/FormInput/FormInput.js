@@ -1,5 +1,5 @@
 import React, { memo, useState } from 'react';
-import useInput from '../../../hooks/useInput';
+import useInput from '../../hooks/useInput';
 import './FormInput.css';
 
 const FormInput = memo(({ placeholder, imgUrl, state, setError, setState, type, validations }) => {

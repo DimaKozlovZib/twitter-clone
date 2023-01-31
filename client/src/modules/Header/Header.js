@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
 import { useSelector } from 'react-redux';
 import LogoIcon from "../../images/LogoIcon.png";
-import UserAvatar from '../UI/UserAvatar/UserAvatar';
+import UserAvatar from '../../UI/UserAvatar/UserAvatar';
 
 const Header = memo(({ children }) => {
     const { isAuth, user } = useSelector(state => state)

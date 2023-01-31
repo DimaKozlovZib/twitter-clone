@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { addMessages } from '../../API/messagesApi';
-import UserAvatar from '../UI/UserAvatar/UserAvatar';
-import './AddMessage.css'
+import UserAvatar from '../../UI/UserAvatar/UserAvatar';
+import './AddMessage.css';
 
 const AddMessage = () => {
     const { user, isAuth } = useSelector(state => state)

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { likeMessage } from '../../../API/messagesApi';
-import UserAvatar from '../UserAvatar/UserAvatar';
+import { likeMessage } from '../../API/messagesApi';
+import UserAvatar from '../../UI/UserAvatar/UserAvatar';
 import "./messagePost.css";
 
 const MessagePost = ({ messageObject, isAuth, userId }) => {

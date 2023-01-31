@@ -1,6 +1,6 @@
 import React from 'react';
-import AddMessage from '../AddMessage/AddMessage';
-import MessageList from '../MessageList/MessageList';
+import AddMessage from '../modules/AddMessage/AddMessage';
+import MessageList from '../modules/MessageList/MessageList';
 import Layout from './Layout';
 
 const MessagesPage = () => {

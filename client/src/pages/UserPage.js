@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Layout from './Layout';
 import { useParams } from 'react-router-dom';
-import UserInfo from '../UserInfo/UserInfo';
-import { getUser } from '../../API/userApi';
+import UserInfo from '../modules/UserInfo/UserInfo';
+import { getUser } from '../API/userApi';
 import { useSelector } from 'react-redux';
-import MessageList from '../MessageList/MessageList';
+import MessageList from '../modules/MessageList/MessageList';
 
 const UserPage = () => {
     const { id } = useParams();

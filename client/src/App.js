@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { login } from './API/userApi';
 import './App.css';
-import AppRouter from './components/appRouter';
+import AppRouter from './appRouter';
 
 function App() {
   const dispatch = useDispatch()

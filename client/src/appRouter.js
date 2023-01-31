@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from 'react-router-dom';
-import { userFriendsPath, userInfoPath, messagesPath, hashtagPath, registrationPath } from "../routes";
+import { userFriendsPath, userInfoPath, messagesPath, hashtagPath, registrationPath } from "./routes";
 import MessagesPage from "./pages/MessagesPage";
 import UserPage from "./pages/UserPage";
 import RegistrationPage from './pages/registrationPage'

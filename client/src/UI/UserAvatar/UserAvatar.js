@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './UserAvatar.css';
-import avatar from '../../../images/avatar.svg'
+import avatar from '../../images/avatar.svg'
 
 const UserAvatar = ({ url, id, isLink }) => {
     const commonAvatar = (

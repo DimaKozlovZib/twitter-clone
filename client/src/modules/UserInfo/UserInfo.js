@@ -1,7 +1,7 @@
 import React from 'react';
-import UserAvatar from '../UI/UserAvatar/UserAvatar';
+import UserAvatar from '../../UI/UserAvatar/UserAvatar';
 import './UserInfo.css';
-import ButtonBlue from '../UI/ButtonBlue/ButtonBlue';
+import ButtonBlue from '../../UI/ButtonBlue/ButtonBlue';
 
 const UserInfo = ({ user, canEdit }) => {
     const { name, id, email, url, countMessages, totalLikesNum } = user;
