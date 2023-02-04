@@ -1,29 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { getMessages } from '../../API/messagesApi.js';
 import MessagePost from '../../components/messagePost/messagePost';
+import useMessages from '../../hooks/useMessages.js';
 
-const MessageList = ({ onlyThisUserId }) => {
+const MessageList = () => {
     const [pageNum, setPageNum] = useState(1);
-    const [messagesList, setMessagesList] = useState([]);
+    const params = useParams();
     const { isAuth, user } = useSelector(state => state)
-
-    useEffect(() => {
-        async function getData() {
-            if (isAuth !== null) {
-                const fetchResult = await getMessages({ pageNum, onlyThisUserId, isAuth })
-                const messagesLimitList = fetchResult?.data.rows;
-                setMessagesList([...messagesList, ...messagesLimitList])
-            }
-        }
-        getData()
-    }, [pageNum, isAuth]);
+    const limit = 20;
+    const { messagesArray } = useMessages(pageNum, limit, isAuth, params)
 
     return (
         <div className='messagesList'>
             {
-                messagesList.length > 0 ?
-                    messagesList.map(item => <MessagePost userId={user.id} messageObject={item} isAuth={isAuth} key={item.id} />) : ''
+                messagesArray.length > 0 ?
+                    messagesArray
+                        .map(item => <MessagePost userId={user.id} messageObject={item} isAuth={isAuth} key={item.id} />)
+                    : ''
             }
         </div>
     );

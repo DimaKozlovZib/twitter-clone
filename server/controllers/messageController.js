@@ -3,7 +3,7 @@ const uuid = require("uuid")
 const path = require("path")
 const ApiError = require("../error/ApiError")
 const jwt = require("jsonwebtoken")
-const { Sequelize } = require("sequelize");
+const { Sequelize, Op } = require("sequelize");
 
 class messageRouter {
     async addMessage(req, res, next) {
@@ -46,21 +46,19 @@ class messageRouter {
 
     async getMessages(req, res) {
         try {
-            const token = req.headers.authorization?.split(' ')[1]
-            let decoded;
-            if (token) {
-                decoded = jwt.verify(token, process.env.SECRET_ACCESS_KEY)
-            }
-
+            const { isAuth } = req.user;
             const { page, limit } = req.query;
 
             const Limit = limit || 20;
-            const Page = page ? page : 1;
+            const Page = page || 1;
             const indexFirstElement = (Page - 1) * Limit;
 
-            if (token && decoded) {
+            if (isAuth) {
                 const AllMessages = await Message.findAndCountAll({
                     limit: Limit, offset: indexFirstElement,
+                    where: {
+                        userId: req.query.userId || { [Op.not]: null }
+                    },
                     include: [
                         {
                             model: User,
@@ -69,18 +67,24 @@ class messageRouter {
                         }, {
                             model: Likes,
                             where: {
-                                userId: decoded.id
+                                userId: req.user.id
                             },
                             required: false
                         }
                     ]
                 })
-
                 return res.json(AllMessages)
             }
+
             const AllMessages = await Message.findAndCountAll({
                 limit: Limit, offset: indexFirstElement,
-                include: User
+                include: [
+                    {
+                        model: User,
+                        attributes: ['img', 'name', 'email', 'id'],
+                        raw: true
+                    },
+                ]
             })
 
             return res.json(AllMessages)

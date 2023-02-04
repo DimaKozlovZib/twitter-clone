@@ -1,9 +1,12 @@
 import { $host, $authHost } from '.';
 
-export const getMessages = async ({ pageNum, limit = 20, onlyThisUserId, isAuth }) => {
+export const getMessages = async (pageNum, limit = 20, isAuth, userId) => {
     try {
         const requestHost = isAuth ? $authHost : $host;
-        const response = await requestHost.get('/message', { props: { pageNum, limit, onlyThisUserId } })
+        const props = userId ? { pageNum, limit, userId } : { pageNum, limit }
+
+        const response = await requestHost.get('/message', { props })
+
         console.log(response)
         return response;
     } catch (error) {
