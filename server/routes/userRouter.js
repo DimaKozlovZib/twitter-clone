@@ -5,7 +5,8 @@ const authMiddleware = require('../middleware/authMiddleware');
 const authOrNotMiddleware = require("../middleware/authOrNotMiddleware");
 
 router.post("/registration", userController.registration)
-router.post("/login", authMiddleware, userController.login)
+router.post("/autoLogin", authMiddleware, userController.autoLogin)
+router.post("/login", userController.login)
 router.get("/auth", userController.auth)
 router.get("/:id", authOrNotMiddleware, userController.getUser)
 router.get("/:id/friends", userController.getFriends)

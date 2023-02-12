@@ -2,7 +2,7 @@ import React, { memo, useState } from 'react';
 import useInput from '../../hooks/useInput';
 import './FormInput.css';
 
-const FormInput = memo(({ placeholder, imgUrl, state, setError, setState, type, validations }) => {
+const FormInput = memo(({ placeholder, imgUrl, state, setError, setState, type, validations, title }) => {
     const [focus, setFocus] = useState(false);
     const { error, onChange, onBlur } = useInput(state, setError, setState, validations)
 
@@ -10,6 +10,7 @@ const FormInput = memo(({ placeholder, imgUrl, state, setError, setState, type, 
 
     return (
         <div className='FormInput-wrapper'>
+            <h5>{title}</h5>
             <div className={`FormInput ${focus ? 'focus' : ''}`}>
                 {imgUrl && <img src={imgUrl} alt='' />}
                 <input type={type} placeholder={placeholder} onFocus={changeFocus} value={state} onChange={onChange} onBlur={onBlur} />

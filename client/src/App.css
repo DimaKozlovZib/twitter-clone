@@ -57,14 +57,6 @@ body{
     font-size: 16px;
 }
 
-.center{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-}
-
 .blue-button{
     background-color: #00aaec;
     padding: 6px 13px;
@@ -115,3 +107,75 @@ main{
     width: 25%;
     transform: rotate(45deg);
 }
+
+
+
+/*...............................login and registration form ..............................*/
+
+.RegistrationForm, .LoginForm {
+    font-family: 'Nunito', sans-serif;
+    background-color: #fff;
+    width: 100%;
+    border-radius: 15px;
+    max-width: 400px;
+    box-sizing: border-box;
+    padding: 40px 20px 35px;
+    margin: auto;
+  }
+  .RegistrationForm-title,.LoginForm-title {
+    text-align: center;
+    font-weight: bold;
+  }
+  .RegistrationForm-form, .Login-form {
+    display: block;
+    width: 100%;
+  }
+
+  .RegistrationForm-form > .FormInput-wrapper, .Login-form > .FormInput-wrapper {
+    margin-top: 15px;
+    display: block;
+  }
+  .RegistrationForm-form > *, .Login-form > * {
+    margin-top: 15px;
+    display: block;
+  }
+
+  .RegistrationForm_submit-button, .LoginForm_submit-button {
+    display: flex;
+    justify-content: center;
+  }
+  .RegistrationForm_submit-button button,
+  .LoginForm_submit-button button{
+    font-size: 16px;
+    border-radius: 20px;
+    color: #fff;
+    padding: 10px 25px;
+    background: #00aaec;
+    transition: background 0.1s linear;
+  }
+  .RegistrationForm_submit-button button:hover,
+  .LoginForm_submit-button button:hover{
+    background: #0288bd;
+  }
+  .RegistrationForm .login, 
+  .LoginForm .registration {
+    margin-top: 30px;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.7);
+  }
+  .RegistrationForm .login a:hover,
+  .LoginForm .registration a:hover {
+    color: rgb(31, 31, 255);
+  }
+  .RegistrationForm .login a, 
+  .LoginForm .registration a {
+    color: rgb(124, 124, 254);
+  }
+
+  .center-form{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }

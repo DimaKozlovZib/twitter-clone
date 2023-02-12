@@ -3,7 +3,7 @@
   border-bottom: 2px solid rgba(0, 0, 0, 0.6);
   padding: 0px 5px 5px;
   align-items: center;
-  margin-top: 6px;
+  margin-top: 4px;
 }
 .FormInput input {
   display: block;
@@ -14,9 +14,6 @@
   font-weight: 600;
 }
 .FormInput input::-moz-placeholder {
-  color: rgba(0, 0, 0, 0.6);
-}
-.FormInput input:-ms-input-placeholder {
   color: rgba(0, 0, 0, 0.6);
 }
 .FormInput input::placeholder {

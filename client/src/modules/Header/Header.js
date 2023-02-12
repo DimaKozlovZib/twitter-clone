@@ -4,6 +4,7 @@ import './Header.css';
 import { useSelector } from 'react-redux';
 import LogoIcon from "../../images/LogoIcon.png";
 import UserAvatar from '../../UI/UserAvatar/UserAvatar';
+import { loginPath } from '../../routes';
 
 const Header = memo(({ children }) => {
     const { isAuth, user } = useSelector(state => state)
@@ -20,7 +21,7 @@ const Header = memo(({ children }) => {
             </button>
         </>
     )
-    const userIsNotAuth = (<Link className='login blue-button'>войти</Link>)
+    const userIsNotAuth = (<Link to={`/${loginPath}`} className='login blue-button'>войти</Link>)
 
     return (
         <header className='header'>

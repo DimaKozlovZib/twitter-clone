@@ -28,8 +28,8 @@ const useValidation = (value, setError, validations) => {
                     conditionError(value.length > validations.maxLength,
                         `В поле должно быть не больше ${validations.maxLength} символов.`)
                     break;
-                case 'isEmpty':
-                    conditionError(value.length === 0 && validations.isEmpty,
+                case 'isNotEmpty':
+                    conditionError(value.length === 0 && validations.isNotEmpty,
                         `Поле не должно быть пустым.`)
                     break;
             }

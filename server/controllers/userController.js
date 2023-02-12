@@ -52,7 +52,7 @@ class userRouter {
         }
 
     }
-    async login(req, res, next) {
+    async autoLogin(req, res, next) {
         try {
             const { email, id } = req.user
             const user = await User.findOne({ where: { email } })
@@ -68,7 +68,30 @@ class userRouter {
 
             return res.json({ accessToken, user })
         } catch (error) {
-            console.error(errors)
+            console.error(error)
+        }
+    }
+
+    async login(req, res, next) {
+        try {
+            const { email, password } = req.body
+            const user = await User.findOne({ where: { email } })
+
+            if (!user) {
+                return res.status(401).json({ message: 'не авторизован' })
+            }
+
+            let comparePassword = bcrypt.compareSync(password, user.password)
+            if (!comparePassword) {
+                return next(ApiError.badRequest("Указан не верный пароль."))
+            }
+
+            const { accessToken, refreshToken } = generateJwt({ id: user.id, email })
+            res.cookie('refreshToken', refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
+
+            return res.json({ accessToken, user })
+        } catch (error) {
+            console.error(error)
         }
     }
 

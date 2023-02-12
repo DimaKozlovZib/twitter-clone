@@ -1,5 +1,4 @@
 const validationsPassword = {
-    minLength: 8,
     isNotEmpty: true,
 }
 
@@ -8,10 +7,6 @@ const validationsEmail = {
     isNotEmpty: true,
 }
 
-const validationsName = {
-    isNotEmpty: true,
-}
-
 export {
-    validationsEmail, validationsName, validationsPassword
+    validationsEmail, validationsPassword
 }

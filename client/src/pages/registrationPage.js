@@ -3,10 +3,7 @@ import RegistrationForm from '../modules/registrationLoginForm/registrationForm'
 
 const RegistrationPage = () => {
     return (
-        <section className="center">
-            <RegistrationForm />
-        </section>
-
+        <RegistrationForm />
     );
 }
 
