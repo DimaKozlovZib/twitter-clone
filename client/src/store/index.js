@@ -1,10 +1,9 @@
 import { createStore } from 'redux';
 
 const defaultState = {
-    user: {
-
-    },
-    isAuth: null
+    user: {},
+    isAuth: null,
+    openModuleType: null,
 }
 
 const reducer = (state = defaultState, action) => {
@@ -13,6 +12,10 @@ const reducer = (state = defaultState, action) => {
             return { ...state, user: action.payload }
         case 'SET_ISAUTH':
             return { ...state, isAuth: action.payload }
+        case 'SET_MODALE':
+            return { ...state, openModuleType: action.payload }
+        case 'SET_COVER':
+            return { ...state, user: { ...state.user, coverImage: action.payload } }
         default:
             return state;
     }

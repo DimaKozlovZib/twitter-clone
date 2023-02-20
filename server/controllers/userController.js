@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt")
 const uuid = require("uuid")
 const path = require("path")
 const jwt = require("jsonwebtoken")
+const fs = require('fs')
 const { User, Image, Message } = require("../models/models")
 const { Sequelize } = require("../db")
 
@@ -26,7 +27,6 @@ class userRouter {
     async registration(req, res, next) {
         try {
             const { name, email, password, age } = req.body
-            console.log(name, email, password, age)
 
             if (!email || !password || !name) { return next(ApiError.badRequest("Некоректный запрос.")) }
 
@@ -36,13 +36,22 @@ class userRouter {
                 return next(ApiError.badRequest("Пользователь с такой почтой уже существует."))
             }
             const hashPassword = await bcrypt.hash(password, 6)
-            const user = await User.create({ name, password: hashPassword, email, age })
-            //let filename;
-            //if (img) {
-            //    filename = uuid.v4() + ".jpg";
-            //    img.mv(path.resolve(__dirname, '..', 'static', filename))
-            //    const image = await Image.create({ url: filename, userId: user.id })
-            //}
+
+            // random cover image
+            const dirpath = path.join(__dirname, '..', 'static-cover');
+
+            const files = fs.readdirSync(dirpath)
+
+            function getImage(files) {
+                if (files) {
+                    const imageIndex = Math.floor(Math.random() * (files.length - 1))
+                    return files[imageIndex]
+                }
+            }
+            const userCoverPath = getImage(files)
+
+            const user = await User.create({ name, password: hashPassword, email, age, coverImage: userCoverPath })
+
             const { accessToken, refreshToken } = generateJwt({ id: user.id, email: user.email })
             res.cookie('refreshToken', refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
 
@@ -128,7 +137,7 @@ class userRouter {
         const { id } = req.params;
         const { isAuth } = req.user;
 
-        const userObj = await User.findOne({ where: { id }, attributes: ['img', 'name', 'email', 'id'], })
+        const userObj = await User.findOne({ where: { id }, attributes: ['img', 'name', 'email', 'id', 'coverImage'], })
         const messages = await Message.findAndCountAll({
             where: { userId: id },
             attributes: [
@@ -137,11 +146,12 @@ class userRouter {
             group: ['likesNum'],
             raw: true
         });
+        console.log(messages)
 
         const user = {
             ...userObj.dataValues,
-            countMessages: messages.count[0].count,
-            totalLikesNum: +messages.rows[0].total_likesNum
+            countMessages: messages?.count[0]?.count,
+            totalLikesNum: +messages.rows[0]?.total_likesNum
         }
 
         if (isAuth && req.user.id === +id) {
@@ -149,5 +159,37 @@ class userRouter {
         }
         return res.json({ user, canEdit: false })
     }
+
+    async setCover(req, res) {
+        try {
+            const { email, id } = req.user;
+            const file = req.files.file;
+
+            if (!file && !"image/jpeg,image/png,image/gif,image/webp".split(',').includes(file.mimetype)) {
+                return res.status(415).json({ message: 'не передан файл или файл не правильного типа' })
+            }
+
+            const oldCover = await Image.findOne({ where: { userId: id } })
+            if (oldCover) {
+                const oldCoverPath = path.resolve(__dirname, '..', 'static', oldCover.url)
+                fs.unlink(oldCoverPath, console.log)
+                await Image.destroy({ where: { id: oldCover.id } })
+            }
+
+            const filename = uuid.v4() + ".jpg";
+            file.mv(path.resolve(__dirname, '..', 'static', filename))
+            const newCover = await Image.create({ url: filename, userId: id })
+
+            await User.update({ coverImage: newCover.url }, { where: { id: id } })
+
+            return res.status(200).json({ message: 'success', url: filename })
+
+        } catch (error) {
+            console.log(error)
+            return res.status(500).json(error)
+        }
+
+    }
+
 }
 module.exports = new userRouter()

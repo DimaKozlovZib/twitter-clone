@@ -4,10 +4,12 @@ import { BrowserRouter } from 'react-router-dom';
 import { login } from './API/userApi';
 import './App.css';
 import AppRouter from './appRouter';
+import AddCover from './modules/AddCover/AddCover';
 
 function App() {
   const dispatch = useDispatch()
   const isAuth = useSelector(state => state.isAuth)
+  const modalType = useSelector(state => state.openModuleType)
 
   const getToken = async () => {
     try {
@@ -30,9 +32,13 @@ function App() {
   }, []);
 
   return (
-    <BrowserRouter>
-      <AppRouter />
-    </BrowserRouter>
+    <>
+      {!(modalType === 'ADD_COVER-MODAL') || <AddCover />}
+      <BrowserRouter>
+        <AppRouter />
+      </BrowserRouter>
+    </>
+
   );
 }
 

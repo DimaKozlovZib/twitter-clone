@@ -8,6 +8,7 @@ const User = sequelize.define('user', {
     password: { type: DataTypes.STRING, allowNull: false },
     age: { type: DataTypes.STRING, allowNull: true },
     img: { type: DataTypes.STRING },
+    coverImage: { type: DataTypes.STRING }
 })
 
 const Message = sequelize.define('message', {

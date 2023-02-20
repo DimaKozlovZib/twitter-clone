@@ -12,6 +12,10 @@ server/static/*.jpg
 
 *.css.map
 
+.vscode
+
+server/static-cover
+
 # production
 /build
 

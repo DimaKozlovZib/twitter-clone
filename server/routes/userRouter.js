@@ -9,6 +9,7 @@ router.post("/autoLogin", authMiddleware, userController.autoLogin)
 router.post("/login", userController.login)
 router.get("/auth", userController.auth)
 router.get("/:id", authOrNotMiddleware, userController.getUser)
+router.post("/setCover", authMiddleware, userController.setCover)
 router.get("/:id/friends", userController.getFriends)
 
 module.exports = router

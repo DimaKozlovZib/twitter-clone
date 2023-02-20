@@ -11,3 +11,6 @@ button{
   border: none;
   cursor: pointer;
 }
+body.modal{
+  overflow: hidden;
+}
