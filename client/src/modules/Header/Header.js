@@ -4,7 +4,7 @@ import './Header.css';
 import { useSelector } from 'react-redux';
 import LogoIcon from "../../images/LogoIcon.png";
 import UserAvatar from '../../UI/UserAvatar/UserAvatar';
-import { loginPath } from '../../routes';
+import { loginPath, messagesPath } from '../../routes';
 
 const Header = memo(({ children }) => {
     const { isAuth, user } = useSelector(state => state)
@@ -27,7 +27,7 @@ const Header = memo(({ children }) => {
         <header className='header'>
             <div className='container'>
                 <div className='logo-box'>
-                    <Link>
+                    <Link to={`/${messagesPath}`}>
                         <img className='logo' src={LogoIcon} alt="" />
                     </Link>
                 </div>
@@ -48,7 +48,6 @@ const Header = memo(({ children }) => {
                         isAuth ? userIsAuth : userIsNotAuth
                     }
                 </div>
-
             </div>
         </header>
     );

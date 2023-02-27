@@ -9,8 +9,7 @@ module.exports = function (req, res, next) {
 
         if (!token) {
             req.user = { isAuth: false }
-            next()
-            return;
+            return next();
         }
 
         const decoded = jwt.verify(token, process.env.SECRET_ACCESS_KEY)

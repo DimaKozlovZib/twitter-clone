@@ -4,9 +4,10 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import emailFormInput from "../../images/emailFormImg.svg";
 import passwordFormInput from "../../images/passwordFormImg.svg";
-import { validationsEmail, validationsPassword } from '../registrationLoginForm/validations';
+import { validationsEmail, validationsPassword } from './validations';
 import { login } from './API';
 import { messagesPath, registrationPath } from '../../routes';
+import { setAuthAction, setUserAction } from '../../store';
 
 const LoginForm = () => {
 	const dispatch = useDispatch();
@@ -43,30 +44,23 @@ const LoginForm = () => {
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
+		if (errorEmail || errorPassword) return false;
 
-		if (errorEmail === null && errorPassword === null) {
-			setErrorFromServer(null);
+		setErrorFromServer(null);
 
-			const result = await login(email, password,);
+		const result = await login(email, password,);
 
-			if (
-				result?.status === 200
-			) {
-				localStorage.setItem(
-					"accessToken",
-					result?.accessToken
-				);
-				dispatch({
-					type: "ADD_USER",
-					payload: result?.user,
-				});
-				dispatch({ type: 'SET_ISAUTH', payload: true })
-				History(`/${messagesPath}`);
-			} else {
-				setErrorFromServer(
-					result?.message
-				);
-			}
+		if (result) {
+			localStorage.setItem(
+				"accessToken",
+				result.data?.accessToken
+			);
+
+			dispatch(setUserAction(result.data.user));
+			dispatch(setAuthAction(true))
+			History(`/${messagesPath}`);
+		} else {
+			setErrorFromServer(result.data?.message);
 		}
 	}
 
@@ -86,11 +80,11 @@ const LoginForm = () => {
 					}
 
 					{
-						errorFromServer ? (
+						errorFromServer && (
 							<p className="error errorFromServer">
 								{errorFromServer}
 							</p>
-						) : <></>
+						)
 					}
 					<div className="LoginForm_submit-button">
 						<button>Войти</button>

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import FormInput from "../../components/FormInput/FormInput";
-import "./Form.css";
 import nameFormInput from "../../images/nameFormImg.svg";
 import emailFormInput from "../../images/emailFormImg.svg";
 import passwordFormInput from "../../images/passwordFormImg.svg";
@@ -9,12 +8,14 @@ import {
 	validationsName,
 	validationsPassword,
 } from "./validations";
-import { registration } from "../../API/userApi";
-import { useDispatch, useSelector } from "react-redux";
+import { registration } from "./API";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { loginPath, messagesPath } from "../../routes";
+import { setAuthAction, setUserAction } from "../../store";
 
 const RegistrationForm = () => {
+
 	const dispatch = useDispatch();
 	const History = useNavigate();
 
@@ -48,22 +49,18 @@ const RegistrationForm = () => {
 				date
 			);
 
-			if (
-				result.status === 200 ||
-				result.response.status === 200
-			) {
+			if (result?.status === 200) {
+
 				localStorage.setItem(
 					"accessToken",
 					result.data.accessToken
 				);
-				dispatch({
-					type: "ADD_USER",
-					payload: result.data.user,
-				});
+				dispatch(setUserAction(result.data.user));
+				dispatch(setAuthAction(true))
 				History(`/${messagesPath}`);
 			} else {
 				setErrorFromServer(
-					result.response.data.message
+					result?.message
 				);
 			}
 		}
@@ -122,11 +119,11 @@ const RegistrationForm = () => {
 					}
 
 					{
-						errorFromServer ? (
+						errorFromServer && (
 							<p className="error errorFromServer">
 								{errorFromServer}
 							</p>
-						) : <></>
+						)
 					}
 					<div className="RegistrationForm_submit-button">
 						<button>Зарегистрироваться</button>

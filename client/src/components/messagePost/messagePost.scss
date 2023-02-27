@@ -1,58 +1,60 @@
 .messagePost {
-    color: #000;
-    margin-top: 10px;
-    width: 100%;
-    background-color: #fff;
-    padding: 10px 15px;
-    border-radius: 10px;
-    box-sizing: border-box;
-    display: flex;
-    width: 100%;
-    .message-contant {
-        display: block;
-        flex: 1 1 auto;
-        margin-left: 15px;
-        .message-text p {
-            word-break: break-all;
-        }
-    }
-    .message-info {
-        margin-top: 5px;
-    }
-    .user-info {
-        display: flex;
-        font-family: "Nunito", sans-serif;
-    }
-    .likes {
-        margin-right: 10px;
-        display: flex;
-        gap: 6px;
-        color: rgba(0, 0, 0, 0.7);
-        margin-left: auto;
-        align-items: center;
-        h5 {
-            font-size: 16px;
-        }
-    }
-    .message-rewiews {
-        margin-top: 10px;
-    }
-    .likes.active {
-        color: #000;
-        .svg {
-            fill: red;
-            & > * {
-                stroke: red;
-            }
-        }
-    }
-    .user-name {
-        line-height: 20.5px;
-        font-size: 20px;
-        font-weight: 600;
-    }
-    .user-email {
-        margin-left: 5px;
-        color: rgba(0, 0, 0, 0.677);
-    }
+	color: #000;
+	width: 100%;
+	background-color: #fff;
+	padding: 10px 15px;
+	border-radius: 10px;
+	box-sizing: border-box;
+	display: flex;
+
+	&:not(:first-child) {
+		margin-top: 6px;
+	}
+	.message-contant {
+		display: block;
+		flex: 1 1 auto;
+		margin-left: 15px;
+		.message-text p {
+			word-break: break-all;
+		}
+	}
+	.message-info {
+		margin-top: 5px;
+	}
+	.user-info {
+		display: flex;
+		font-family: "Nunito", sans-serif;
+	}
+	.likes {
+		margin-right: 10px;
+		display: flex;
+		gap: 6px;
+		color: rgba(0, 0, 0, 0.7);
+		margin-left: auto;
+		align-items: center;
+		h5 {
+			font-size: 16px;
+		}
+	}
+	.message-rewiews {
+		margin-top: 10px;
+	}
+	.likes.active {
+		color: #000;
+		.svg {
+			fill: red;
+			& > * {
+				stroke: red;
+			}
+		}
+	}
+	.user-name {
+		line-height: 20.5px;
+		font-size: 20px;
+		font-weight: 600;
+	}
+	.user-email {
+		margin-left: 5px;
+		color: rgba(0, 0, 0, 0.677);
+	}
 }

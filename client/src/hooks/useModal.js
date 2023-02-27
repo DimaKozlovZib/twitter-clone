@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { setModalAction } from '../store';
 
 const useModal = (modalType) => {
     const dispatch = useDispatch();
@@ -8,10 +9,10 @@ const useModal = (modalType) => {
         if (isAuth) {
             const classList = document.querySelector('body').classList
             if (modalType) {
-                dispatch({ type: 'SET_MODALE', payload: modalType })
+                dispatch(setModalAction(modalType))
                 classList.add('modal')
             } else {
-                dispatch({ type: 'SET_MODALE', payload: null })
+                dispatch(setModalAction(null))
                 classList.remove('modal')
             }
         } else {

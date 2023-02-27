@@ -11,26 +11,23 @@ class messageRouter {
             const { text } = req.body;
             const { id } = req.user;
 
-            if (text && id) {
+            if (!text || !id) return res.status(400).json({ message: 'bad request' })
 
-                if (req.files && req.files.img) {
-                    const { img } = req.files;
-                    const message = await Message.create({ text, img: filename, })
-                    let filename = uuid.v4() + ".jpg";
+            //if (req.files && req.files.img) {
+            //    const { img } = req.files;
+            //    const message = await Message.create({ text, img: filename, })
+            //    let filename = uuid.v4() + ".jpg";
+            //    img.mv(path.resolve(__dirname, '..', 'static', filename))
+            //    const image = await Image.create({ url: filename, messageId: message.id })
+            //}
+            const message = await Message.create({ text, userId: id })
 
+            return res.status(200).json({ message })
 
-                    img.mv(path.resolve(__dirname, '..', 'static', filename))
-                    const image = await Image.create({ url: filename, messageId: message.id })
-                }
-                const message = await Message.create({ text, userId: id })
-
-                return res.json({ message })
-            }
-            next(ApiError.badRequest("bad request"))
         } catch (error) {
-            next(ApiError.badRequest(error.message))
+            console.log(error)
+            return res.status(500).json(error.message)
         }
-
     }
 
     async deleteMessage(req, res) {
@@ -54,11 +51,17 @@ class messageRouter {
             const indexFirstElement = (Page - 1) * Limit;
 
             if (isAuth) {
+                if (!req.query.userId && !req.user.id) return res.status(400).json({ message: 'bad request' });
+
                 const AllMessages = await Message.findAndCountAll({
                     limit: Limit, offset: indexFirstElement,
                     where: {
-                        userId: req.query.userId || { [Op.not]: null }
+                        userId: req.query.userId || { [Op.not]: req.user.id }
                     },
+                    order: [
+                        ['createdAt', 'DESC'],
+                        ['likesNum', 'DESC'],
+                    ],
                     include: [
                         {
                             model: User,
@@ -90,15 +93,20 @@ class messageRouter {
             return res.json(AllMessages)
         } catch (error) {
             console.log(error)
+            return res.status(500).json(error.message)
         }
 
     }
-    async likeMessage(req, res, next) {
+    async likeMessage(req, res) {
         try {
-            const { type, mesId } = req.body.params;
+            const { mesId } = req.body.params;
             const { id } = req.user;
 
-            if (type === 'add' && mesId) {
+            if (!id && !mesId) return res.status(400).json({ message: 'bad request' })
+
+            const userLike = await Likes.findOne({ where: { userId: id, messageId: mesId } })
+
+            if (!userLike) {
                 await Likes.create({ messageId: mesId, userId: id })
                 await Message.increment('likesNum', {
                     by: 1,
@@ -106,10 +114,11 @@ class messageRouter {
                         id: mesId
                     }
                 })
+                const message = await Message.findOne({ where: { id: mesId }, attributes: ['likesNum'] })
 
-                return res.json({ likeIsActive: true, })
+                return res.json({ likeIsActive: true, likesNum: message.dataValues.likesNum })
 
-            } else if (type === 'delete' && mesId) {
+            } else {
                 await Likes.destroy({ where: { messageId: mesId, userId: id } })
                 await Message.decrement('likesNum', {
                     by: 1,
@@ -117,14 +126,13 @@ class messageRouter {
                         id: mesId
                     }
                 })
+                const message = await Message.findOne({ where: { id: mesId }, attributes: ['likesNum'] })
 
-                return res.json({ likeIsActive: false, })
-
-            } else {
-                next(ApiError.badRequest('не правильный запрос'))
+                return res.status(200).json({ likeIsActive: false, likesNum: message.dataValues.likesNum })
             }
         } catch (error) {
-            next(ApiError.badRequest(error.message))
+            console.log(error)
+            return res.status(500).json(error.message)
         }
     }
 }

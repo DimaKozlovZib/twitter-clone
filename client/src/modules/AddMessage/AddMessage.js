@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { addMessages } from '../../API/messagesApi';
+import { addMessages } from './API';
 import UserAvatar from '../../UI/UserAvatar/UserAvatar';
 import './AddMessage.css';
 
 const AddMessage = () => {
-    const { user, isAuth } = useSelector(state => state)
+    const user = useSelector(state => state.user)
+    const isAuth = useSelector(state => state.isAuth)
     const [value, setValue] = useState('');
     const [error, setError] = useState(false);
 
@@ -14,6 +15,8 @@ const AddMessage = () => {
     const AddMessage = async (e) => {
         e.preventDefault()
         try {
+            if (!isAuth) return false;
+
             setError(false)
             await addMessages(value)
             e.target.reset();
@@ -23,7 +26,7 @@ const AddMessage = () => {
         }
     }
 
-    return (
+    return isAuth && (
         <div className='AddMessage'>
             <UserAvatar url={user?.url} id={user.id} />
             <form onSubmit={AddMessage} onChange={onChange} className='AddMessage-form'>

@@ -1,7 +1,7 @@
 .AddMessage {
   background-color: #ffffff;
   display: flex;
-  align-items: start;
+  align-items: center;
   padding: 10px 15px;
   border-radius: 10px;
 }
@@ -12,6 +12,7 @@
 .AddMessage form {
   margin-left: 15px;
   flex: 1 1 auto;
+  height: 30px;
 }
 .AddMessage .input-wrapper {
   border-radius: 15px;

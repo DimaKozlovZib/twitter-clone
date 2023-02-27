@@ -1,5 +1,5 @@
 import React from 'react';
-import RegistrationForm from '../modules/registrationLoginForm/registrationForm';
+import RegistrationForm from '../modules/RegistrationForm/RegistrationForm';
 
 const RegistrationPage = () => {
     return (

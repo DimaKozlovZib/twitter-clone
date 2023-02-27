@@ -1,4 +1,4 @@
-import { $host, $authHost } from '.';
+import { $authHost, $host } from "../../API";
 
 export const getMessages = async (pageNum, limit = 20, isAuth, userId) => {
     try {

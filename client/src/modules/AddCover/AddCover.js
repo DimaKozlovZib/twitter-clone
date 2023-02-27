@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import './AddCover.css';
 import upload from '../../images/upload.svg'
 import useModal from '../../hooks/useModal';
 import { setCover } from './API';
 import { useDispatch } from 'react-redux';
+import { setCoverAction } from '../../store';
 
 const AddCover = () => {
     const [inputFocus, setInputFocus] = useState(false);
@@ -68,18 +69,23 @@ const AddCover = () => {
     )
 
     const sendCover = async () => {
-        const formData = new FormData()
-        formData.append('file', file)
-        const response = await setCover(formData)
-        if (response) {
-            closeModal()
-            dispatch({ type: 'SET_COVER', payload: response.data.url })
+        try {
+            const formData = new FormData()
+            formData.append('file', file)
+            const response = await setCover(formData)
+            if (response) {
+                dispatch(setCoverAction(response.data.url))
+                closeModal()
+            }
+        } catch (error) {
+            console.error(error)
         }
+
     }
 
     const changeInput = (e) => {
-        const i = document.querySelector('#file-input')
-        setFile(i.files[0])
+        const input = document.querySelector('#file-input')
+        setFile(input.files[0])
         setInputFocus(true)
     }
 
@@ -91,6 +97,8 @@ const AddCover = () => {
             closeModal()
         }
     }
+
+    const onDragOver = (e) => e.preventDefault();
 
     return (
         <div className='AddCover-wrapper' onClick={closeOnClick}>
@@ -109,10 +117,10 @@ const AddCover = () => {
                     </div>
                     <input id="file-input" onChange={changeInput} type="file" hidden accept="image/jpeg,image/png,image/gif,image/webp" />
 
-                    <label htmlFor="file-input" id="upload" className={`upload ${inputFocus ? 'active' : ''}`}
+                    <label htmlFor="file-input" id="upload" className={`upload ${inputFocus && 'active'}`}
                         onDragEnter={onDragEnter}
                         onDrop={onDrop}
-                        onDragOver={(e) => e.preventDefault()}
+                        onDragOver={onDragOver}
                         onDragEnd={stopActiveInput}
                         onDragLeave={stopActiveInput}
                     >
@@ -120,7 +128,7 @@ const AddCover = () => {
                     </label>
                     <div className='upload-btn-container'>
                         <button
-                            className={`upload-btn ${file ? 'active' : ''}`}
+                            className={`upload-btn ${file && 'active'}`}
                             disabled={!file}
                             onClick={sendCover}
                         >

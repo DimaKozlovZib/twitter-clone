@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { likeMessage } from '../../API/messagesApi';
+import { likeMessage } from './API';
 import UserAvatar from '../../UI/UserAvatar/UserAvatar';
 import "./messagePost.css";
 
@@ -13,14 +13,13 @@ const MessagePost = ({ messageObject, isAuth, userId }) => {
     const [activeLikeClass, setActiveLikeClass] = useState(condition ? 'active' : '');
 
     const postLike = async () => {
-        if (isAuth) {
-            const type = activeLikeClass === 'active' ? 'delete' : 'add';
-            const res = await likeMessage(type, id);
+        if (!isAuth) return false;
 
-            if (res && res.status === 200) {
-                setActiveLikeClass(!res.data.likeIsActive ? '' : 'active')
-                setLikesNumState(res.data.likeIsActive ? likesNumState + 1 : likesNumState - 1)
-            }
+        const res = await likeMessage(id);
+
+        if (res && res.status === 200) {
+            setActiveLikeClass(!res.data.likeIsActive ? '' : 'active')
+            setLikesNumState(res.data.likesNum)
         }
     }
 

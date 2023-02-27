@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import { getMessages } from "../API/messagesApi";
 
 
-const useMessages = (page, limit, isAuth, onlyThisUserId = null) => {
+const useMessages = (page, limit) => {
     const [messagesArray, setMessagesArray] = useState([]);
     const [messagesCount, setMessagesCount] = useState(null);
+    const isAuth = useSelector(state => state.isAuth)
+    const { id } = useParams();
 
     useEffect(() => {
         if (isAuth !== null) getData()
     }, [page, isAuth]);
 
     const getData = async () => {
-        const res = await getMessages(page, limit, isAuth, onlyThisUserId);
+        const res = await getMessages(page, limit, isAuth, id);
         if (res) {
             setMessagesCount(res.data.count)
             setMessagesArray([...messagesArray, ...res.data.rows])

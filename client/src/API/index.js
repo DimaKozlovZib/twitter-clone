@@ -39,5 +39,4 @@ $authHost.interceptors.request.use(authInterceptor)
 export {
     $authHost,
     $host,
-    updateTokens
 }

@@ -11,7 +11,7 @@ const FormInput = memo(({ placeholder, imgUrl, state, setError, setState, type, 
     return (
         <div className='FormInput-wrapper'>
             <h5>{title}</h5>
-            <div className={`FormInput ${focus ? 'focus' : ''}`}>
+            <div className={`FormInput ${!focus || 'focus'}`}>
                 {imgUrl && <img src={imgUrl} alt='' />}
                 <input type={type} placeholder={placeholder} onFocus={changeFocus} value={state} onChange={onChange} onBlur={onBlur} />
             </div>

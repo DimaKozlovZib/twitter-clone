@@ -6,6 +6,6 @@ export async function login(email, password) {
         return response;
     } catch (error) {
         console.log(error)
+        return error;
     }
-
 }

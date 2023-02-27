@@ -28,11 +28,11 @@ class userRouter {
         try {
             const { name, email, password, age } = req.body
 
-            if (!email || !password || !name) { return next(ApiError.badRequest("Некоректный запрос.")) }
+            if (!email || !password || !name) return next(ApiError.badRequest("bad requst"));
 
             const candidateEmail = await User.findOne({ where: { email } })
 
-            if (candidateEmail && candidateEmail !== null) {
+            if (candidateEmail) {
                 return next(ApiError.badRequest("Пользователь с такой почтой уже существует."))
             }
             const hashPassword = await bcrypt.hash(password, 6)
@@ -43,21 +43,22 @@ class userRouter {
             const files = fs.readdirSync(dirpath)
 
             function getImage(files) {
-                if (files) {
-                    const imageIndex = Math.floor(Math.random() * (files.length - 1))
-                    return files[imageIndex]
-                }
+                if (!files) return null;
+
+                const imageIndex = Math.floor(Math.random() * (files.length - 1))
+                return files[imageIndex]
+
             }
-            const userCoverPath = getImage(files)
+            const userCoverPath = getImage()
 
             const user = await User.create({ name, password: hashPassword, email, age, coverImage: userCoverPath })
 
             const { accessToken, refreshToken } = generateJwt({ id: user.id, email: user.email })
             res.cookie('refreshToken', refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
 
-            return res.json({ user, accessToken })
+            return res.status(200).json({ user, accessToken })
         } catch (error) {
-            return res.json({ error })
+            return res.status(500).json(error.message)
         }
 
     }
@@ -65,9 +66,9 @@ class userRouter {
         try {
             const { email, id } = req.user
             const user = await User.findOne({ where: { email } })
-            if (!user) {
-                return res.status(401).json({ message: 'не авторизован' })
-            }
+
+            if (!user) return res.status(401).json({ message: 'не авторизован' });
+
             //let comparePassword = bcrypt.compareSync(password, user.password)
             //if (!comparePassword) {
             //    return next(ApiError.badRequest("Указан не верный пароль."))
@@ -75,32 +76,33 @@ class userRouter {
             const { accessToken, refreshToken } = generateJwt({ id, email })
             res.cookie('refreshToken', refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
 
-            return res.json({ accessToken, user })
+            return res.status(200).json({ accessToken, user })
         } catch (error) {
-            console.error(error)
+            return res.status(500).json(error.message)
         }
     }
 
     async login(req, res, next) {
         try {
-            const { email, password } = req.body
-            const user = await User.findOne({ where: { email } })
+            const { email, password } = req.body;
 
-            if (!user) {
-                return res.status(401).json({ message: 'не авторизован' })
-            }
+            if (!email || !password) return res.status(400).json({ message: 'bad request' });
 
-            let comparePassword = bcrypt.compareSync(password, user.password)
+            const user = await User.findOne({ where: { email } });
+
+            if (!user) return res.status(401).json({ message: 'не авторизован' });
+
+            let comparePassword = bcrypt.compareSync(password, user.password);
             if (!comparePassword) {
-                return next(ApiError.badRequest("Указан не верный пароль."))
+                return res.status(400).json({ message: 'Указан неверный пароль' })
             }
 
             const { accessToken, refreshToken } = generateJwt({ id: user.id, email })
             res.cookie('refreshToken', refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
 
-            return res.json({ accessToken, user })
+            return res.status(200).json({ accessToken, user })
         } catch (error) {
-            console.error(error)
+            return res.status(500).json(error.message)
         }
     }
 
@@ -123,7 +125,7 @@ class userRouter {
 
             res.cookie('refreshToken', newRefreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
 
-            return res.json({ accessToken, newRefreshToken })
+            return res.status(200).json({ accessToken, newRefreshToken })
 
         } catch (error) {
             console.log(error)
@@ -134,30 +136,39 @@ class userRouter {
 
     }
     async getUser(req, res) {
-        const { id } = req.params;
-        const { isAuth } = req.user;
+        try {
+            const { id } = req.params;
+            const { isAuth } = req.user;
 
-        const userObj = await User.findOne({ where: { id }, attributes: ['img', 'name', 'email', 'id', 'coverImage'], })
-        const messages = await Message.findAndCountAll({
-            where: { userId: id },
-            attributes: [
-                [Sequelize.fn('sum', Sequelize.col('likesNum')), 'total_likesNum'],
-            ],
-            group: ['likesNum'],
-            raw: true
-        });
-        console.log(messages)
+            if (!Number(id) || !id) return res.status(400).json({ message: 'bad request' })
 
-        const user = {
-            ...userObj.dataValues,
-            countMessages: messages?.count[0]?.count,
-            totalLikesNum: +messages.rows[0]?.total_likesNum
+            const userObj = await User.findOne({ where: { id }, attributes: ['img', 'name', 'email', 'id', 'coverImage'], })
+
+            if (!userObj) return res.status(404).json({ message: 'user is not found' })
+
+            const messages = await Message.findAndCountAll({
+                where: { userId: id },
+                attributes: [
+                    [Sequelize.fn('sum', Sequelize.col('likesNum')), 'total_likesNum'],
+                ],
+                group: ['likesNum'],
+                raw: true
+            });
+
+            const user = {
+                ...userObj.dataValues,
+                countMessages: messages?.count[0]?.count,
+                totalLikesNum: +messages.rows[0]?.total_likesNum
+            }
+
+            if (isAuth && req.user.id === +id) {
+                return res.status(200).json({ user, canEdit: true })
+            }
+            return res.status(200).json({ user, canEdit: false })
+        } catch (error) {
+            console.log(error)
+            return res.status(500).json(error.message)
         }
-
-        if (isAuth && req.user.id === +id) {
-            return res.json({ user, canEdit: true })
-        }
-        return res.json({ user, canEdit: false })
     }
 
     async setCover(req, res) {
