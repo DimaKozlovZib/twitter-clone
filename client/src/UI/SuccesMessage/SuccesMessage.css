@@ -1,0 +1,16 @@
+.SuccesMessage {
+	background-color: #d2e3c8;
+	border-radius: 10px;
+	padding: 10px;
+	display: flex;
+	align-items: center;
+}
+.SuccesMessage-img {
+	margin-right: 10px;
+	height: 32px;
+	width: 32px;
+}
+.SuccesMessage-message {
+	color: #000;
+	font-family: "Nunito", sans-serif;
+}

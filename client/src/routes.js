@@ -4,3 +4,4 @@ export const messagesPath = 'twitter-clone/messages';
 export const hashtagPath = 'twitter-clone/hashtag/:id';
 export const registrationPath = 'twitter-clone/registration';
 export const loginPath = 'twitter-clone/login';
+export const editPath = 'twitter-clone/edit';

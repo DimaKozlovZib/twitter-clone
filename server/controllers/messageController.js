@@ -56,7 +56,7 @@ class messageRouter {
                 const AllMessages = await Message.findAndCountAll({
                     limit: Limit, offset: indexFirstElement,
                     where: {
-                        userId: req.query.userId || { [Op.not]: req.user.id }
+                        userId: +req.query.userId || { [Op.not]: req.user.id }
                     },
                     order: [
                         ['createdAt', 'DESC'],
@@ -66,7 +66,8 @@ class messageRouter {
                         {
                             model: User,
                             attributes: ['img', 'name', 'email', 'id'],
-                            raw: true
+                            raw: true,
+
                         }, {
                             model: Likes,
                             where: {

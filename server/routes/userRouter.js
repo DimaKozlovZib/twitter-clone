@@ -10,6 +10,7 @@ router.post("/login", userController.login)
 router.get("/auth", userController.auth)
 router.get("/:id", authOrNotMiddleware, userController.getUser)
 router.post("/setCover", authMiddleware, userController.setCover)
+router.post("/edit", authMiddleware, userController.changeInfo)
 router.get("/:id/friends", userController.getFriends)
 
 module.exports = router

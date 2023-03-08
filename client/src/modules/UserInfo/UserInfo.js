@@ -5,7 +5,9 @@ import ButtonBlue from '../../UI/ButtonBlue/ButtonBlue';
 import useModal from '../../hooks/useModal';
 import { useSelector } from 'react-redux';
 import { getUser } from './API'
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import '../../styles/changeCover.css';
+import { editPath } from '../../routes';
 
 const UserInfo = () => {
     const { id } = useParams();
@@ -56,7 +58,7 @@ const UserInfo = () => {
                     <h2 className='user-name'>{name}</h2>
                     <h3 className='user-email'>{email}</h3>
                 </div>
-                {canEdit ? <div className='edit-button'><ButtonBlue>Редактировать</ButtonBlue></div> : ''}
+                {canEdit ? <div className='edit-button'><Link to={`/${editPath}`} className='ButtonBlue'>Редактировать</Link></div> : ''}
             </div>
         </div>
     );

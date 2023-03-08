@@ -1,0 +1,40 @@
+.profile-cover {
+	background-position: center;
+	aspect-ratio: 2.5;
+	max-height: 251px;
+	width: 100%;
+	background-size: cover;
+	padding-top: 25px;
+	margin-bottom: -25px;
+	border-radius: 10px 10px 0px 0px;
+	position: relative;
+}
+
+.edit-cover {
+	cursor: pointer;
+	background-color: rgba(255, 255, 255, 0.7);
+	position: absolute;
+	right: 0;
+	top: 0;
+	margin: 15px 15px 0px 0px;
+	padding: 6px 12px;
+	border-radius: 5px;
+	display: flex;
+	align-items: center;
+	color: #000;
+}
+
+.edit-cover__title {
+	margin-left: 5px;
+}
+
+.edit-cover__icon,
+.edit-cover__icon > svg {
+	fill: #000;
+	width: 18px;
+	height: 18px;
+}
+
+.edit-cover:hover {
+	background-color: white;
+}

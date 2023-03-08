@@ -12,6 +12,16 @@
   box-sizing: border-box;
   position: relative;
 }
+.userInfo .ButtonBlue {
+  background-color: #00aaec;
+  border-radius: 8px;
+  color: #fff;
+  text-align: center;
+  padding: 7px 16px;
+  font-family: "Nunito", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+}
 .userInfo__avatar {
   margin-top: -95px;
   width: 150px;
@@ -62,44 +72,14 @@
   }
 }
 
-.profile-cover {
-  background-position: center;
-  aspect-ratio: 2.5;
-  max-height: 251px;
-  width: 100%;
-  background-size: cover;
-  padding-top: 25px;
-  margin-bottom: -25px;
-  border-radius: 10px 10px 0px 0px;
-  position: relative;
-}
 .profile-cover:hover .edit-cover {
   opacity: 1;
 }
 
-.edit-cover {
+.userInfo .edit-cover {
   transition: opacity 0.5s linear;
   opacity: 0;
-  cursor: pointer;
-  background-color: rgba(255, 255, 255, 0.7);
-  position: absolute;
-  right: 0;
-  top: 0;
-  margin: 15px 15px 0px 0px;
-  padding: 6px 12px;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  color: #000;
 }
-.edit-cover__title {
-  margin-left: 5px;
-}
-.edit-cover__icon, .edit-cover__icon > svg {
-  fill: #000;
-  width: 18px;
-  height: 18px;
-}
-.edit-cover:hover {
+.userInfo .edit-cover:hover {
   background-color: white;
 }/*# sourceMappingURL=UserInfo.css.map */

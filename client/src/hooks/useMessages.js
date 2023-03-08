@@ -8,14 +8,14 @@ const useMessages = (page, limit) => {
     const [messagesArray, setMessagesArray] = useState([]);
     const [messagesCount, setMessagesCount] = useState(null);
     const isAuth = useSelector(state => state.isAuth)
-    const { id } = useParams();
+    const params = useParams();
 
     useEffect(() => {
         if (isAuth !== null) getData()
     }, [page, isAuth]);
 
     const getData = async () => {
-        const res = await getMessages(page, limit, isAuth, id);
+        const res = await getMessages(page, limit, isAuth, params);
         if (res) {
             setMessagesCount(res.data.count)
             setMessagesArray([...messagesArray, ...res.data.rows])

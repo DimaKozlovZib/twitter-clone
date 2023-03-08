@@ -65,7 +65,10 @@ class userRouter {
     async autoLogin(req, res, next) {
         try {
             const { email, id } = req.user
-            const user = await User.findOne({ where: { email } })
+            const user = await User.findOne({
+                where: { email },
+                attributes: ['img', 'name', 'email', 'age', 'id', 'coverImage', 'shortInfo']
+            })
 
             if (!user) return res.status(401).json({ message: 'не авторизован' });
 
@@ -142,7 +145,7 @@ class userRouter {
 
             if (!Number(id) || !id) return res.status(400).json({ message: 'bad request' })
 
-            const userObj = await User.findOne({ where: { id }, attributes: ['img', 'name', 'email', 'id', 'coverImage'], })
+            const userObj = await User.findOne({ where: { id }, attributes: ['img', 'age', 'name', 'email', 'id', 'coverImage', 'shortInfo'], })
 
             if (!userObj) return res.status(404).json({ message: 'user is not found' })
 
@@ -202,5 +205,39 @@ class userRouter {
 
     }
 
+    async changeInfo(req, res) {
+        try {
+            const { email, id } = req.user;
+            const data = req.body;
+
+            const user = await User.findOne({ where: { id, email } });
+
+            if (!user) return res.status(401).json({ message: 'не авторизован' });
+
+            if (Object.keys(data).length === 0) return res.status(400).json({ message: 'bad request' });
+
+            const allNewData = {};
+
+            for (const item in data) {
+                if (!['shortInfo', 'age', 'name'].includes(item)) {
+                    return res.status(400).json({ message: `you cant change ${item}` });
+                }
+
+                if (data[item] !== user.dataValues[item]) {
+                    allNewData[item] = data[item]
+                }
+            }
+
+            if (Object.keys(allNewData).length === 0) return res.status(400).json({ message: 'you not give new data' });
+
+            await User.update({ ...allNewData }, { where: { id: id } })
+
+            const newUserData = await User.findOne({ where: { id: id }, attributes: ['img', 'name', 'email', 'age', 'id', 'coverImage', 'shortInfo'] })
+
+            return res.status(200).json({ user: newUserData })
+        } catch (error) {
+            return res.status(500).json(error.message)
+        }
+    }
 }
 module.exports = new userRouter()
