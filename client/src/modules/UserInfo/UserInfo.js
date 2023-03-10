@@ -45,7 +45,7 @@ const UserInfo = () => {
     )
 
     return (
-        <div className='profile-header'>
+        <div className=' userInfo-wrapper profile-header'>
             <div className='profile-cover'
                 style={{ 'backgroundImage': `url(http://localhost:5000/${canEdit && userAuthCover ? userAuthCover : coverImage})` }}>
                 {!canEdit || changeCoverBtn}

@@ -1,16 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700&display=swap");
 
-*{
-  margin: 0;
-  padding: 0;
-  text-decoration: none;
-  outline: none;
+* {
+	margin: 0;
+	padding: 0;
+	text-decoration: none;
+	outline: none;
 }
-button{
-  background: none;
-  border: none;
-  cursor: pointer;
+button {
+	background: none;
+	border: none;
+	cursor: pointer;
 }
-body.modal{
-  overflow: hidden;
+body.modal {
+	overflow: hidden;
+}
+body.load {
+	overflow: hidden;
 }

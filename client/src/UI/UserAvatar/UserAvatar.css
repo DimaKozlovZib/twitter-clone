@@ -1,5 +1,5 @@
 .NullAvatar {
-  background-color: #DEE2E6;
+  background-color: #ced2d6;
   border-radius: 50%;
   display: flex;
   box-sizing: border-box;
@@ -12,7 +12,8 @@
   border-radius: 5px;
 }
 
-.user-avatar img, .NullAvatar {
+.user-avatar img,
+.NullAvatar {
   height: 40px;
   width: 40px;
 }/*# sourceMappingURL=UserAvatar.css.map */
