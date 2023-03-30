@@ -32,6 +32,7 @@ const Friends = sequelize.define('friends', {
 const Hashtag = sequelize.define('hashtag', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING, unique: true, allowNull: false },
+    countMessages: { type: DataTypes.INTEGER, allowNull: false },
 })
 
 const Image = sequelize.define('image', {
@@ -39,12 +40,16 @@ const Image = sequelize.define('image', {
     url: { type: DataTypes.STRING, unique: true, allowNull: false },
 })
 
+const messageHashtag = sequelize.define('messageHashtag', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+})
+
 User.hasMany(Message)
 User.hasOne(Friends)
 User.hasMany(Likes)
 
 Message.hasMany(Likes)
-Message.belongsTo(Hashtag)
+Message.belongsToMany(Hashtag, { through: messageHashtag })
 Message.belongsTo(User)
 
 Image.belongsTo(Message)
@@ -53,7 +58,7 @@ Image.belongsTo(User)
 Likes.belongsTo(User)
 Likes.belongsTo(Message)
 
-Hashtag.hasMany(Message)
+Hashtag.belongsToMany(Message, { through: messageHashtag })
 
 Friends.hasMany(User)
 Friends.belongsTo(User)

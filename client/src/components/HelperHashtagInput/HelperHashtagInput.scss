@@ -1,0 +1,44 @@
+.hashtag-input {
+	border: none;
+	background: transparent;
+}
+.input {
+	display: flex;
+	align-items: center;
+	border: 1px solid rgb(202, 202, 202);
+	background-color: rgb(235, 235, 235);
+	border-radius: 5px;
+	padding: 4px 5px;
+	box-sizing: border-box;
+	max-width: 200px;
+
+	input {
+		margin-left: 2px;
+	}
+}
+.input-wrapper {
+	position: relative;
+}
+.helpers-hashtag {
+	box-sizing: border-box;
+	position: absolute;
+	border: 1px solid rgb(202, 202, 202);
+	background-color: rgb(235, 235, 235);
+	padding: 4px 5px;
+	margin-top: 2px;
+	width: 100%;
+	border-radius: 5px;
+	font-size: 14px;
+	p {
+		font-size: 12px;
+	}
+	.hashtag-item {
+		padding: 3px;
+		border-radius: 5px;
+		opacity: 0.8;
+		cursor: pointer;
+		&:hover {
+			opacity: 1;
+		}
+	}
+}

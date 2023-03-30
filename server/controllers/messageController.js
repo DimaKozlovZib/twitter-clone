@@ -1,4 +1,4 @@
-const { Message, Image, User, Likes } = require('../models/models')
+const { Message, Image, User, Likes, Hashtag } = require('../models/models')
 const uuid = require("uuid")
 const path = require("path")
 const ApiError = require("../error/ApiError")
@@ -8,22 +8,28 @@ const { Sequelize, Op } = require("sequelize");
 class messageRouter {
     async addMessage(req, res, next) {
         try {
-            const { text } = req.body;
+            const { text, hashtags } = req.body;
             const { id } = req.user;
 
-            if (!text || !id) return res.status(400).json({ message: 'bad request' })
+            if (!text || !id || !hashtags) return res.status(400).json({ message: 'bad request' });
 
-            //if (req.files && req.files.img) {
-            //    const { img } = req.files;
-            //    const message = await Message.create({ text, img: filename, })
-            //    let filename = uuid.v4() + ".jpg";
-            //    img.mv(path.resolve(__dirname, '..', 'static', filename))
-            //    const image = await Image.create({ url: filename, messageId: message.id })
-            //}
-            const message = await Message.create({ text, userId: id })
+            const message = await Message.create({ text, userId: id });
 
-            return res.status(200).json({ message })
+            res.status(200).json({ message })
 
+            hashtags.forEach(async (hashtagName) => {
+                const hashtag = await Hashtag.findOne({ where: { name: hashtagName } })
+
+                if (hashtag) {
+                    message.addHashtag(hashtag, { through: { countMessages: hashtag.countMessages + 1 } })
+                    hashtag.update('countMessages', {
+                        by: 1
+                    })
+                } else {
+                    const newHashtag = await Hashtag.create({ name: hashtagName, countMessages: 1 })
+                    message.addHashtag(newHashtag)
+                }
+            });
         } catch (error) {
             console.log(error)
             return res.status(500).json(error.message)
@@ -74,6 +80,12 @@ class messageRouter {
                                 userId: req.user.id
                             },
                             required: false
+                        }, {
+                            model: Hashtag,
+                            attributes: ['name', 'id'],
+                            through: {
+                                attributes: []
+                            }
                         }
                     ]
                 })
@@ -87,7 +99,13 @@ class messageRouter {
                         model: User,
                         attributes: ['img', 'name', 'email', 'id'],
                         raw: true
-                    },
+                    }, {
+                        model: Hashtag,
+                        attributes: ['name', 'id'],
+                        through: {
+                            attributes: []
+                        }
+                    }
                 ]
             })
 

@@ -5,6 +5,7 @@ import './App.css';
 import AppRouter from './appRouter';
 import LoadModal from './components/LoadModal/LoadModal';
 import AddCover from './modules/AddCover/AddCover';
+import AddMessage from './modules/AddMessage/AddMessage';
 import { getUser } from './store/asyncGetUser';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
     <>
       <LoadModal />
       {(modalType === 'ADD_COVER-MODAL') && <AddCover />}
+      {(modalType === 'ADD_MESSAGE-MODAL') && <AddMessage />}
       <BrowserRouter>
         <AppRouter />
       </BrowserRouter>

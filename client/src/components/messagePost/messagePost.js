@@ -4,7 +4,7 @@ import UserAvatar from '../../UI/UserAvatar/UserAvatar';
 import "./messagePost.css";
 
 const MessagePost = ({ messageObject, isAuth, userId }) => {
-    const { user, text, likesNum, id, likes } = messageObject;
+    const { user, text, likesNum, id, likes, hashtags } = messageObject;
     const { img, name, email } = user;
     const [likesNumState, setLikesNumState] = useState(likesNum);
 
@@ -41,6 +41,11 @@ const MessagePost = ({ messageObject, isAuth, userId }) => {
                     <div className='message-text'>
                         <p>{text}</p>
                     </div>
+                </div>
+                <div className='hashtags'>
+                    {
+                        hashtags.map(({ id, name }) => <h6 className='hashtag-item' key={id}>{`#${name}`}</h6>)
+                    }
                 </div>
                 <div className='message-rewiews'>
                     <button className={`likes ${activeLikeClass}`} onClick={postLike}>

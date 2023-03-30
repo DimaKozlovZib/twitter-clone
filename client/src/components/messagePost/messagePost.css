@@ -37,7 +37,7 @@
   font-size: 16px;
 }
 .messagePost .message-rewiews {
-  margin-top: 10px;
+  margin-top: 5px;
 }
 .messagePost .likes.active {
   color: #000;
@@ -56,4 +56,24 @@
 .messagePost .user-email {
   margin-left: 5px;
   color: rgba(0, 0, 0, 0.677);
+}
+.messagePost .message-text {
+  white-space: pre-wrap;
+  line-height: 18px;
+}
+
+.messagePost .hashtags {
+  display: flex;
+  font-size: 14px;
+  color: #00aaec;
+  margin-top: 4px;
+}
+.messagePost .hashtags .hashtag-item {
+  cursor: pointer;
+  font-family: "Nunito", sans-serif;
+  margin-left: 5px;
+  font-size: inherit;
+}
+.messagePost .hashtags .hashtag-item:hover {
+  text-decoration: underline;
 }/*# sourceMappingURL=messagePost.css.map */
