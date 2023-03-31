@@ -1,41 +1,5 @@
-.AddCover-wrapper {
-	position: absolute;
-	background: rgba($color: #000000, $alpha: 0.8);
-	width: 100%;
-	height: 100%;
-	left: 0;
-	top: 0;
-	z-index: 100;
-	display: flex;
-	align-items: center;
-}
 .AddCover {
-	font-family: "Nunito", sans-serif;
-	border-radius: 10px;
-	background-color: #fff;
-	width: 550px;
-	box-sizing: border-box;
-	margin: auto;
-
-	&-header {
-		padding: 15px 25px;
-		display: flex;
-		justify-content: space-between;
-		border-bottom: 1px solid #424242;
-		align-items: center;
-
-		.header-title,
-		.header-title > h2 {
-			color: #000;
-			font-size: 16px;
-			font-weight: 700;
-		}
-	}
-
-	&-bodyUpload {
-		padding: 10px 25px;
-		text-align: center;
-	}
+	text-align: center;
 }
 #file-input {
 	margin: 0px auto;

@@ -11,7 +11,7 @@ import { setUserAction } from '../../store';
 const EditForm = () => {
     const user = useSelector(state => state.user);
     const isAuth = useSelector(state => state.isAuth);
-    const openModal = useModal('ADD_COVER-MODAL');
+    const [openModal] = useModal('ADD_COVER-MODAL');
 
     const [activeBtn, setActiveBtn] = useState(false);
 

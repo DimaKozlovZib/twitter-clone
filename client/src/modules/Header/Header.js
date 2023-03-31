@@ -10,7 +10,7 @@ import useModal from '../../hooks/useModal';
 const Header = memo(({ children }) => {
     const { isAuth, user } = useSelector(state => state)
     //const History = useNavigate()
-    const openModal = useModal('ADD_MESSAGE-MODAL')
+    const [openModal] = useModal('ADD_MESSAGE-MODAL')
 
     const userIsAuth = (
         <>

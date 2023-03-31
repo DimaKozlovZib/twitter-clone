@@ -9,20 +9,25 @@ const HelperHashtagInput = ({ setHashtags, index, hashtags }) => {
     const [hashtagHelperIsActive, setHashtagHelperIsActive] = useState(false);
 
     const hashtagChange = (e) => {
-        const arr = Array.from(hashtags);
-        arr[index].hashtag = e.target.value;
-        setHashtags(arr);
+        try {
+            const arr = Array.from(hashtags);
+            arr[index].hashtag = e.target.value;
+            setHashtags(arr);
 
-        clearTimeout(timer)
-        setTimer(null)
+            clearTimeout(timer)
+            setTimer(null)
 
-        const get = async () => {
-            const response = await getHashtags(e.target.value);
-            setHashtagHelper(response.data.hashtagsToInput.rows);
-            setHashtagHelperIsActive(true)
+            const get = async () => {
+                const response = await getHashtags(e.target.value);
+                setHashtagHelper(response.data.hashtagsToInput.rows);
+                setHashtagHelperIsActive(true)
+            }
+
+            setTimer(setTimeout(get, 800))
+        } catch (error) {
+            console.error(error)
         }
 
-        setTimer(setTimeout(get, 800))
     }
 
     const closeHashtagHelper = (e) => {
@@ -51,7 +56,7 @@ const HelperHashtagInput = ({ setHashtags, index, hashtags }) => {
                 {
                     hashtagHelper.length > 0 ?
                         hashtagHelper.map(({ id, name }) =>
-                            <div onClick={(e) => { chooseHashtag(e, name) }} className='hashtag-item' key={id}>{`#${name}`}</div>) :
+                            <div onClick={(e) => chooseHashtag(e, name)} className='hashtag-item' key={id}>{`#${name}`}</div>) :
                         <p>Ничего не найдено.</p>
                 }
             </div>}

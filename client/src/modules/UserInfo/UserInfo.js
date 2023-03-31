@@ -14,7 +14,7 @@ const UserInfo = () => {
     const userAuthCover = useSelector(state => state.user.coverImage);
     const isAuth = useSelector(state => state.isAuth)
 
-    const openModal = useModal('ADD_COVER-MODAL')
+    const [openModal] = useModal('ADD_COVER-MODAL')
 
     const [user, setUser] = useState({});
     const [canEdit, setCanEdit] = useState(null);

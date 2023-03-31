@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import './App.css';
+import './styles/Modal.css';
 import AppRouter from './appRouter';
 import LoadModal from './components/LoadModal/LoadModal';
 import AddCover from './modules/AddCover/AddCover';

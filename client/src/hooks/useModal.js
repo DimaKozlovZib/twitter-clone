@@ -1,24 +1,32 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { setModalAction } from '../store';
 
-const useModal = (modalType) => {
+const useModal = (modalType, wrapperSelector) => {
     const dispatch = useDispatch();
     const isAuth = useSelector(state => state.isAuth);
 
-    return () => {
+    const setModal = () => {
         if (isAuth) {
-            const classList = document.querySelector('body').classList
-            if (modalType) {
-                dispatch(setModalAction(modalType))
-                classList.add('modal')
-            } else {
-                dispatch(setModalAction(null))
-                classList.remove('modal')
-            }
+            dispatch(setModalAction(modalType))
+            const classList = document.querySelector('body').classList;
+
+            modalType && !classList.contains('modalActive') ? classList.add('modalActive') : classList.remove('modalActive')
+
         } else {
             console.error('error: user is not auth')
         }
     }
+
+    const closeOnClickWrapper = (e) => {
+        const wrapper = document.querySelector(wrapperSelector)
+        if (e.target === wrapper) {
+            e.preventDefault();
+            e.stopPropagation();
+            setModal()
+        }
+    }
+
+    return [setModal, closeOnClickWrapper]
 }
 
 export default useModal;

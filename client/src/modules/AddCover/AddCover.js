@@ -5,11 +5,12 @@ import useModal from '../../hooks/useModal';
 import { setCover } from './API';
 import { useDispatch } from 'react-redux';
 import { setCoverAction } from '../../store';
+import ModalLayout from '../../pages/ModalLayout';
 
 const AddCover = () => {
     const [inputFocus, setInputFocus] = useState(false);
     const [file, setFile] = useState(null);
-    const closeModal = useModal(null);
+    const [closeModal] = useModal(null, '.AddCover-wrapper');
     const dispatch = useDispatch();
 
     const onDragEnter = (e) => {
@@ -89,56 +90,36 @@ const AddCover = () => {
         setInputFocus(true)
     }
 
-    const closeOnClick = (e) => {
-        const wrapper = document.querySelector('.AddCover-wrapper')
-        if (e.target === wrapper) {
-            e.preventDefault();
-            e.stopPropagation();
-            closeModal()
-        }
-    }
-
     const onDragOver = (e) => e.preventDefault();
 
     return (
-        <div className='AddCover-wrapper' onClick={closeOnClick}>
+        <ModalLayout modalTitle='Добавление обложки'>
             <div className='AddCover'>
-                <div className='AddCover-header'>
-                    <div className='header-title'>
-                        <h2>Добавление обложки</h2>
-                    </div>
-                    <button className='close-modal' onClick={closeModal}>
-                        <span></span>
+                <div className='AddCover__placeholder'>
+                    <p>Обложка будет отображаться на всех версиях приложения.</p>
+                </div>
+                <input id="file-input" onChange={changeInput} type="file" hidden accept="image/jpeg,image/png,image/gif,image/webp" />
+
+                <label htmlFor="file-input" id="upload" className={`upload ${inputFocus && 'active'}`}
+                    onDragEnter={onDragEnter}
+                    onDrop={onDrop}
+                    onDragOver={onDragOver}
+                    onDragEnd={stopActiveInput}
+                    onDragLeave={stopActiveInput}
+                >
+                    {file ? hasFileUploadContainer : commonUploadContainer}
+                </label>
+                <div className='upload-btn-container'>
+                    <button
+                        className={`upload-btn ${file && 'active'}`}
+                        disabled={!file}
+                        onClick={sendCover}
+                    >
+                        Загрузить
                     </button>
                 </div>
-                <div className='AddCover-bodyUpload'>
-                    <div className='AddCover-bodyUpload__placeholder'>
-                        <p>Обложка будет отображаться на всех версиях приложения.</p>
-                    </div>
-                    <input id="file-input" onChange={changeInput} type="file" hidden accept="image/jpeg,image/png,image/gif,image/webp" />
-
-                    <label htmlFor="file-input" id="upload" className={`upload ${inputFocus && 'active'}`}
-                        onDragEnter={onDragEnter}
-                        onDrop={onDrop}
-                        onDragOver={onDragOver}
-                        onDragEnd={stopActiveInput}
-                        onDragLeave={stopActiveInput}
-                    >
-                        {file ? hasFileUploadContainer : commonUploadContainer}
-                    </label>
-                    <div className='upload-btn-container'>
-                        <button
-                            className={`upload-btn ${file && 'active'}`}
-                            disabled={!file}
-                            onClick={sendCover}
-                        >
-                            Загрузить
-                        </button>
-                    </div>
-                </div>
-
             </div>
-        </div>
+        </ModalLayout>
     );
 }
 
