@@ -10,7 +10,7 @@ import '../../styles/changeCover.css';
 import { editPath } from '../../routes';
 
 const UserInfo = () => {
-    const { id } = useParams();
+    const { userId } = useParams();
     const userAuthCover = useSelector(state => state.user.coverImage);
     const isAuth = useSelector(state => state.isAuth)
 
@@ -22,7 +22,7 @@ const UserInfo = () => {
     useEffect(() => {
         const getData = async () => {
             if (isAuth !== null) {
-                const userInfo = await getUser(id, isAuth);
+                const userInfo = await getUser(userId, isAuth);
                 setUser(userInfo.data.user)
                 setCanEdit(userInfo.data.canEdit)
             }

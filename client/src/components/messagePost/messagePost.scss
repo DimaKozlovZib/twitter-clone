@@ -65,16 +65,14 @@
 
 .messagePost .hashtags {
 	display: flex;
-	font-size: 14px;
-	color: #00aaec;
 	margin-top: 4px;
+	margin-left: 5px;
 
-	.hashtag-item {
+	a {
 		cursor: pointer;
 		font-family: "Nunito", sans-serif;
-		margin-left: 5px;
-		font-size: inherit;
-
+		font-size: 14px;
+		color: #00aaec;
 		&:hover {
 			text-decoration: underline;
 		}

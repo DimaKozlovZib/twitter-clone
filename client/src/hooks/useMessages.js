@@ -15,7 +15,13 @@ const useMessages = (page, limit) => {
     }, [page, isAuth]);
 
     const getData = async () => {
-        const res = await getMessages(page, limit, isAuth, params);
+        const paramsObj = {
+            hashtagId: params?.hashtagId,
+            userId: params?.userId,
+            limit, page
+        }
+
+        const res = await getMessages(paramsObj);
         if (res) {
             setMessagesCount(res.data.count)
             setMessagesArray([...messagesArray, ...res.data.rows])

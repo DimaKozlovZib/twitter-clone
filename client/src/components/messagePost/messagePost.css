@@ -64,16 +64,15 @@
 
 .messagePost .hashtags {
   display: flex;
-  font-size: 14px;
-  color: #00aaec;
   margin-top: 4px;
+  margin-left: 5px;
 }
-.messagePost .hashtags .hashtag-item {
+.messagePost .hashtags a {
   cursor: pointer;
   font-family: "Nunito", sans-serif;
-  margin-left: 5px;
-  font-size: inherit;
+  font-size: 14px;
+  color: #00aaec;
 }
-.messagePost .hashtags .hashtag-item:hover {
+.messagePost .hashtags a:hover {
   text-decoration: underline;
 }/*# sourceMappingURL=messagePost.css.map */

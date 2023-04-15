@@ -6,11 +6,13 @@ import UserPage from "./pages/UserPage";
 import RegistrationPage from './pages/registrationPage'
 import LoginPage from "./pages/LoginPage";
 import EditPage from "./pages/EditPage";
+import HashtagPage from "./pages/HashtagPage";
 
 const AppRouter = () => {
     return (
         <Routes >
             <Route path={userInfoPath} element={<UserPage />} />
+            <Route path={hashtagPath} element={<HashtagPage />} />
             <Route path={messagesPath} element={<MessagesPage />} />
             <Route path={registrationPath} element={<RegistrationPage />} />
             <Route path={loginPath} element={<LoginPage />} />

@@ -50,65 +50,74 @@ class messageRouter {
     async getMessages(req, res) {
         try {
             const { isAuth } = req.user;
-            const { page, limit } = req.query;
+            const params = req.query;
 
-            const Limit = limit || 20;
-            const Page = page || 1;
+            const Limit = +params.limit || 20;
+            const Page = +params.page || 1;
             const indexFirstElement = (Page - 1) * Limit;
 
+            let where = {},
+                includes = []
+
+            if (params.userId) {
+                where = {
+                    userId: +params.userId
+                }
+            } else if (params.hashtagId) {
+                where = {}
+            } else {
+                where = {
+                    userId: { [Op.not]: req.user.id }
+                }
+            }
+
             if (isAuth) {
-                if (!req.query.userId && !req.user.id) return res.status(400).json({ message: 'bad request' });
-
-                const AllMessages = await Message.findAndCountAll({
-                    limit: Limit, offset: indexFirstElement,
+                includes.push({
+                    model: Likes,
                     where: {
-                        userId: +req.query.userId || { [Op.not]: req.user.id }
+                        userId: +req.user.id
                     },
-                    order: [
-                        ['createdAt', 'DESC'],
-                        ['likesNum', 'DESC'],
-                    ],
-                    include: [
-                        {
-                            model: User,
-                            attributes: ['img', 'name', 'email', 'id'],
-                            raw: true,
-
-                        }, {
-                            model: Likes,
-                            where: {
-                                userId: req.user.id
-                            },
-                            required: false
-                        }, {
-                            model: Hashtag,
-                            attributes: ['name', 'id'],
-                            through: {
-                                attributes: []
-                            }
-                        }
-                    ]
+                    required: false
                 })
-                return res.json(AllMessages)
+            }
+
+            if (params.hashtagId) {
+                includes.push({
+                    model: Hashtag,
+                    where: {
+                        name: params.hashtagId
+                    },
+                    attributes: ['name', 'id'],
+                    through: {
+                        attributes: []
+                    }
+                })
+            } else {
+                includes.push({
+                    model: Hashtag,
+                    attributes: ['name', 'id'],
+                    through: {
+                        attributes: []
+                    }
+                })
             }
 
             const AllMessages = await Message.findAndCountAll({
                 limit: Limit, offset: indexFirstElement,
+                where,
+                order: [
+                    ['createdAt', 'DESC'],
+                    ['likesNum', 'DESC'],
+                ],
                 include: [
                     {
                         model: User,
                         attributes: ['img', 'name', 'email', 'id'],
-                        raw: true
-                    }, {
-                        model: Hashtag,
-                        attributes: ['name', 'id'],
-                        through: {
-                            attributes: []
-                        }
-                    }
+                        raw: true,
+
+                    }, ...includes
                 ]
             })
-
             return res.json(AllMessages)
         } catch (error) {
             console.log(error)

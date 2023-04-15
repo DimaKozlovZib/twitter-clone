@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { likeMessage } from './API';
 import UserAvatar from '../../UI/UserAvatar/UserAvatar';
 import "./messagePost.css";
+import { Link } from 'react-router-dom';
 
 const MessagePost = ({ messageObject, isAuth, userId }) => {
     const { user, text, likesNum, id, likes, hashtags } = messageObject;
@@ -44,7 +45,8 @@ const MessagePost = ({ messageObject, isAuth, userId }) => {
                 </div>
                 <div className='hashtags'>
                     {
-                        hashtags.map(({ id, name }) => <h6 className='hashtag-item' key={id}>{`#${name}`}</h6>)
+                        hashtags.map(({ id, name }) =>
+                            <Link to={`/twitter-clone/hashtag/${name}`} key={id}>{`#${name}`}</Link>)
                     }
                 </div>
                 <div className='message-rewiews'>

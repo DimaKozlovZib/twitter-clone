@@ -28,16 +28,16 @@
 }
 
 .logo {
-  width: 33px;
-  height: 33px;
+  width: 32px;
+  height: 32px;
 }
 
 .logo-box {
-  height: 33px;
+  height: 32px;
 }
 .logo-box a {
   display: block;
-  height: 33px;
+  height: 32px;
 }
 
 .unite-wrapper {
@@ -75,14 +75,68 @@
   opacity: 0.9;
 }
 
+.go-back-btn {
+  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 700;
+  align-items: center;
+  display: none;
+}
+.go-back-btn .pointer-left {
+  width: 10px;
+  height: 6.3px;
+  position: relative;
+}
+.go-back-btn .pointer-left span, .go-back-btn .pointer-left::after {
+  position: absolute;
+  display: block;
+  content: "";
+  height: 2px;
+  width: 8px;
+  background: #000;
+  left: 0;
+}
+.go-back-btn .pointer-left span {
+  transform: rotate(45deg);
+  bottom: 0;
+}
+.go-back-btn .pointer-left::after {
+  transform: rotate(-45deg);
+  top: 0;
+}
+
+.header.canClose .go-back-btn {
+  display: flex;
+}
+
 @media (max-width: 570px) {
-  .header .search {
+  .header.canClose .logo-box {
     display: none;
-  }
-  .unite-wrapper {
-    flex: 0;
   }
   .header .container {
     justify-content: space-between;
+  }
+  .header .container .search {
+    max-width: 100%;
+  }
+  .go-back-btn__text {
+    display: none;
+  }
+  .go-back-btn {
+    width: 32px;
+    height: 20px;
+  }
+  .go-back-btn .pointer-left {
+    height: 7.8px;
+    margin: auto;
+  }
+  .go-back-btn .pointer-left span, .go-back-btn .pointer-left::after {
+    width: 10px;
+  }
+  .write-message {
+    display: none;
+  }
+  .unite-wrapper a {
+    margin-right: 0 !important;
   }
 }/*# sourceMappingURL=Header.css.map */

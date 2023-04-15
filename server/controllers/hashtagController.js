@@ -14,26 +14,23 @@ class hashtagRouter {
         }
     }
     async getHashtag(req, res) {
-        const { id } = req.params
-        const { limit, page } = req.query
-        const Limit = limit || 20;
-        const Page = page ? page : 1;
-        const indexFirstElement = (Page - 1) * Limit;
+        try {
+            const params = req.params
 
-        const hashtag = await Hashtag.findOne({
-            where: { id }
-        })
-        const messageWithHashtag = await Message.findAndCountAll({
-            where: { hashtagId: id },
-            limit: Limit,
-            offset: indexFirstElement
-        })
-        res.json({ hashtag, messageWithHashtag })
+            if (!params.name) return res.status(400).json({ message: 'bad request' })
+
+            const hashtag = await Hashtag.findOne({
+                where: { name: params.name },
+                attributes: ['id', 'name', 'countMessages']
+            })
+            res.status(200).json(hashtag)
+        } catch (error) {
+            return res.status(500).json(error.message)
+        }
     }
     async getHashtagsForInput(req, res) {
         try {
             const { hashtag } = req.query;
-            console.log(req)
 
             const hashtagsToInput = await Hashtag.findAndCountAll({
                 limit: 5,
