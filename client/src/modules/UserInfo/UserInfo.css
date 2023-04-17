@@ -40,16 +40,22 @@
 }
 .userInfo .user-name {
   font-weight: 700;
-  min-width: 200px;
+  min-width: 250px;
   font-size: 26px;
   line-height: 28px;
+  height: 28px;
 }
 .userInfo .user-email {
+  height: 15px;
   min-width: 200px;
   margin-top: 5px;
   font-size: 16px;
   line-height: 15px;
   color: rgba(0, 0, 0, 0.8);
+}
+.userInfo .user-email,
+.userInfo .user-name {
+  border-radius: 5px;
 }
 .userInfo .edit-button {
   margin-left: auto;

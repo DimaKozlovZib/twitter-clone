@@ -17,3 +17,19 @@ body.modalActive {
 body.load {
 	overflow: hidden;
 }
+
+.loaded {
+	animation: loaded 2s linear infinite;
+}
+
+@keyframes loaded {
+	0% {
+		background-color: #7d8387;
+	}
+	50% {
+		background-color: #cacaca;
+	}
+	100% {
+		background-color: #7d8387;
+	}
+}

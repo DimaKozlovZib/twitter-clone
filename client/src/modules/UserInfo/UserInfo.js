@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import UserAvatar from '../../UI/UserAvatar/UserAvatar';
 import './UserInfo.css';
-import ButtonBlue from '../../UI/ButtonBlue/ButtonBlue';
 import useModal from '../../hooks/useModal';
 import { useSelector } from 'react-redux';
 import { getUser } from './API'
@@ -12,11 +11,12 @@ import { editPath } from '../../routes';
 const UserInfo = () => {
     const { userId } = useParams();
     const userAuthCover = useSelector(state => state.user.coverImage);
-    const isAuth = useSelector(state => state.isAuth)
+    const isAuth = useSelector(state => state.isAuth);
 
     const [openModal] = useModal('ADD_COVER-MODAL')
 
     const [user, setUser] = useState({});
+    const [infoStatus, setInfoStatus] = useState('loaded');
     const [canEdit, setCanEdit] = useState(null);
 
     useEffect(() => {
@@ -25,6 +25,7 @@ const UserInfo = () => {
                 const userInfo = await getUser(userId, isAuth);
                 setUser(userInfo.data.user)
                 setCanEdit(userInfo.data.canEdit)
+                setInfoStatus('sucsses')
             }
         }
         getData()
@@ -44,9 +45,12 @@ const UserInfo = () => {
         </button>
     )
 
+    const classGenerate = (commonClass) => `${commonClass} ${infoStatus}`;
+    //{classGenerate()}
+
     return (
-        <div className=' userInfo-wrapper profile-header'>
-            <div className='profile-cover'
+        <div className='userInfo-wrapper profile-header'>
+            <div className={classGenerate('profile-cover')}
                 style={{ 'backgroundImage': `url(http://localhost:5000/${canEdit && userAuthCover ? userAuthCover : coverImage})` }}>
                 {!canEdit || changeCoverBtn}
             </div>
@@ -55,8 +59,8 @@ const UserInfo = () => {
                     <UserAvatar isLink={false} url={url} />
                 </div>
                 <div className='info-about-user'>
-                    <h2 className='user-name'>{name}</h2>
-                    <h3 className='user-email'>{email}</h3>
+                    <h2 className={classGenerate('user-name')}>{name}</h2>
+                    <h3 className={classGenerate('user-email')}>{email}</h3>
                 </div>
                 {canEdit ? <div className='edit-button'><Link to={`/${editPath}`} className='ButtonBlue'>Редактировать</Link></div> : ''}
             </div>

@@ -42,16 +42,22 @@
 	}
 	.user-name {
 		font-weight: 700;
-		min-width: 200px;
+		min-width: 250px;
 		font-size: 26px;
 		line-height: 28px;
+		height: 28px;
 	}
 	.user-email {
+		height: 15px;
 		min-width: 200px;
 		margin-top: 5px;
 		font-size: 16px;
 		line-height: 15px;
 		color: rgba($color: #000000, $alpha: 0.8);
+	}
+	.user-email,
+	.user-name {
+		border-radius: 5px;
 	}
 	.edit-button {
 		margin-left: auto;
