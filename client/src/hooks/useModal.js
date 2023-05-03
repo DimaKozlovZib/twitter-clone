@@ -1,13 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { setModalAction } from '../store';
 
-const useModal = (modalType, wrapperSelector) => {
+const useModal = (modalType, wrapperSelector, data) => {
     const dispatch = useDispatch();
     const isAuth = useSelector(state => state.isAuth);
 
     const setModal = () => {
         if (isAuth) {
-            dispatch(setModalAction(modalType))
+            dispatch(setModalAction({ type: modalType, data }))
             const classList = document.querySelector('body').classList;
 
             modalType && !classList.contains('modalActive') ? classList.add('modalActive') : classList.remove('modalActive')

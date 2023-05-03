@@ -8,11 +8,12 @@ import LoadModal from './components/LoadModal/LoadModal';
 import AddCover from './modules/AddCover/AddCover';
 import AddMessage from './modules/AddMessage/AddMessage';
 import { getUser } from './store/asyncGetUser';
+import DeleteMessage from './modules/DeleteMessage/DeleteMessage';
 
 function App() {
   const dispatch = useDispatch()
   const isAuth = useSelector(state => state.isAuth)
-  const modalType = useSelector(state => state.openModuleType);
+  const modalType = useSelector(state => state.openModule);
   const [isLoaderModalActive, setIsLoaderModalActive] = useState(true);
 
   useEffect(() => {
@@ -22,8 +23,9 @@ function App() {
   return (
     <>
       <LoadModal />
-      {(modalType === 'ADD_COVER-MODAL') && <AddCover />}
-      {(modalType === 'ADD_MESSAGE-MODAL') && <AddMessage />}
+      {(modalType.type === 'ADD_COVER-MODAL') && <AddCover />}
+      {(modalType.type === 'ADD_MESSAGE-MODAL') && <AddMessage />}
+      {(modalType.type === 'DELETE_MESSAGE-MODAL') && <DeleteMessage data={modalType.data} />}
       <BrowserRouter>
         <AppRouter />
       </BrowserRouter>

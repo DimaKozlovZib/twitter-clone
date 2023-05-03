@@ -3,10 +3,11 @@ import UserAvatar from '../../UI/UserAvatar/UserAvatar';
 import './UserInfo.css';
 import useModal from '../../hooks/useModal';
 import { useSelector } from 'react-redux';
-import { getUser } from './API'
+import { Subscribe, Unsubscribe, getUser } from './API'
 import { Link, useParams } from 'react-router-dom';
 import '../../styles/changeCover.css';
 import { editPath } from '../../routes';
+import subscribe from '../../images/subscribe.svg'
 
 const UserInfo = () => {
     const { userId } = useParams();
@@ -18,6 +19,7 @@ const UserInfo = () => {
     const [user, setUser] = useState({});
     const [infoStatus, setInfoStatus] = useState('loaded');
     const [canEdit, setCanEdit] = useState(null);
+    const [friend, setFriend] = useState(null);
 
     useEffect(() => {
         const getData = async () => {
@@ -26,13 +28,27 @@ const UserInfo = () => {
                 setUser(userInfo.data.user)
                 setCanEdit(userInfo.data.canEdit)
                 setInfoStatus('sucsses')
+                setFriend(userInfo.data.user?.friend ? true : false)
             }
         }
         getData()
-    }, [isAuth]);
+    }, [isAuth, userId]);
 
     const { name, email, url, countMessages, totalLikesNum, coverImage } = user;
 
+    const onSubscribe = async () => {
+        const res = await Subscribe(user.id)
+        if (res) {
+            setFriend(true)
+        }
+    }
+
+    const onUnsubscribe = async () => {
+        const res = await Unsubscribe(user.id)
+        if (res) {
+            setFriend(false)
+        }
+    }
 
     const changeCoverBtn = (
         <button className='edit-cover' onClick={openModal}>
@@ -43,6 +59,24 @@ const UserInfo = () => {
             </span>
             <span className='edit-cover__title'>изменить обложку</span>
         </button>
+    )
+
+    const editBtnHTML = (
+        <div className='edit-button ButtonBlue'>
+            <Link to={`/${editPath}`}>Редактировать</Link>
+        </div>
+    )
+
+    const subscribeBtn = (
+        <div className='subscribe-button ButtonBlue' onClick={onSubscribe}>
+            <h5>Подписаться</h5>
+        </div>
+    )
+
+    const alreadySubscribeBtn = (
+        <div className='subscribe-already-button ButtonBlue' onClick={onUnsubscribe}>
+            <h5>Вы подписаны</h5>
+        </div>
     )
 
     const classGenerate = (commonClass) => `${commonClass} ${infoStatus}`;
@@ -62,7 +96,7 @@ const UserInfo = () => {
                     <h2 className={classGenerate('user-name')}>{name}</h2>
                     <h3 className={classGenerate('user-email')}>{email}</h3>
                 </div>
-                {canEdit ? <div className='edit-button'><Link to={`/${editPath}`} className='ButtonBlue'>Редактировать</Link></div> : ''}
+                {canEdit ? editBtnHTML : friend !== null && (friend ? alreadySubscribeBtn : subscribeBtn)}
             </div>
         </div>
     );

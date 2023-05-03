@@ -6,7 +6,7 @@ import { ADD_USER, SET_COVER, SET_ISAUTH, SET_MODALE } from './constans';
 const defaultState = {
     user: {},
     isAuth: null,
-    openModuleType: null,
+    openModule: { type: null, data: {} },
     coverImage: null
 }
 
@@ -17,7 +17,7 @@ const reducer = (state = defaultState, action) => {
         case SET_ISAUTH:
             return { ...state, isAuth: action.payload }
         case SET_MODALE:
-            return { ...state, openModuleType: action.payload }
+            return { ...state, openModule: action.payload }
         case SET_COVER:
             return { ...state, user: { ...state.user, coverImage: action.payload } }
         default:

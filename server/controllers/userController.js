@@ -4,7 +4,7 @@ const uuid = require("uuid")
 const path = require("path")
 const jwt = require("jsonwebtoken")
 const fs = require('fs')
-const { User, Image, Message } = require("../models/models")
+const { User, Image, Message, Friends } = require("../models/models")
 const { Sequelize } = require("../db")
 
 const generateJwt = (payload) => {
@@ -42,7 +42,7 @@ class userRouter {
 
             const files = fs.readdirSync(dirpath)
 
-            function getImage(files) {
+            function getImage() {
                 if (!files) return null;
 
                 const imageIndex = Math.floor(Math.random() * (files.length - 1))
@@ -52,6 +52,8 @@ class userRouter {
             const userCoverPath = getImage()
 
             const user = await User.create({ name, password: hashPassword, email, age, coverImage: userCoverPath })
+
+            Friends.create({ userId: user.id })
 
             const { accessToken, refreshToken } = generateJwt({ id: user.id, email: user.email })
             res.cookie('refreshToken', refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
@@ -145,7 +147,17 @@ class userRouter {
 
             if (!Number(id) || !id) return res.status(400).json({ message: 'bad request' })
 
-            const userObj = await User.findOne({ where: { id }, attributes: ['img', 'age', 'name', 'email', 'id', 'coverImage', 'shortInfo'], })
+            const userObj = await User.findOne({
+                where: { id },
+                attributes: ['img', 'age', 'name', 'email', 'id', 'coverImage', 'shortInfo'],
+                include: [
+                    {
+                        model: Friends,
+                        where: { userId: req.user.id, },
+                        required: false
+                    }
+                ]
+            })
 
             if (!userObj) return res.status(404).json({ message: 'user is not found' })
 
@@ -235,6 +247,48 @@ class userRouter {
             const newUserData = await User.findOne({ where: { id: id }, attributes: ['img', 'name', 'email', 'age', 'id', 'coverImage', 'shortInfo'] })
 
             return res.status(200).json({ user: newUserData })
+        } catch (error) {
+            return res.status(500).json(error.message)
+        }
+    }
+
+    async subscribe(req, res) {
+        try {
+            const userId = req.body?.userId;
+            const { email, id } = req.user;
+
+            if (!userId || !Number(userId)) return res.status(400).json({ message: 'bad request' })
+
+            const newFutureFriend = await User.findOne({ where: { id: userId } })
+
+            if (!newFutureFriend) return res.status(404).json({ message: 'user not found' })
+
+            const userFriends = await Friends.findOne({ where: { userId: id } });
+
+            userFriends.addUser(newFutureFriend)
+
+            return res.status(200).json({ message: 'succes' })
+        } catch (error) {
+            return res.status(500).json(error.message)
+        }
+    }
+
+    async unsubscribe(req, res) {
+        try {
+            const userId = req.body?.userId;
+            const { email, id } = req.user;
+
+            if (!userId || !Number(userId)) return res.status(400).json({ message: 'bad request' })
+
+            const oldFriend = await User.findOne({ where: { id: userId } })
+
+            if (!oldFriend) return res.status(404).json({ message: 'user not found' })
+
+            const userFriends = await Friends.findOne({ where: { userId: id } });
+
+            userFriends.removeUser(oldFriend)
+
+            return res.status(200).json({ message: 'succes' })
         } catch (error) {
             return res.status(500).json(error.message)
         }

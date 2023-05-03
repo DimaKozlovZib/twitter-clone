@@ -12,5 +12,7 @@ router.get("/:id", authOrNotMiddleware, userController.getUser)
 router.post("/setCover", authMiddleware, userController.setCover)
 router.post("/edit", authMiddleware, userController.changeInfo)
 router.get("/:id/friends", userController.getFriends)
+router.post("/subscribe", authMiddleware, userController.subscribe)
+router.post("/unsubscribe", authMiddleware, userController.unsubscribe)
 
 module.exports = router

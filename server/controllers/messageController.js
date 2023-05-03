@@ -37,14 +37,21 @@ class messageRouter {
     }
 
     async deleteMessage(req, res) {
-        const { id } = req.params;
-        const message = await Message.destroy({
-            where: { id }
-        })
-        const image = await Image.destroy({
-            where: { messageId: id }
-        })
-        return res.json(message)
+        try {
+            if (!req.params.id) return res.status(400).json({ message: 'bad request' })
+            const { id } = req.params;
+            const userId = req.user.id;
+            const message = await Message.findOne({
+                where: { id, userId }
+            })
+            if (!message) return res.status(404).json({ message: 'message not found' })
+            const result = message.destroy()
+
+            return res.status(200).json(result)
+        } catch (error) {
+            return res.status(500).json(error.message)
+        }
+
     }
 
     async getMessages(req, res) {

@@ -1,0 +1,38 @@
+.SlimBurgerMenu {
+	display: block;
+	height: 17px;
+	width: 15px;
+	position: relative;
+	margin-left: auto;
+	cursor: pointer;
+}
+.SlimBurgerMenu span,
+.SlimBurgerMenu::after,
+.SlimBurgerMenu::before {
+	background: rgba(0, 0, 0, 0.5);
+	content: "";
+	display: block;
+	height: 4px;
+	width: 4px;
+	border-radius: 50%;
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin: auto;
+	transition: background 0.6s linear;
+}
+.SlimBurgerMenu span {
+	top: 0;
+	bottom: 0;
+}
+.SlimBurgerMenu::after {
+	top: 0;
+}
+.SlimBurgerMenu::before {
+	bottom: 0;
+}
+.SlimBurgerMenu:hover span,
+.SlimBurgerMenu:hover::after,
+.SlimBurgerMenu:hover::before {
+	background: #000;
+}

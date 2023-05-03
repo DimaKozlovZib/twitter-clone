@@ -1,0 +1,18 @@
+.delete-btns {
+  display: flex;
+  margin-top: 10px;
+  justify-content: flex-end;
+}
+.delete-btns .deleteBtn-item {
+  padding: 8px 15px;
+  background: #ced2d6;
+  border-radius: 10px;
+  font-weight: 600;
+  font-family: "Nunito", sans-serif;
+  font-size: 14px;
+  margin-right: 10px;
+}
+.delete-btns .deleteBtn-item.main {
+  background: #00aaec;
+  color: #fff;
+}/*# sourceMappingURL=DeleteMessage.css.map */

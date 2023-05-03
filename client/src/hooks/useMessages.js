@@ -28,7 +28,7 @@ const useMessages = (page, limit) => {
         }
     }
 
-    return { messagesArray, messagesCount }
+    return [messagesArray, messagesCount, setMessagesArray]
 }
 
 export default useMessages;

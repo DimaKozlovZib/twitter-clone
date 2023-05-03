@@ -26,7 +26,8 @@ const Likes = sequelize.define('likes', {
     messageId: { type: DataTypes.INTEGER, allowNull: false, },
 })
 const Friends = sequelize.define('friends', {
-    count: { type: DataTypes.INTEGER },
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    userId: { type: DataTypes.INTEGER, allowNull: false, unique: true }
 })
 
 const Hashtag = sequelize.define('hashtag', {
@@ -47,21 +48,22 @@ const messageHashtag = sequelize.define('messageHashtag', {
 User.hasMany(Message)
 User.hasOne(Friends)
 User.hasMany(Likes)
+User.belongsTo(Friends)
 
 Message.hasMany(Likes)
 Message.belongsToMany(Hashtag, { through: messageHashtag })
-Message.belongsTo(User)
+Message.belongsTo(User, { onDelete: 'CASCADE' })
 
-Image.belongsTo(Message)
-Image.belongsTo(User)
+Image.belongsTo(Message, { onDelete: 'CASCADE' })
+Image.belongsTo(User, { onDelete: 'CASCADE' })
 
-Likes.belongsTo(User)
-Likes.belongsTo(Message)
+Likes.belongsTo(User, { onDelete: 'CASCADE' })
+Likes.belongsTo(Message, { onDelete: 'CASCADE' })
 
 Hashtag.belongsToMany(Message, { through: messageHashtag })
 
 Friends.hasMany(User)
-Friends.belongsTo(User)
+Friends.belongsTo(User, { onDelete: 'CASCADE' })
 
 module.exports = {
     User,
