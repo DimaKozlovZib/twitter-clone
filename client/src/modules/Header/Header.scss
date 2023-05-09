@@ -41,6 +41,7 @@
 	display: flex;
 	flex: 1 1 auto;
 	align-items: center;
+	position: relative;
 	justify-content: flex-end;
 	& > *:not(:last-child) {
 		margin-right: 10px;

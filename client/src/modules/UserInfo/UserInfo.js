@@ -90,7 +90,7 @@ const UserInfo = () => {
             </div>
             <div className='userInfo'>
                 <div className='userInfo__avatar'>
-                    <UserAvatar isLink={false} url={url} />
+                    <UserAvatar isNotLink url={url} />
                 </div>
                 <div className='info-about-user'>
                     <h2 className={classGenerate('user-name')}>{name}</h2>

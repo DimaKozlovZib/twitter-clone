@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import './Header.css';
 import { useSelector } from 'react-redux';
@@ -6,16 +6,48 @@ import LogoIcon from "../../images/LogoIcon.png";
 import UserAvatar from '../../UI/UserAvatar/UserAvatar';
 import { loginPath, messagesPath } from '../../routes';
 import useModal from '../../hooks/useModal';
+import AccountMenu from '../../components/AccountMenu/AccountMenu';
 
 const Header = memo(({ canClose, children }) => {
-    const { isAuth, user } = useSelector(state => state)
+    const user = useSelector(state => state.user)
+    const isAuth = useSelector(state => state.isAuth)
     const History = useNavigate()
     const params = useParams()
     const [openModal] = useModal('ADD_MESSAGE-MODAL')
+    const [activeMenu, setActiveMenu] = useState(false);
+
+    useEffect(() => {
+        if (activeMenu) {
+            const closeMenu = (e) => {
+                if (activeMenu && e.target.offsetParent?.id !== 'AccountMenu') {
+                    e.preventDefault();
+                    setActiveMenu(false)
+                }
+            }
+
+            document.addEventListener('click', closeMenu)
+            return () => {
+                document.removeEventListener('click', closeMenu)
+            }
+        }
+    }, [activeMenu]);
+
+    const onClickAvatar = (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        setActiveMenu(activeMenu ? false : true)
+    }
+
+    const openMenuOnHover = () => {
+        if (!activeMenu) {
+            setActiveMenu(true)
+        }
+    }
 
     const userIsAuth = (
         <>
-            <UserAvatar url={user?.url} id={user.id} />
+            <UserAvatar url={user?.url} isNotLink onClick={onClickAvatar} onFocus={openMenuOnHover} onBlur={onClickAvatar} />
+            <AccountMenu isActive={activeMenu} />
             <button className='write-message blue-button' onClick={openModal}>
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M15.414 0.586C15.0389 0.211058 14.5303 0.000427246 14 0.000427246C13.4697 0.000427246 12.9611 0.211058 12.586 0.586L5 8.172V11H7.828L15.414 3.414C15.7889 3.03894 15.9996 2.53033 15.9996 2C15.9996 1.46967 15.7889 0.961056 15.414 0.586Z" />
@@ -26,9 +58,7 @@ const Header = memo(({ canClose, children }) => {
     )
     const userIsNotAuth = (<Link to={`/${loginPath}`} className='login blue-button'>войти</Link>)
 
-    const goBack = () => {
-        History(-1)
-    }
+    const goBack = () => History(-1)
 
     const closeBtn = (
         <button className='go-back-btn' onClick={goBack}>
