@@ -1,7 +1,8 @@
 import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import './UserAvatar.css';
-import avatar from '../../images/avatar.svg';
+import nullAvatar from '../../images/nullAvatar.jpg';
+
 
 const UserAvatar = memo(({ url, id, isNotLink, ...events }) => {
     const EventObj = {
@@ -12,21 +13,16 @@ const UserAvatar = memo(({ url, id, isNotLink, ...events }) => {
         onMouseEnter: events.onMouseEnter
     }
 
-    const commonAvatar = (
+    const Avatar = (
         <div className='UserAvatar avatar'  {...EventObj}>
-            <img src={url} alt="" />
-        </div>
-    )
-    const nullAvatar = (
-        <div className='NullAvatar avatar' {...EventObj}>
-            <img src={avatar} alt='' />
+            <img src={url ? `http://localhost:5000/${url}` : nullAvatar} alt="" />
         </div>
     )
 
     return (
         isNotLink ?
-            url ? commonAvatar : nullAvatar
-            : <Link to={`/twitter-clone/user/${id}`}>{url ? commonAvatar : nullAvatar}</Link >
+            Avatar
+            : <Link to={`/twitter-clone/user/${id}`}>{Avatar}</Link >
     );
 })
 

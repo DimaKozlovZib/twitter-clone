@@ -217,6 +217,42 @@ class userRouter {
 
     }
 
+    async setAvatar(req, res) {
+        try {
+            const { email, id } = req.user;
+            const file = req.files?.file;
+
+            if (!file && !"image/jpeg,image/png,image/gif,image/webp".split(',').includes(file.mimetype)) {
+                return res.status(415).json({ message: 'не передан файл или файл не правильного типа' })
+            }
+
+            const user = await User.findOne({ where: { id } })
+            const oldAvatar = user?.img
+
+            console.log(file, oldAvatar)
+
+            if (oldAvatar) {
+                const oldAvatarPath = path.resolve(__dirname, '..', 'static-avatars', oldAvatar)
+                fs.unlink(oldAvatarPath, console.log)
+                await Image.destroy({ where: { userId: id, url: oldAvatar } })
+            }
+
+
+            const filename = uuid.v4() + ".jpg";
+            file.mv(path.resolve(__dirname, '..', 'static-avatars', filename))
+            const newAvatar = await Image.create({ url: filename, userId: id })
+
+            await User.update({ img: filename }, { where: { id } })
+
+            return res.status(200).json({ message: 'success', url: filename })
+
+        } catch (error) {
+            console.log(error)
+            return res.status(500).json(error)
+        }
+
+    }
+
     async changeInfo(req, res) {
         try {
             const { email, id } = req.user;

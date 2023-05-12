@@ -34,7 +34,7 @@ const UserInfo = () => {
         getData()
     }, [isAuth, userId]);
 
-    const { name, email, url, countMessages, totalLikesNum, coverImage } = user;
+    const { name, email, img, countMessages, totalLikesNum, coverImage } = user;
 
     const onSubscribe = async () => {
         const res = await Subscribe(user.id)
@@ -90,7 +90,7 @@ const UserInfo = () => {
             </div>
             <div className='userInfo'>
                 <div className='userInfo__avatar'>
-                    <UserAvatar isNotLink url={url} />
+                    <UserAvatar isNotLink url={img} />
                 </div>
                 <div className='info-about-user'>
                     <h2 className={classGenerate('user-name')}>{name}</h2>

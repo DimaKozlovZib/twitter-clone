@@ -6,6 +6,8 @@ client/node_modules
 .pnp.js
 
 server/static/*.jpg
+server/static-avatars/*.jpg
+
 .env
 # testing
 /coverage

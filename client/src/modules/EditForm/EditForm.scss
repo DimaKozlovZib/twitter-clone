@@ -1,11 +1,11 @@
 .EditForm {
 	width: 100%;
 	padding-bottom: 10px;
-	.UserAvatar,
-	.NullAvatar {
+	.UserAvatar {
 		height: 150px;
 		width: 100%;
 		border: none;
+		position: relative;
 		&::after {
 			content: "";
 			background: #000;
@@ -14,11 +14,13 @@
 			height: 100%;
 			width: 100%;
 			position: absolute;
+			top: 0;
+			left: 0;
 			z-index: 2;
 		}
 	}
 
-	&-avatar {
+	.openModalBtn {
 		display: block;
 		position: relative;
 		width: 150px;

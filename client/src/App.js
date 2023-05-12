@@ -9,6 +9,7 @@ import AddCover from './modules/AddCover/AddCover';
 import AddMessage from './modules/AddMessage/AddMessage';
 import { getUser } from './store/asyncGetUser';
 import DeleteMessage from './modules/DeleteMessage/DeleteMessage';
+import ChangeAvatar from './modules/ChangeAvatar/ChangeAvatar';
 
 function App() {
   const dispatch = useDispatch()
@@ -26,6 +27,7 @@ function App() {
       {(modalType.type === 'ADD_COVER-MODAL') && <AddCover />}
       {(modalType.type === 'ADD_MESSAGE-MODAL') && <AddMessage />}
       {(modalType.type === 'DELETE_MESSAGE-MODAL') && <DeleteMessage data={modalType.data} />}
+      {(modalType.type === 'CHANGE-AVATAR-MODAL') && <ChangeAvatar />}
       <BrowserRouter>
         <AppRouter />
       </BrowserRouter>
