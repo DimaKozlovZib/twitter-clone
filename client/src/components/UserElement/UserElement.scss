@@ -1,0 +1,30 @@
+.UserElement {
+	background-color: #fff;
+	border-radius: 10px;
+	padding: 10px;
+	margin-top: 15px;
+	display: flex;
+
+	& > a {
+		display: flex;
+		align-items: center;
+		flex: 1 1 auto;
+	}
+	.UserAvatar {
+		height: 50px;
+		width: 50px;
+		margin-right: 10px;
+	}
+	&__info {
+		color: #000;
+		font-family: "Nunito", sans-serif;
+
+		h3 {
+			font-size: 20px;
+		}
+		h4 {
+			font-size: 15px;
+			line-height: 10px;
+		}
+	}
+}
