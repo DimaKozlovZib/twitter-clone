@@ -18,7 +18,7 @@ const MessageList = () => {
     return (
         <div className='messagesList'>
             {
-                messagesArray.length > 0 ?
+                messagesArray && messagesArray.length > 0 ?
                     messagesArray
                         .map(item => <MessagePost setDelete={setSuccesDeleteId} messageObject={item} key={item.id} />)
                     : ''

@@ -43,6 +43,20 @@ const Image = sequelize.define('image', {
 
 const messageHashtag = sequelize.define('messageHashtag', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    messageId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Message,
+            key: 'id'
+        }
+    },
+    hashtagId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Hashtag,
+            key: 'id'
+        }
+    }
 })
 
 User.hasMany(Message)
@@ -53,6 +67,11 @@ User.belongsTo(Friends)
 Message.hasMany(Likes)
 Message.belongsToMany(Hashtag, { through: messageHashtag })
 Message.belongsTo(User, { onDelete: 'CASCADE' })
+
+messageHashtag.belongsTo(Message)
+messageHashtag.belongsTo(Hashtag)
+messageHashtag.hasMany(Message)
+messageHashtag.hasMany(Hashtag)
 
 Image.belongsTo(Message, { onDelete: 'CASCADE' })
 Image.belongsTo(User, { onDelete: 'CASCADE' })
@@ -72,4 +91,5 @@ module.exports = {
     Hashtag,
     Friends,
     Image,
+    messageHashtag
 }

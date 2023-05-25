@@ -138,7 +138,32 @@ class userRouter {
         }
     }
     async getFriends(req, res) {
+        try {
+            const { email, id } = req.user;
+            const params = req.query;
 
+            console.log(req)
+
+            if (!params?.page) return res.status(400).json({ message: 'bad request' });
+
+            const Limit = params?.limit || 20
+
+            const offset = (params.page - 1) * Limit
+
+            const friends = await User.findAndCountAll({
+                limit: Limit, offset,
+                attributes: ['id', 'name', 'email', 'img'],
+                include: {
+                    model: Friends,
+                    where: { userId: id },
+                    attributes: []
+                }
+            })
+            return res.status(200).json(friends)
+
+        } catch (error) {
+            return res.status(500).json(error.message)
+        }
     }
     async getUser(req, res) {
         try {

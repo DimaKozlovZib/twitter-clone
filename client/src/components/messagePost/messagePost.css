@@ -66,9 +66,9 @@
 .messagePost .hashtags {
   display: flex;
   margin-top: 4px;
-  margin-left: 5px;
 }
 .messagePost .hashtags a {
+  margin-left: 3px;
   cursor: pointer;
   font-family: "Nunito", sans-serif;
   font-size: 14px;

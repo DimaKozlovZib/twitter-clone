@@ -20,7 +20,7 @@ const AddMessage = () => {
 
             setError(false)
 
-            const requestHashtags = hashtags.map(({ hashtag }) => hashtag)
+            const requestHashtags = hashtags.map(({ hashtag }) => hashtag).filter(item => item.length > 0)
             const response = await addMessages(value, requestHashtags)
 
             document.querySelector('#form').reset()

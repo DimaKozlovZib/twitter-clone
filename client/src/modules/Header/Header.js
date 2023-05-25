@@ -4,7 +4,7 @@ import './Header.css';
 import { useSelector } from 'react-redux';
 import LogoIcon from "../../images/LogoIcon.png";
 import UserAvatar from '../../UI/UserAvatar/UserAvatar';
-import { loginPath, messagesPath } from '../../routes';
+import { loginPath, messagesPath, myFriendsPath } from '../../routes';
 import useModal from '../../hooks/useModal';
 import AccountMenu from '../../components/AccountMenu/AccountMenu';
 

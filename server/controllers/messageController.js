@@ -17,7 +17,7 @@ class messageRouter {
 
             res.status(200).json({ message })
 
-            hashtags.forEach(async (hashtagName) => {
+            hashtags.filter(item => item.length > 0).forEach(async (hashtagName) => {
                 const hashtag = await Hashtag.findOne({ where: { name: hashtagName } })
 
                 if (hashtag) {
@@ -61,8 +61,7 @@ class messageRouter {
 
             const Limit = +params.limit || 20;
             const Page = +params.page || 1;
-            const indexFirstElement = (Page - 1) * Limit;
-
+            const indexFirstElement = (Page - 1) * Limit
             let where = {},
                 includes = []
 
@@ -70,14 +69,11 @@ class messageRouter {
                 where = {
                     userId: +params.userId
                 }
-            } else if (params.hashtagId) {
-                where = {}
             } else {
                 where = {
                     userId: { [Op.not]: req.user.id }
                 }
             }
-
             if (isAuth) {
                 includes.push({
                     model: Likes,
@@ -88,29 +84,9 @@ class messageRouter {
                 })
             }
 
-            if (params.hashtagId) {
-                includes.push({
-                    model: Hashtag,
-                    where: {
-                        name: params.hashtagId
-                    },
-                    attributes: ['name', 'id'],
-                    through: {
-                        attributes: []
-                    }
-                })
-            } else {
-                includes.push({
-                    model: Hashtag,
-                    attributes: ['name', 'id'],
-                    through: {
-                        attributes: []
-                    }
-                })
-            }
-
             const AllMessages = await Message.findAndCountAll({
                 limit: Limit, offset: indexFirstElement,
+                all: true,
                 where,
                 order: [
                     ['createdAt', 'DESC'],
@@ -122,10 +98,16 @@ class messageRouter {
                         attributes: ['img', 'name', 'email', 'id'],
                         raw: true,
 
+                    }, {
+                        model: Hashtag,
+                        attributes: ['name', 'id'],
+                        through: {
+                            attributes: []
+                        }
                     }, ...includes
                 ]
             })
-            return res.json(AllMessages)
+            return res.status(200).json(AllMessages)
         } catch (error) {
             console.log(error)
             return res.status(500).json(error.message)

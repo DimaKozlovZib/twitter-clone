@@ -11,3 +11,14 @@ export const getMessages = async (params) => {
         return error
     }
 }
+
+export const getMessagesByHashtag = async (hashtagName, params) => {
+    try {
+        const response = await $authHost.get(`/hashtag/${hashtagName}/getMessages`, { params: params })
+        console.log(response)
+        return response;
+    } catch (error) {
+        console.error(error)
+        return error
+    }
+}
