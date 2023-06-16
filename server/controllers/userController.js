@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken")
 const fs = require('fs')
 const { User, Image, Message, Friends } = require("../models/models")
 const { Sequelize } = require("../db")
+const { Op } = require("sequelize")
 
 const generateJwt = (payload) => {
     const accessToken = jwt.sign(
@@ -276,6 +277,36 @@ class userRouter {
             return res.status(500).json(error)
         }
 
+    }
+
+    async searchUser(req, res) {
+        try {
+            const data = req.body;
+
+            if (!data?.text) return res.status(400).json({ message: 'bad request' })
+            const { text } = data;
+
+            const Limit = data.limit || 3;
+            const Page = ((data.page || 1) - 1) * Limit;
+
+            const users = await User.findAndCountAll({
+                limit: Limit, offset: Page,
+                where: {
+                    [Op.or]: [{ 'name': { [Op.iLike]: `%${text}%` } }, { 'shortInfo': { [Op.iLike]: `%${text}%` } }]
+                },
+                attributes: ['img', 'name', 'email', 'id', 'shortInfo']
+            })
+
+            if (!users) return res.status(404).json(users)
+
+            users.responseTitle = 'Пользователи';
+            users.responseTitleEng = 'Users';
+
+            return res.status(200).json(users)
+        } catch (error) {
+            console.log(error)
+            return res.status(500).json(error)
+        }
     }
 
     async changeInfo(req, res) {

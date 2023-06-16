@@ -6,6 +6,7 @@ const authOrNotMiddleware = require("../middleware/authOrNotMiddleware");
 router.get('/getSome', hashtagRouter.getHashtagsForInput)
 router.get("/:name/getMessages", authOrNotMiddleware, hashtagRouter.getMessages)
 router.get("/:name", hashtagRouter.getHashtag)
+router.post("/searchHashtag", hashtagRouter.searchHashtag)
 router.post("/", hashtagRouter.addHashtag)
 
 module.exports = router

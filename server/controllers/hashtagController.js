@@ -28,6 +28,37 @@ class hashtagRouter {
             return res.status(500).json(error.message)
         }
     }
+    async searchHashtag(req, res) {
+        try {
+            const data = req.body;
+
+            if (!data?.text) return res.status(400).json({ message: 'bad request' })
+            const { text } = data;
+
+            const Limit = data.limit || 3;
+            const Page = ((data.page || 1) - 1) * Limit;
+
+
+
+            const hashtags = await Hashtag.findAndCountAll({
+                limit: Limit, offset: Page,
+                where: {
+                    name: { [Op.iLike]: `%${text}%` }
+                },
+                attributes: ['name', 'id', 'countMessages']
+            })
+
+            if (!hashtags) return res.status(404).json(hashtags)
+
+            hashtags.responseTitle = 'Хэштеги';
+            hashtags.responseTitleEng = 'Hashtags';
+
+            return res.status(200).json(hashtags)
+        } catch (error) {
+            console.log(error)
+            return res.status(500).json(error)
+        }
+    }
     async getHashtagsForInput(req, res) {
         try {
             const { hashtag } = req.query;

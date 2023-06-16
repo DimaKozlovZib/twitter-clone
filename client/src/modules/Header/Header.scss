@@ -48,30 +48,6 @@
 		margin-right: 10px;
 	}
 }
-.header .search {
-	box-sizing: border-box;
-	flex: 1 1 auto;
-	max-width: 270px;
-	display: flex;
-	align-items: center;
-	padding: 7px 10px;
-	border-radius: 18px;
-	border: 1.6px solid rgb(202, 202, 202);
-	background-color: rgb(235, 235, 235);
-	input {
-		border: none;
-		background: transparent;
-		flex: 1 1 auto;
-		margin-right: 5px;
-	}
-	button {
-		height: 16px;
-		opacity: 0.7;
-		&:hover {
-			opacity: 0.9;
-		}
-	}
-}
 
 .go-back-btn {
 	text-transform: uppercase;

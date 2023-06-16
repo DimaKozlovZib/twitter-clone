@@ -22,8 +22,8 @@ class messageRouter {
 
                 if (hashtag) {
                     message.addHashtag(hashtag, { through: { countMessages: hashtag.countMessages + 1 } })
-                    hashtag.update('countMessages', {
-                        by: 1
+                    hashtag.update({
+                        countMessages: hashtag.countMessages + 1
                     })
                 } else {
                     const newHashtag = await Hashtag.create({ name: hashtagName, countMessages: 1 })
