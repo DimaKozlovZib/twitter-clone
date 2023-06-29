@@ -7,6 +7,7 @@ const authOrNotMiddleware = require("../middleware/authOrNotMiddleware");
 router.delete("/:id", authMiddleware, messageRouter.deleteMessage)
 router.get("/", authOrNotMiddleware, messageRouter.getMessages)
 router.post("/", authMiddleware, messageRouter.addMessage)
+router.post("/searchMessages", messageRouter.searchMessages)
 router.post("/like", authMiddleware, messageRouter.likeMessage)
 
 module.exports = router

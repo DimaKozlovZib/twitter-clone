@@ -35,7 +35,50 @@ class messageRouter {
             return res.status(500).json(error.message)
         }
     }
+    async searchMessages(req, res) {
+        try {
+            const data = req.body;
 
+            if (!data?.text) return res.status(400).json({ message: 'bad request' })
+            const { text } = data;
+
+            const Limit = data.limit || 3;
+            const Page = ((data.page || 1) - 1) * Limit;
+            console.log(Limit)
+
+            //получаем сообшения имеющие искомую подстроку
+            const messages = await Message.findAndCountAll({
+                limit: Limit, offset: Page,
+                where: {
+                    text: {
+                        [Sequelize.Op.like]: `%${text}%`
+                    }
+                },
+                attributes: ['text', 'id', 'likesNum'],
+                include: [
+                    {
+                        model: User,
+                        attributes: ['name', 'id', 'img', 'email']
+                    },
+                    {
+                        model: Hashtag,
+                        attributes: ['name', 'id'],
+                        through: { attributes: [] } // Отключаем вывод информации о промежуточной таблице
+                    }
+                ]
+            });
+
+            messages.responseTitle = 'Сообщения'
+            messages.responseTitleEng = 'Messages'
+
+            if (messages?.rows.length === 0) return res.status(404).json(messages)
+
+            return res.status(200).json(messages)
+        } catch (error) {
+            console.log(error)
+            return res.status(500).json(error)
+        }
+    }
     async deleteMessage(req, res) {
         try {
             if (!req.params.id) return res.status(400).json({ message: 'bad request' })

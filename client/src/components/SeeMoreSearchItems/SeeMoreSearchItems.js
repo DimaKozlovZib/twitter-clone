@@ -4,12 +4,15 @@ import { useNavigate } from 'react-router-dom';
 
 const SeeMoreSearchItems = memo(({ title, titleEng, itemsCount, link }) => {
     const navigate = useNavigate();
+    const smallRequestLimit = 3;
     const modal = useMemo(() => {
         switch (titleEng) {
             case 'Users':
                 return 'user';
             case 'Hashtags':
                 return 'hashtag';
+            case 'Messages':
+                return 'message';
         }
     }, [titleEng])
 
@@ -22,7 +25,7 @@ const SeeMoreSearchItems = memo(({ title, titleEng, itemsCount, link }) => {
             <div className='SeeMoreSearchItems-title'>
                 <h4>{title}</h4>
             </div>
-            {itemsCount > 0 && (
+            {itemsCount > smallRequestLimit && (
                 <div className='SeeMoreSearchItems-seeMore'>
                     <div className='SeeMoreSearchItems-text'>
                         <h5>Увидеть больше {itemsCount}</h5>

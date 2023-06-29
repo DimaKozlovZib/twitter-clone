@@ -1,9 +1,10 @@
 import React, { memo, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { searchHashtags, searchUsers } from './API';
+import { searchHashtags, searchUsers, searchMessages } from './API';
 import SeeMoreSearchItems from '../../components/SeeMoreSearchItems/SeeMoreSearchItems';
 import UserElement from '../../components/UserElement/UserElement';
 import HashtagElement from '../../components/HashtagElement/HashtagElement';
+import MessagePost from '../../components/messagePost/messagePost';
 
 const Search = memo(() => {
     const params = useParams();
@@ -14,6 +15,7 @@ const Search = memo(() => {
 
     const [users, setUsers] = useState(null);
     const [hashtags, setHashtags] = useState(null);
+    const [messages, setMessages] = useState(null);
 
     const userDataGet = async (limit) => {
         const userObj = await searchUsers(params.searchText, limit)
@@ -25,6 +27,11 @@ const Search = memo(() => {
         setHashtags(hashtagObj)
     }
 
+    const messageDataGet = async (limit) => {
+        const messagesObj = await searchMessages(params.searchText, limit)
+        setMessages(messagesObj)
+    }
+
     useEffect(() => {
         if (params.model === visibleParams.model && params.searchText === visibleParams.searchText) return;
 
@@ -34,6 +41,7 @@ const Search = memo(() => {
             case 'all':
                 userDataGet(smallRequestLimit)
                 hashtagDataGet(smallRequestLimit)
+                messageDataGet(smallRequestLimit)
                 break;
             case 'user':
                 userDataGet(commonRequestLimit)
@@ -41,10 +49,14 @@ const Search = memo(() => {
             case 'hashtag':
                 hashtagDataGet(commonRequestLimit)
                 break;
+            case 'message':
+                messageDataGet(commonRequestLimit)
+                break;
             default:
                 break;
         }
     }, [params]);
+
     const generateElements = (obj, callbackComponent, hasSeeMore) => {
 
         if (!obj || String(obj?.status)[0] !== '2' || obj.data?.rows?.length === 0) return <></>
@@ -54,7 +66,7 @@ const Search = memo(() => {
         return (
             <>
                 {hasSeeMore && <SeeMoreSearchItems title={responseTitle} titleEng={responseTitleEng}
-                    itemsCount={count - smallRequestLimit} link={params.searchText} key={Date.now()} />}
+                    itemsCount={count} link={params.searchText} key={Date.now()} />}
                 <div className={`search-items ${responseTitleEng}`} >
                     {rows.map(callbackComponent)}
                 </div>
@@ -68,6 +80,7 @@ const Search = memo(() => {
                 <>
                     {generateElements(users, user => <UserElement user={user} />, true)}
                     {generateElements(hashtags, hashtag => <HashtagElement hashtag={hashtag} />, true)}
+                    {generateElements(messages, message => <MessagePost messageObject={message} key={message.id} />, true)}
                 </>
             )}
             {params.model === 'user' && (
@@ -78,6 +91,11 @@ const Search = memo(() => {
             {params.model === 'hashtag' && (
                 <>
                     {generateElements(hashtags, hashtag => <HashtagElement hashtag={hashtag} />, false)}
+                </>
+            )}
+            {params.model === 'message' && (
+                <>
+                    {generateElements(messages, message => <MessagePost messageObject={message} key={message.id} />, false)}
                 </>
             )}
         </div>

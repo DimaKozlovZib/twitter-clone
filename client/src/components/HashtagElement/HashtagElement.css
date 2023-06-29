@@ -5,8 +5,10 @@
   padding: 10px;
   border-radius: 10px;
   font-family: "Nunito", sans-serif;
-  margin-top: 6px;
   width: 100%;
+}
+.HashtagElement:not(:first-child) {
+  margin-top: 6px;
 }
 .HashtagElement-icon {
   width: 20px;
