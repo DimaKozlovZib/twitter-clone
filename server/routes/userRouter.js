@@ -17,5 +17,6 @@ router.post("/edit", authMiddleware, userController.changeInfo)
 router.get("/:id/friends", userController.getFriends)
 router.post("/subscribe", authMiddleware, userController.subscribe)
 router.post("/unsubscribe", authMiddleware, userController.unsubscribe)
+router.post("/logout", authMiddleware, userController.logout)
 
 module.exports = router

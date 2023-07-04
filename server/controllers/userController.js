@@ -385,5 +385,14 @@ class userRouter {
             return res.status(500).json(error.message)
         }
     }
+
+    async logout(req, res) {
+        try {
+            res.clearCookie('refreshToken')
+            return res.status(200).json({ message: 'succes' })
+        } catch (error) {
+            return res.status(500).json(error.message)
+        }
+    }
 }
 module.exports = new userRouter()

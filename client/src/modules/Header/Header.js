@@ -47,7 +47,7 @@ const Header = memo(({ canClose, children }) => {
     const userIsAuth = (
         <>
             <UserAvatar url={user?.img} isNotLink onClick={onClickAvatar} onFocus={openMenuOnHover} onBlur={onClickAvatar} />
-            <AccountMenu isActive={activeMenu} />
+            <AccountMenu isActive={activeMenu} setActiveMenu={setActiveMenu} />
             <button className='write-message blue-button' onClick={openModal}>
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M15.414 0.586C15.0389 0.211058 14.5303 0.000427246 14 0.000427246C13.4697 0.000427246 12.9611 0.211058 12.586 0.586L5 8.172V11H7.828L15.414 3.414C15.7889 3.03894 15.9996 2.53033 15.9996 2C15.9996 1.46967 15.7889 0.961056 15.414 0.586Z" />

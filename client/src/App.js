@@ -10,6 +10,7 @@ import AddMessage from './modules/AddMessage/AddMessage';
 import { getUser } from './store/asyncGetUser';
 import DeleteMessage from './modules/DeleteMessage/DeleteMessage';
 import ChangeAvatar from './modules/ChangeAvatar/ChangeAvatar';
+import LogoutModal from './modules/LogoutModal/LogoutModal';
 
 function App() {
   const dispatch = useDispatch()
@@ -24,11 +25,12 @@ function App() {
   return (
     <>
       <LoadModal />
-      {(modalType.type === 'ADD_COVER-MODAL') && <AddCover />}
-      {(modalType.type === 'ADD_MESSAGE-MODAL') && <AddMessage />}
-      {(modalType.type === 'DELETE_MESSAGE-MODAL') && <DeleteMessage data={modalType.data} />}
-      {(modalType.type === 'CHANGE-AVATAR-MODAL') && <ChangeAvatar />}
       <BrowserRouter>
+        {(modalType.type === 'ADD_COVER-MODAL') && <AddCover />}
+        {(modalType.type === 'ADD_MESSAGE-MODAL') && <AddMessage />}
+        {(modalType.type === 'DELETE_MESSAGE-MODAL') && <DeleteMessage data={modalType.data} />}
+        {(modalType.type === 'CHANGE-AVATAR-MODAL') && <ChangeAvatar />}
+        {(modalType.type === 'LOGOUT-MODAL') && <LogoutModal />}
         <AppRouter />
       </BrowserRouter>
     </>
