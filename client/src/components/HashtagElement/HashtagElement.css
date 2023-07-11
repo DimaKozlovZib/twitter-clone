@@ -1,5 +1,5 @@
 .HashtagElement {
-  background: #fff;
+  background: var(--main-bg-color);
   display: flex;
   align-items: center;
   padding: 10px;
@@ -16,17 +16,19 @@
   margin-right: 10px;
 }
 .HashtagElement-icon svg {
-  stroke: #000;
+  stroke: var(--main-elements-color);
   height: 100%;
   width: 100%;
 }
 .HashtagElement-title h3 {
   font-size: 18px;
+  color: var(--main-elements-color);
 }
 .HashtagElement-mesCount {
   margin-left: 5px;
-  opacity: 0.9;
+  opacity: 0.8;
 }
 .HashtagElement-mesCount h4 {
+  color: var(--main-elements-color);
   font-size: 16px;
 }/*# sourceMappingURL=HashtagElement.css.map */

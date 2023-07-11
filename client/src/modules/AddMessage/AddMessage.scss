@@ -21,7 +21,7 @@
 			display: block;
 			box-sizing: border-box;
 			margin-right: 10px;
-			border: 1.6px solid rgb(202, 202, 202);
+			border: 1.6px solid var(--grey-color-2);
 			background-color: rgb(235, 235, 235);
 			border-radius: 10px;
 			height: 100px;
@@ -30,11 +30,15 @@
 
 	.error-addMessage {
 		text-align: center;
-		color: rgb(227, 6, 6);
+		color: var(--carefully-color-1);
 		margin-top: 10px;
 	}
 }
 
+[theme="dark-theme"] .modal-contant textarea {
+	background-color: var(--grey-color-2);
+	color: #fff;
+}
 .plusIcon {
 	margin-left: auto;
 	width: 20px;

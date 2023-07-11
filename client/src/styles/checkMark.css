@@ -1,0 +1,28 @@
+.check-mark {
+	height: 30px;
+	width: 30px;
+	position: relative;
+}
+.check-mark span,
+.check-mark::after {
+	border-radius: 1px;
+	content: "";
+	margin: auto;
+	top: 0;
+	bottom: 0;
+	position: absolute;
+	background: #fff;
+	height: 2px;
+}
+.check-mark span {
+	right: 0;
+	left: 16%;
+	width: 50%;
+	transform: rotate(-45deg);
+}
+.check-mark::after {
+	top: 18%;
+	right: 51%;
+	width: 25%;
+	transform: rotate(45deg);
+}

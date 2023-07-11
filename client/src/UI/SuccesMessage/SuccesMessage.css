@@ -1,16 +1,17 @@
 .SuccesMessage {
-	background-color: #d2e3c8;
+	background-color: var(--green-color);
 	border-radius: 10px;
 	padding: 10px;
 	display: flex;
 	align-items: center;
 }
-.SuccesMessage-img {
+.SuccesMessage svg {
 	margin-right: 10px;
 	height: 32px;
 	width: 32px;
+	stroke: var(--green-color-2);
 }
 .SuccesMessage-message {
-	color: #000;
+	color: var(--main-elements-color);
 	font-family: "Nunito", sans-serif;
 }

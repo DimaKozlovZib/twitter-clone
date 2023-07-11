@@ -1,6 +1,6 @@
 import React from 'react';
 import './ButtonBlue.css';
 
-const ButtonBlue = ({ children }) => <button className='buttonBlue'>{children}</button>
+const ButtonBlue = ({ children, onClick, className }) => <button onClick={onClick} className={`buttonBlue ${className}`}>{children}</button>
 
 export default ButtonBlue;

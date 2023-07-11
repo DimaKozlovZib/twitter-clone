@@ -1,5 +1,5 @@
 .HashtagElement {
-	background: #fff;
+	background: var(--main-bg-color);
 	display: flex;
 	align-items: center;
 	padding: 10px;
@@ -13,7 +13,7 @@
 
 	&-icon {
 		svg {
-			stroke: #000;
+			stroke: var(--main-elements-color);
 			height: 100%;
 			width: 100%;
 		}
@@ -24,12 +24,14 @@
 	&-title {
 		h3 {
 			font-size: 18px;
+			color: var(--main-elements-color);
 		}
 	}
 	&-mesCount {
 		margin-left: 5px;
-		opacity: 0.9;
+		opacity: 0.8;
 		h4 {
+			color: var(--main-elements-color);
 			font-size: 16px;
 		}
 	}

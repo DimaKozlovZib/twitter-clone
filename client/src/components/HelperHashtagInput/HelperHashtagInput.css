@@ -6,7 +6,7 @@
 .input {
   display: flex;
   align-items: center;
-  border: 1px solid rgb(202, 202, 202);
+  border: 1px solid var(--grey-color-2);
   background-color: rgb(235, 235, 235);
   border-radius: 5px;
   padding: 4px 5px;
@@ -24,7 +24,7 @@
 .helpers-hashtag {
   box-sizing: border-box;
   position: absolute;
-  border: 1px solid rgb(202, 202, 202);
+  border: 1px solid var(--grey-color-2);
   background-color: rgb(235, 235, 235);
   padding: 4px 5px;
   margin-top: 2px;
@@ -43,4 +43,18 @@
 }
 .helpers-hashtag .hashtag-item:hover {
   opacity: 1;
+}
+
+[theme=dark-theme] .modal-contant .input-wrapper .input,
+[theme=dark-theme] .modal-contant .input-wrapper .helpers-hashtag {
+  background-color: var(--grey-color-2);
+  color: #fff;
+}
+[theme=dark-theme] .modal-contant .input-wrapper .input input,
+[theme=dark-theme] .modal-contant .input-wrapper .helpers-hashtag input {
+  color-scheme: dark;
+}
+[theme=dark-theme] .modal-contant .input-wrapper .input svg,
+[theme=dark-theme] .modal-contant .input-wrapper .helpers-hashtag svg {
+  stroke: #fff;
 }/*# sourceMappingURL=HelperHashtagInput.css.map */

@@ -12,7 +12,7 @@
 
 .edit-cover {
 	cursor: pointer;
-	background-color: rgba(255, 255, 255, 0.7);
+	background-color: var(--delta5);
 	position: absolute;
 	right: 0;
 	top: 0;
@@ -21,7 +21,7 @@
 	border-radius: 5px;
 	display: flex;
 	align-items: center;
-	color: #000;
+	color: var(--main-elements-color);
 }
 
 .edit-cover__title {
@@ -30,11 +30,11 @@
 
 .edit-cover__icon,
 .edit-cover__icon > svg {
-	fill: #000;
+	fill: var(--main-elements-color);
 	width: 18px;
 	height: 18px;
 }
 
 .edit-cover:hover {
-	background-color: white;
+	background-color: var(--main-bg-color);
 }

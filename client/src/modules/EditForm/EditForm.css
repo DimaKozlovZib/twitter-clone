@@ -1,3 +1,30 @@
+.EditForm-btn, .buttonBlue, .commonButton {
+  border-radius: 8px;
+  display: block;
+  text-align: center;
+  padding: 7px 16px;
+  font-family: "Nunito", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--main-elements-color);
+  transition: background 200ms linear;
+  background-color: var(--cancel-btn);
+}
+.EditForm-btn:enabled:hover, .buttonBlue:enabled:hover, .commonButton:enabled:hover {
+  background-color: var(--cancel-btn-hover);
+}
+
+.buttonBlue {
+  background-color: var(--blue-btn-color);
+  color: #fff;
+}
+.buttonBlue svg {
+  fill: #fff;
+}
+.buttonBlue:enabled:hover {
+  background-color: var(--blue-btn-color-hover);
+}
+
 .EditForm {
   width: 100%;
   padding-bottom: 10px;
@@ -27,8 +54,9 @@
   min-width: 150px;
   margin-right: 10px;
   aspect-ratio: 1;
+  box-sizing: content-box;
   margin-top: -95px;
-  border: 4px solid #fff;
+  border: 4px solid var(--main-bg-color);
   border-radius: 50%;
   cursor: pointer;
 }
@@ -67,6 +95,7 @@
   width: 125px;
   min-width: 125px;
   display: block;
+  color: var(--main-elements-color);
 }
 .EditForm_input input {
   max-width: 350px;
@@ -77,6 +106,7 @@
   border: 2px solid #757575;
   background-color: #f4f4f4;
   min-width: 200px;
+  color-scheme: dark;
 }
 .EditForm_input .short-info_input {
   width: 100%;
@@ -125,10 +155,17 @@
   }
 }
 
+[theme=dark-theme] .EditForm-changeInfo textarea,
+[theme=dark-theme] .EditForm-changeInfo input {
+  background-color: var(--grey-color-2);
+  border: 2px solid var(--grey-color-2);
+  color: #fff;
+}
+
 .EditForm-content {
   display: flex;
   align-items: flex-start;
-  background-color: #fff;
+  background-color: var(--main-bg-color);
   border-radius: 10px;
   padding: 25px 25px;
   width: 100%;
@@ -138,18 +175,15 @@
   z-index: 5;
 }
 .EditForm-btn {
-  transition: background-color 0.3s linear;
-  border-radius: 8px;
-  padding: 8px 18px;
-  color: #fff;
-  background-color: rgba(117, 117, 117, 0.75);
   margin-left: auto;
   margin-right: auto;
   margin-top: 25px;
-  display: block;
 }
 .EditForm-btn.active {
-  background-color: #00aaec;
+  background-color: var(--blue-btn-color);
+}
+.EditForm-btn.active:hover {
+  background-color: var(--blue-btn-color-hover);
 }
 @media (max-width: 800px) {
   .EditForm-content {

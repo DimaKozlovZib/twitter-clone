@@ -1,13 +1,14 @@
 import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
-import { ADD_USER, SET_AVATAR, SET_COVER, SET_ISAUTH, SET_MODALE } from './constans';
+import { ADD_USER, SET_AVATAR, SET_COVER, SET_ISAUTH, SET_MODALE, SET_THEME } from './constans';
 
 const defaultState = {
     user: {},
     isAuth: null,
     openModule: { type: null, data: {} },
-    coverImage: null
+    coverImage: null,
+    theme: localStorage.getItem('appTheme') || 'light'
 }
 
 const reducer = (state = defaultState, action) => {
@@ -18,6 +19,8 @@ const reducer = (state = defaultState, action) => {
             return { ...state, isAuth: action.payload }
         case SET_MODALE:
             return { ...state, openModule: action.payload }
+        case SET_THEME:
+            return { ...state, theme: action.payload }
         case SET_COVER:
             return { ...state, user: { ...state.user, coverImage: action.payload } }
         case SET_AVATAR:
@@ -28,6 +31,7 @@ const reducer = (state = defaultState, action) => {
 }
 
 export const setModalAction = (payload) => ({ type: SET_MODALE, payload });
+export const setThemeAction = (payload) => ({ type: SET_THEME, payload });
 export const setCoverAction = (payload) => ({ type: SET_COVER, payload });
 export const setAvatarAction = (payload) => ({ type: SET_AVATAR, payload });
 export const setUserAction = (payload) => ({ type: ADD_USER, payload });

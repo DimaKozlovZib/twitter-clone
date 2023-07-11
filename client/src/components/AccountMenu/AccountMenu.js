@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { memo } from 'react';
 import './AccountMenu.css'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { myFriendsPath } from '../../routes';
-import { setModalAction } from '../../store';
+import { setModalAction, setThemeAction } from '../../store';
 
-const AccountMenu = ({ isActive, setActiveMenu }) => {
+const AccountMenu = memo(({ isActive, setActiveMenu }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch()
     const id = useSelector(state => state.user?.id)
+    const theme = useSelector(state => state.theme)
 
     const profile = () => {
         navigate(`/twitter-clone/user/${id}`)
@@ -24,6 +25,12 @@ const AccountMenu = ({ isActive, setActiveMenu }) => {
         setActiveMenu(false)
     }
 
+    const changeTheme = () => {
+        const setTheme = theme === 'light' ? 'dark' : 'light'
+        dispatch(setThemeAction(setTheme))
+        localStorage.setItem('appTheme', setTheme)
+    }
+
     return (
         <div className={`AccountMenu ${isActive ? 'active' : ''}`} id='AccountMenu'>
             <button className='AccountMenu--item' onClick={profile}>
@@ -35,6 +42,7 @@ const AccountMenu = ({ isActive, setActiveMenu }) => {
 
                 <h5>Профиль</h5>
             </button>
+
             <button className='AccountMenu--item' onClick={openFriendsPage}>
                 <div className='icon-box'>
                     <svg viewBox="0 0 22 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -43,6 +51,25 @@ const AccountMenu = ({ isActive, setActiveMenu }) => {
                 </div>
 
                 <h5>Друзья</h5>
+            </button>
+
+            <button className='AccountMenu--item' onClick={changeTheme}>
+                <div className='icon-box'>
+                    {
+                        theme === 'light' ?
+                            (
+                                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 1V2.11111M11 19.8889V21M21 11H19.8889M2.11111 11H1M18.0711 18.0711L17.2856 17.2856M4.71444 4.71444L3.92889 3.92889M18.0711 3.92889L17.2856 4.71444M4.71444 17.2856L3.92889 18.0711M15.4444 11C15.4444 12.1787 14.9762 13.3092 14.1427 14.1427C13.3092 14.9762 12.1787 15.4444 11 15.4444C9.82126 15.4444 8.6908 14.9762 7.8573 14.1427C7.02381 13.3092 6.55556 12.1787 6.55556 11C6.55556 9.82126 7.02381 8.6908 7.8573 7.8573C8.6908 7.02381 9.82126 6.55556 11 6.55556C12.1787 6.55556 13.3092 7.02381 14.1427 7.8573C14.9762 8.6908 15.4444 9.82126 15.4444 11Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            ) : (
+                                <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M21.0068 15.1391C19.1198 15.8977 17.0513 16.0851 15.0585 15.6782C13.0657 15.2712 11.2366 14.2878 9.79836 12.8501C8.36015 11.4125 7.37634 9.58401 6.96922 7.59201C6.56209 5.60001 6.74961 3.53233 7.50847 1.646C5.27377 2.54577 3.42179 4.19456 2.26998 6.30973C1.11817 8.4249 0.738286 10.8747 1.19544 13.2392C1.6526 15.6036 2.91833 17.7355 4.77565 19.2693C6.63297 20.8032 8.96619 21.6434 11.3754 21.646C13.4471 21.6461 15.4714 21.0264 17.1878 19.8668C18.9043 18.7072 20.2343 17.0607 21.0068 15.1391Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            )
+                    }
+                </div>
+
+                <h5>{theme === 'light' ? 'Светлая' : 'Тёмная'}</h5>
             </button>
 
             <button className='AccountMenu--item carefully' onClick={logout}>
@@ -56,6 +83,6 @@ const AccountMenu = ({ isActive, setActiveMenu }) => {
             </button>
         </div>
     );
-}
+})
 
 export default AccountMenu;

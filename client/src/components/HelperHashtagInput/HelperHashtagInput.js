@@ -48,7 +48,10 @@ const HelperHashtagInput = ({ setHashtags, index, hashtags }) => {
     return (
         <div className='input-wrapper'>
             <div className='input'>
-                <img src={hashtagIcon} />
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.875 11L5.375 1M6.625 11L9.125 1M2.25 4.125H11M1 7.875H9.75" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+
                 <input onChange={hashtagChange} onBlur={closeHashtagHelper}
                     value={hashtags[index].hashtag} placeholder='hashtag' maxLength='23' className='hashtag-input' />
             </div>

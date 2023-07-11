@@ -4,16 +4,12 @@
 	justify-content: flex-end;
 }
 .logout-item {
-	padding: 6px 15px;
-	background: #ced2d6;
-	border-radius: 10px;
-	font-weight: 600;
-	font-family: "Nunito", sans-serif;
-	font-size: 14px;
 	margin-right: 10px;
-	letter-spacing: 1px;
 }
 .logout-item.main {
-	background: #c50000;
+	background: var(--carefully-color-1);
 	color: #fff;
+}
+.logout-item.main:hover {
+	background: var(--carefully-color-1);
 }

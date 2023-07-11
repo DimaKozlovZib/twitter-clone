@@ -1,7 +1,7 @@
 .messagePost {
-	color: #000;
+	color: var(--main-elements-color);
 	width: 100%;
-	background-color: #fff;
+	background-color: var(--main-bg-color);
 	padding: 10px;
 	border-radius: 10px;
 	box-sizing: border-box;
@@ -31,18 +31,21 @@
 		margin-right: 10px;
 		display: flex;
 		gap: 6px;
-		color: rgba(0, 0, 0, 0.7);
+		color: var(--alpha7);
 		margin-left: auto;
 		align-items: center;
 		h5 {
 			font-size: 16px;
+		}
+		.svg {
+			stroke: var(--main-elements-color);
 		}
 	}
 	.message-rewiews {
 		margin-top: 5px;
 	}
 	.likes.active {
-		color: #000;
+		color: var(--main-elements-color);
 		.svg {
 			fill: red;
 			& > * {
@@ -57,7 +60,7 @@
 	}
 	.user-email {
 		margin-left: 5px;
-		color: rgba(0, 0, 0, 0.677);
+		color: var(--alpha6);
 	}
 	.message-text {
 		white-space: pre-wrap;
@@ -88,7 +91,7 @@
 .hiddenMenu {
 	position: absolute;
 	right: -1px;
-	background: #fff;
+	background: var(--main-bg-color);
 	box-shadow: 1px 0px 4px 4px rgba(0, 0, 0, 0.25);
 	border-radius: 6px;
 	padding: 5px 10px;
@@ -98,6 +101,11 @@
 	&.active {
 		display: block;
 	}
+}
+[theme="dark-theme"] .hiddenMenu {
+	border: 1px solid var(--grey-color-1);
+	box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.25);
+	background: var(--second-bg-color);
 }
 .hiddenMenu-item {
 	cursor: pointer;
@@ -114,6 +122,7 @@
 		margin-left: 6px;
 	}
 	svg {
+		stroke: var(--main-elements-color);
 	}
 
 	&.delete {

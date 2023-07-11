@@ -7,26 +7,17 @@
   display: flex;
   align-items: flex-start;
   width: 100%;
-  background: #fff;
+  background: var(--main-bg-color);
   border-radius: 10px;
   padding: 20px 20px;
   box-sizing: border-box;
   position: relative;
 }
-.userInfo .ButtonBlue {
-  background-color: #00aaec;
-  border-radius: 8px;
-  color: #fff;
-  text-align: center;
-  padding: 7px 16px;
-  font-family: "Nunito", sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
+.userInfo .buttonBlue {
   margin-left: auto;
 }
-.userInfo .ButtonBlue a,
-.userInfo .ButtonBlue h5 {
+.userInfo .buttonBlue a,
+.userInfo .buttonBlue h5 {
   color: inherit;
   font-size: inherit;
 }
@@ -35,7 +26,7 @@
   width: 150px;
 }
 .userInfo__avatar > * {
-  border: 4px solid #fff;
+  border: 4px solid var(--main-bg-color);
 }
 .userInfo .UserAvatar {
   height: auto;
@@ -51,6 +42,7 @@
   font-size: 26px;
   line-height: 28px;
   height: 28px;
+  color: var(--main-elements-color);
 }
 .userInfo .user-email {
   height: 15px;
@@ -58,7 +50,8 @@
   margin-top: 5px;
   font-size: 16px;
   line-height: 15px;
-  color: rgba(0, 0, 0, 0.8);
+  opacity: 0.8;
+  color: var(--main-elements-color);
 }
 .userInfo .user-email,
 .userInfo .user-name {
@@ -98,5 +91,5 @@
   opacity: 0;
 }
 .userInfo-wrapper .edit-cover:hover {
-  background-color: white;
+  background-color: var(--main-bg-color);
 }/*# sourceMappingURL=UserInfo.css.map */

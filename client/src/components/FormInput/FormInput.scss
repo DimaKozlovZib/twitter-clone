@@ -1,33 +1,38 @@
-.FormInput{
-    display: flex;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.6);
-    padding: 0px 5px 5px;
-    align-items: center;
-    margin-top: 4px;
+.FormInput {
+	display: flex;
+	border-bottom: 2px solid var(--alpha6);
+	padding: 0px 5px 5px;
+	align-items: center;
+	margin-top: 4px;
 
-    input{
-        display: block;
-        height: 25px;
-        width: 100%;
-        border: none;
-        color: rgba(0, 0, 0, 0.6);
-        font-weight: 600;
-        &::placeholder{
-            color: rgba(0, 0, 0, 0.6);
-        }
-    }
-    img{
-        margin-right: 10px;
-        width: 12px;
-        opacity: 0.8;
-    }
-    &.focus{
-        border-bottom: 2px solid rgba(0, 0, 0, 1);
-        img{
-            opacity: 1;
-        }
-        input{
-            color: #000;
-        }
-    }
+	input {
+		display: block;
+		height: 25px;
+		width: 100%;
+		border: none;
+		color: var(--alpha6);
+		font-weight: 600;
+		background: transparent;
+		&::placeholder {
+			color: var(--alpha6);
+		}
+	}
+	svg {
+		margin-right: 10px;
+		width: 12px;
+		opacity: 0.8;
+		stroke: var(--main-elements-color);
+	}
+	&.focus {
+		border-bottom: 2px solid var(--alpha-main);
+		svg {
+			opacity: 1;
+		}
+		input {
+			color: var(--main-elements-color);
+		}
+	}
+}
+[theme="dark-theme"] .FormInput input {
+	color-scheme: dark;
 }

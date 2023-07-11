@@ -8,6 +8,7 @@ import { Link, useParams } from 'react-router-dom';
 import '../../styles/changeCover.css';
 import { editPath } from '../../routes';
 import subscribe from '../../images/subscribe.svg'
+import ButtonBlue from '../../UI/ButtonBlue/ButtonBlue';
 
 const UserInfo = () => {
     const { userId } = useParams();
@@ -53,8 +54,8 @@ const UserInfo = () => {
     const changeCoverBtn = (
         <button className='edit-cover' onClick={openModal}>
             <span className='edit-cover__icon'>
-                <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M0 15.248V18.9975H3.74948L14.8079 7.93903L11.0585 4.18955L0 15.248ZM17.7075 5.03944C18.0975 4.64949 18.0975 4.01958 17.7075 3.62963L15.3679 1.28996C14.9779 0.900011 14.348 0.900011 13.9581 1.28996L12.1283 3.1197L15.8778 6.86918L17.7075 5.03944Z" fill="black" />
+                <svg width="18" height="19" viewBox="0 0 18 19" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 15.248V18.9975H3.74948L14.8079 7.93903L11.0585 4.18955L0 15.248ZM17.7075 5.03944C18.0975 4.64949 18.0975 4.01958 17.7075 3.62963L15.3679 1.28996C14.9779 0.900011 14.348 0.900011 13.9581 1.28996L12.1283 3.1197L15.8778 6.86918L17.7075 5.03944Z" />
                 </svg>
             </span>
             <span className='edit-cover__title'>изменить обложку</span>
@@ -62,21 +63,21 @@ const UserInfo = () => {
     )
 
     const editBtnHTML = (
-        <div className='edit-button ButtonBlue'>
+        <ButtonBlue>
             <Link to={`/${editPath}`}>Редактировать</Link>
-        </div>
+        </ButtonBlue>
     )
 
     const subscribeBtn = (
-        <div className='subscribe-button ButtonBlue' onClick={onSubscribe}>
+        <ButtonBlue className='subscribe-button' onClick={onSubscribe}>
             <h5>Подписаться</h5>
-        </div>
+        </ButtonBlue>
     )
 
     const alreadySubscribeBtn = (
-        <div className='subscribe-already-button ButtonBlue' onClick={onUnsubscribe}>
+        <ButtonBlue className='subscribe-already-button' onClick={onUnsubscribe}>
             <h5>Вы подписаны</h5>
-        </div>
+        </ButtonBlue>
     )
 
     const classGenerate = (commonClass) => `${commonClass} ${infoStatus}`;

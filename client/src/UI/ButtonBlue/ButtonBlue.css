@@ -1,10 +1,26 @@
-.buttonBlue {
-  background-color: #00aaec;
+.buttonBlue, .commonButton {
   border-radius: 8px;
-  color: #fff;
+  display: block;
   text-align: center;
   padding: 7px 16px;
   font-family: "Nunito", sans-serif;
   font-size: 13px;
   font-weight: 600;
+  color: var(--main-elements-color);
+  transition: background 200ms linear;
+  background-color: var(--cancel-btn);
+}
+.buttonBlue:enabled:hover, .commonButton:enabled:hover {
+  background-color: var(--cancel-btn-hover);
+}
+
+.buttonBlue {
+  background-color: var(--blue-btn-color);
+  color: #fff;
+}
+.buttonBlue svg {
+  fill: #fff;
+}
+.buttonBlue:enabled:hover {
+  background-color: var(--blue-btn-color-hover);
 }/*# sourceMappingURL=ButtonBlue.css.map */

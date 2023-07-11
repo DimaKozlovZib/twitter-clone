@@ -1,5 +1,5 @@
 .UserElement {
-  background-color: #fff;
+  background-color: var(--main-bg-color);
   border-radius: 10px;
   padding: 10px;
   display: flex;
@@ -18,7 +18,7 @@
   margin-right: 10px;
 }
 .UserElement__info {
-  color: #000;
+  color: var(--main-elements-color);
   font-family: "Nunito", sans-serif;
 }
 .UserElement__info h3 {

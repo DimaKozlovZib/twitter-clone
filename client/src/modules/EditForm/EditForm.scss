@@ -1,3 +1,5 @@
+@use "../../UI/ButtonBlue/ButtonBlue.scss";
+
 .EditForm {
 	width: 100%;
 	padding-bottom: 10px;
@@ -27,8 +29,9 @@
 		min-width: 150px;
 		margin-right: 10px;
 		aspect-ratio: 1;
+		box-sizing: content-box;
 		margin-top: -95px;
-		border: 4px solid #fff;
+		border: 4px solid var(--main-bg-color);
 		border-radius: 50%;
 		cursor: pointer;
 		a {
@@ -68,6 +71,7 @@
 			width: 125px;
 			min-width: 125px;
 			display: block;
+			color: var(--main-elements-color);
 		}
 		input {
 			max-width: 350px;
@@ -78,6 +82,7 @@
 			border: 2px solid #757575;
 			background-color: #f4f4f4;
 			min-width: 200px;
+			color-scheme: dark;
 		}
 		.short-info_input {
 			//max-width: 300px;
@@ -107,7 +112,6 @@
 			&:not(:first-child) {
 				margin-top: 15px;
 			}
-
 			input {
 				min-width: 150px;
 				max-width: 100%;
@@ -134,12 +138,20 @@
 		}
 	}
 }
+[theme="dark-theme"] .EditForm-changeInfo {
+	textarea,
+	input {
+		background-color: var(--grey-color-2);
+		border: 2px solid var(--grey-color-2);
+		color: #fff;
+	}
+}
 
 .EditForm {
 	&-content {
 		display: flex;
 		align-items: flex-start;
-		background-color: #fff;
+		background-color: var(--main-bg-color);
 		border-radius: 10px;
 		padding: 25px 25px;
 		width: 100%;
@@ -149,18 +161,16 @@
 		z-index: 5;
 	}
 	&-btn {
-		transition: background-color 0.3s linear;
-		border-radius: 8px;
-		padding: 8px 18px;
-		color: #fff;
-		background-color: rgba(117, 117, 117, 0.75);
+		@extend %commonButton;
 		margin-left: auto;
 		margin-right: auto;
 		margin-top: 25px;
-		display: block;
-	}
-	&-btn.active {
-		background-color: #00aaec;
+		&.active {
+			background-color: var(--blue-btn-color);
+			&:hover {
+				background-color: var(--blue-btn-color-hover);
+			}
+		}
 	}
 	@media (max-width: 800px) {
 		&-content {

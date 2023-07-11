@@ -1,0 +1,68 @@
+/*...............................login and registration form ..............................*/
+
+.center-form {
+	height: 100vh;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.RegistrationForm,
+.LoginForm {
+	font-family: "Nunito", sans-serif;
+	background-color: var(--main-bg-color);
+	color: var(--main-elements-color);
+	width: 100%;
+	border-radius: 15px;
+	max-width: 400px;
+	box-sizing: border-box;
+	padding: 40px 20px 35px;
+	margin: auto;
+}
+.RegistrationForm-title,
+.LoginForm-title {
+	text-align: center;
+	font-weight: bold;
+}
+.RegistrationForm-form,
+.Login-form {
+	display: block;
+	width: 100%;
+}
+
+.RegistrationForm-form > .FormInput-wrapper,
+.Login-form > .FormInput-wrapper {
+	margin-top: 15px;
+	display: block;
+}
+.RegistrationForm-form > *,
+.Login-form > * {
+	margin-top: 15px;
+	display: block;
+}
+
+.RegistrationForm_submit-button,
+.LoginForm_submit-button {
+	display: flex;
+	justify-content: center;
+}
+.RegistrationForm_submit-button button,
+.LoginForm_submit-button button {
+	border-radius: 20px;
+	padding: 10px 25px;
+}
+.RegistrationForm .login,
+.LoginForm .registration {
+	margin-top: 30px;
+	text-align: center;
+	color: var(--alpha8);
+}
+.RegistrationForm .login a,
+.LoginForm .registration a {
+	color: var(--blue-btn-color);
+}
+.RegistrationForm .login a:hover,
+.LoginForm .registration a:hover {
+	color: var(--blue-btn-color-hover);
+}

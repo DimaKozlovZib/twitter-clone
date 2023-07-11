@@ -16,11 +16,22 @@ function App() {
   const dispatch = useDispatch()
   const isAuth = useSelector(state => state.isAuth)
   const modalType = useSelector(state => state.openModule);
+  const theme = useSelector(state => state.theme);
   const [isLoaderModalActive, setIsLoaderModalActive] = useState(true);
 
   useEffect(() => {
     if (isAuth === null) dispatch(getUser(setIsLoaderModalActive))
+
+    const appTheme = localStorage.getItem('appTheme');
+    if (!appTheme || !['light', 'dark'].includes(appTheme)) {
+      localStorage.setItem('appTheme', 'light');
+    }
   }, []);
+
+  useEffect(() => {
+    const body = document.querySelector('body');
+    body.setAttribute('theme', `${theme}-theme`)
+  }, [theme]);
 
   return (
     <>

@@ -1,11 +1,11 @@
 .header {
-  background-color: #fff;
+  background-color: var(--main-bg-color);
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.5);
   padding: 6px 0px;
   position: fixed;
   width: 100%;
   top: 0;
-  border-bottom: 2px solid rgb(146, 146, 146);
+  border-bottom: 2px solid var(--grey-color-2);
   z-index: 10;
 }
 .header .container {
@@ -30,7 +30,6 @@
 
 .logo {
   width: 32px;
-  height: 32px;
 }
 
 .logo-box {
@@ -38,7 +37,7 @@
 }
 .logo-box a {
   display: block;
-  height: 32px;
+  height: inherit;
 }
 
 .unite-wrapper {
@@ -48,7 +47,10 @@
   position: relative;
   justify-content: flex-end;
 }
-.unite-wrapper > *:not(:last-child) {
+.unite-wrapper > *:not(.AccountMenu) {
+  height: 32px;
+}
+.unite-wrapper > *:not(.AccountMenu):not(:last-child) {
   margin-right: 10px;
 }
 
@@ -70,7 +72,7 @@
   content: "";
   height: 2px;
   width: 8px;
-  background: #000;
+  background: var(--main-elements-color);
   left: 0;
 }
 .go-back-btn .pointer-left span {

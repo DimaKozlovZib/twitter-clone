@@ -1,6 +1,6 @@
 .FormInput {
   display: flex;
-  border-bottom: 2px solid rgba(0, 0, 0, 0.6);
+  border-bottom: 2px solid var(--alpha6);
   padding: 0px 5px 5px;
   align-items: center;
   margin-top: 4px;
@@ -10,26 +10,32 @@
   height: 25px;
   width: 100%;
   border: none;
-  color: rgba(0, 0, 0, 0.6);
+  color: var(--alpha6);
   font-weight: 600;
+  background: transparent;
 }
 .FormInput input::-moz-placeholder {
-  color: rgba(0, 0, 0, 0.6);
+  color: var(--alpha6);
 }
 .FormInput input::placeholder {
-  color: rgba(0, 0, 0, 0.6);
+  color: var(--alpha6);
 }
-.FormInput img {
+.FormInput svg {
   margin-right: 10px;
   width: 12px;
   opacity: 0.8;
+  stroke: var(--main-elements-color);
 }
 .FormInput.focus {
-  border-bottom: 2px solid rgb(0, 0, 0);
+  border-bottom: 2px solid var(--alpha-main);
 }
-.FormInput.focus img {
+.FormInput.focus svg {
   opacity: 1;
 }
 .FormInput.focus input {
-  color: #000;
+  color: var(--main-elements-color);
+}
+
+[theme=dark-theme] .FormInput input {
+  color-scheme: dark;
 }/*# sourceMappingURL=FormInput.css.map */

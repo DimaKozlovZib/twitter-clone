@@ -12,8 +12,8 @@
   align-items: center;
   padding: 7px 10px;
   border-radius: 18px;
-  border: 1.6px solid rgb(202, 202, 202);
-  background-color: rgb(235, 235, 235);
+  border: 1.6px solid var(--grey-color-1);
+  background-color: var(--second-bg-color);
   z-index: 5;
   height: 100%;
   width: 100%;
@@ -24,10 +24,14 @@
   flex: 1 1 auto;
   margin-right: 5px;
   letter-spacing: 1.3px;
+  color: var(--main-elements-color);
 }
 .SearchComponent-btn {
   height: 16px;
   opacity: 0.7;
+}
+.SearchComponent-btn svg {
+  fill: var(--main-elements-color);
 }
 .SearchComponent-btn:hover {
   opacity: 0.9;
@@ -37,8 +41,8 @@
   position: absolute;
   width: 100%;
   left: 0;
-  border: 1.6px solid rgb(202, 202, 202);
-  background-color: rgb(235, 235, 235);
+  border: 1.6px solid var(--grey-color-1);
+  background-color: var(--second-bg-color);
   z-index: 2;
   margin-top: 5px;
   padding: 5px 10px;
@@ -68,11 +72,12 @@
   font-size: 15px;
   font-family: "Nunito", sans-serif;
   font-weight: 600;
+  color: var(--main-elements-color);
 }
 .searchOfModel .item-icon svg {
-  stroke: black;
-  width: 16px;
-  height: 16px;
+  stroke: var(--main-elements-color);
+  width: 17px;
+  height: 17px;
   margin: auto;
   display: block;
 }/*# sourceMappingURL=SearchInput.css.map */

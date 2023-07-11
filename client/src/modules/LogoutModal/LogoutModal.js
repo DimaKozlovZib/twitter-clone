@@ -17,7 +17,7 @@ const LogoutModal = () => {
     const logoutOnClick = () => {
         if (!isAuth) return;
         logout()
-        localStorage.setItem('accessToken', '')
+        localStorage.removeItem('accessToken')
         dispatch(setUserAction({}))
         navigate(`/${loginPath}`)
         dispatch(setModalAction({ type: '', data: {} }))
@@ -29,8 +29,8 @@ const LogoutModal = () => {
                 <p>Чтобы войти в аккаунт вам нужно будет снова ввести почту и пароль.</p>
             </div>
             <div className='logout-btns'>
-                <button className='logout-item main' onClick={logoutOnClick}>выйти</button>
-                <button className='logout-item' onClick={closeModal}>отмена</button>
+                <button className='logout-item main commonButton' onClick={logoutOnClick}>выйти</button>
+                <button className='logout-item commonButton' onClick={closeModal}>отмена</button>
             </div>
         </ModalLayout>
     );

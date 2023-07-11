@@ -5,6 +5,7 @@ import useModal from '../../hooks/useModal';
 import { DeleteFunc } from './API';
 import { useSelector } from 'react-redux';
 import SuccesMessage from '../../UI/SuccesMessage/SuccesMessage';
+import ButtonBlue from '../../UI/ButtonBlue/ButtonBlue';
 
 const DeleteMessage = ({ data }) => {
     const [closeModal] = useModal()
@@ -30,8 +31,8 @@ const DeleteMessage = ({ data }) => {
                         <p>Нажмите "удалить", чтобы полностью удалить сообщение.</p>
                     </div>
                     <div className='delete-btns'>
-                        <button className='deleteBtn-item main' onClick={deleteOnClick}>удалить</button>
-                        <button className='deleteBtn-item' onClick={closeModal}>отмена</button>
+                        <ButtonBlue className='deleteBtn-item' onClick={deleteOnClick}>удалить</ButtonBlue>
+                        <button className='deleteBtn-item commonButton' onClick={closeModal}>отмена</button>
                     </div>
                 </>
             )}
@@ -39,7 +40,7 @@ const DeleteMessage = ({ data }) => {
                 <>
                     <SuccesMessage>Сообщение успешно удалено!</SuccesMessage>
                     <div className='delete-btns'>
-                        <button className='deleteBtn-item main' onClick={closeModal}>Закрыть</button>
+                        <ButtonBlue className='deleteBtn-item' onClick={closeModal}>Закрыть</ButtonBlue>
                     </div>
                 </>
             )}
