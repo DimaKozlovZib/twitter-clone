@@ -21,7 +21,7 @@ const SeeMoreSearchItems = memo(({ title, titleEng, itemsCount, link }) => {
     }
 
     return (
-        <button className='SeeMoreSearchItems' onClick={openBasicPage}>
+        <button className='SeeMoreSearchItems' onClick={openBasicPage} disabled={itemsCount <= smallRequestLimit}>
             <div className='SeeMoreSearchItems-title'>
                 <h4>{title}</h4>
             </div>

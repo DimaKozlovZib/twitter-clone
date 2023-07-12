@@ -3,7 +3,7 @@ import ModalLayout from '../../pages/ModalLayout';
 import { useDispatch, useSelector } from 'react-redux';
 import useModal from '../../hooks/useModal';
 import './LogoutModal.css';
-import { setModalAction, setUserAction } from '../../store';
+import { setAuthAction, setModalAction, setUserAction } from '../../store';
 import { logout } from './API';
 import { loginPath } from '../../routes';
 import { useNavigate } from 'react-router-dom';
@@ -14,13 +14,18 @@ const LogoutModal = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const logoutOnClick = () => {
-        if (!isAuth) return;
-        logout()
-        localStorage.removeItem('accessToken')
-        dispatch(setUserAction({}))
-        navigate(`/${loginPath}`)
-        dispatch(setModalAction({ type: '', data: {} }))
+    const logoutOnClick = async () => {
+        try {
+            if (!isAuth) return;
+            await logout()
+            localStorage.removeItem('accessToken')
+            dispatch(setUserAction({}))
+            dispatch(setAuthAction(null))
+            navigate(`/${loginPath}`)
+            dispatch(setModalAction({ type: '', data: {} }))
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     return (

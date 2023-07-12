@@ -20,6 +20,12 @@
   height: 32px;
   width: 32px;
 }
+.header .login {
+  box-sizing: border-box;
+}
+.header .login:enabled:hover {
+  background-color: var(--blue-btn-color-hover);
+}
 
 .navItem-wrapper {
   text-transform: uppercase;

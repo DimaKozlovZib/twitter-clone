@@ -57,7 +57,7 @@ const Header = memo(({ canClose }) => {
             </ButtonBlue>
         </>
     )
-    const userIsNotAuth = (<Link to={`/${loginPath}`} className='login blue-button'>войти</Link>)
+    const userIsNotAuth = (<button onClick={() => History(`/${loginPath}`)} className='login buttonBlue'>войти</button>)
 
     const goBack = () => History(-1)
 

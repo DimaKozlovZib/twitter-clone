@@ -170,19 +170,20 @@ class userRouter {
         try {
             const { id } = req.params;
             const { isAuth } = req.user;
+            console.log(isAuth)
 
             if (!Number(id) || !id) return res.status(400).json({ message: 'bad request' })
 
             const userObj = await User.findOne({
                 where: { id },
                 attributes: ['img', 'age', 'name', 'email', 'id', 'coverImage', 'shortInfo'],
-                include: [
+                include: isAuth ? [
                     {
                         model: Friends,
-                        where: { userId: req.user.id, },
+                        where: { userId: req.user?.id, },
                         required: false
                     }
-                ]
+                ] : []
             })
 
             if (!userObj) return res.status(404).json({ message: 'user is not found' })

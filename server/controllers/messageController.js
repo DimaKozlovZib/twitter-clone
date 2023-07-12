@@ -112,7 +112,7 @@ class messageRouter {
                 where = {
                     userId: +params.userId
                 }
-            } else {
+            } else if (isAuth && !params.userId) {
                 where = {
                     userId: { [Op.not]: req.user.id }
                 }
