@@ -7,8 +7,9 @@
   margin-left: auto;
   display: block;
 }
-.modal-contant form {
+.modal-contant .AddMessage-form {
   width: 100%;
+  margin-top: 10px;
 }
 .modal-contant .form-wrapper textarea {
   line-height: 18px;
@@ -22,7 +23,11 @@
   border: 1.6px solid var(--grey-color-2);
   background-color: rgb(235, 235, 235);
   border-radius: 10px;
-  height: 100px;
+  height: 150px;
+}
+.modal-contant .form-wrapper textarea::placeholder, .modal-contant .form-wrapper textarea::-webkit-input-placeholder, .modal-contant .form-wrapper textarea:-moz-placeholder {
+  color: var(--main-elements-color);
+  opacity: 0.9;
 }
 .modal-contant .error-addMessage {
   text-align: center;

@@ -1,0 +1,45 @@
+.retweetForm-submit-btn {
+	margin-top: 15px;
+
+	.buttonBlue {
+		margin-left: auto;
+	}
+}
+.retweetForm {
+	textarea {
+		line-height: 18px;
+		overflow: hidden;
+		padding: 12px 10px;
+		width: 100%;
+		resize: none;
+		display: block;
+		box-sizing: border-box;
+		margin-right: 10px;
+		color: var(--main-elements-color);
+		border: 1.6px solid var(--grey-color-2);
+		background-color: rgb(235, 235, 235);
+		border-radius: 10px;
+		height: 100px;
+	}
+	textarea:-moz-placeholder {
+		color: var(--main-elements-color);
+		opacity: 0.8;
+	}
+	textarea::-webkit-input-placeholder {
+		color: var(--main-elements-color);
+		opacity: 0.8;
+	}
+	textarea::placeholder {
+		color: var(--main-elements-color);
+		opacity: 0.8;
+	}
+}
+.retweetForm-submit-btn + .error-wrapper {
+	margin-top: 10px;
+	text-align: center;
+	font-size: 16px;
+	color: var(--carefully-color-1);
+	p {
+		color: inherit;
+	}
+}

@@ -12,6 +12,7 @@ import DeleteMessage from './modules/DeleteMessage/DeleteMessage';
 import ChangeAvatar from './modules/ChangeAvatar/ChangeAvatar';
 import LogoutModal from './modules/LogoutModal/LogoutModal';
 import { loginPath, registrationPath } from './routes';
+import RetweetModal from './modules/RetweetModal/RetweetModal';
 
 function App() {
   const location = useLocation();
@@ -47,6 +48,7 @@ function App() {
       {(modalType.type === 'DELETE_MESSAGE-MODAL') && <DeleteMessage data={modalType.data} />}
       {(modalType.type === 'CHANGE-AVATAR-MODAL') && <ChangeAvatar />}
       {(modalType.type === 'LOGOUT-MODAL') && <LogoutModal />}
+      {(modalType.type === 'RETWEET-MODAL') && <RetweetModal retweetMessage={modalType.data} />}
       <AppRouter />
     </>
 

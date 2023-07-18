@@ -18,6 +18,8 @@ const Message = sequelize.define('message', {
     text: { type: DataTypes.STRING, allowNull: false },
     likesNum: { type: DataTypes.INTEGER, defaultValue: 0 },
     img: { type: DataTypes.STRING, unique: true, },
+    retweetCount: { type: DataTypes.INTEGER, defaultValue: 0 },
+    retweetId: { type: DataTypes.INTEGER },
 })
 
 const Likes = sequelize.define('likes', {
@@ -67,6 +69,8 @@ User.belongsTo(Friends)
 Message.hasMany(Likes)
 Message.belongsToMany(Hashtag, { through: messageHashtag })
 Message.belongsTo(User, { onDelete: 'CASCADE' })
+Message.belongsTo(Message, { as: 'retweet', foreignKey: 'retweetId' })
+Message.hasOne(Message, { foreignKey: 'retweetId' })
 
 messageHashtag.belongsTo(Message)
 messageHashtag.belongsTo(Hashtag)

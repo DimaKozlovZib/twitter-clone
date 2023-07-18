@@ -1,10 +1,74 @@
-.messagePost {
-  color: var(--main-elements-color);
-  width: 100%;
-  background-color: var(--main-bg-color);
+.messagePost, .RetweetMessage {
   padding: 10px;
   border-radius: 10px;
   box-sizing: border-box;
+  color: var(--main-elements-color);
+  width: 100%;
+}
+.messagePost .message-info, .RetweetMessage .message-info {
+  margin-top: 5px;
+}
+.messagePost .user-info, .RetweetMessage .user-info {
+  display: flex;
+}
+.messagePost .user-info .user-name, .RetweetMessage .user-info .user-name {
+  line-height: 20.5px;
+  font-weight: 600;
+}
+.messagePost .user-info .user-email, .RetweetMessage .user-info .user-email {
+  margin-left: 5px;
+  color: var(--alpha6);
+}
+.messagePost .message-text, .RetweetMessage .message-text {
+  white-space: pre-wrap;
+  line-height: 18px;
+  padding: 0px 5px;
+  word-break: break-all;
+}
+.messagePost .hashtags, .RetweetMessage .hashtags {
+  display: flex;
+  margin-top: 4px;
+}
+.messagePost .hashtags a, .RetweetMessage .hashtags a {
+  margin-left: 3px;
+  cursor: pointer;
+  font-family: "Nunito", sans-serif;
+  font-size: 14px;
+  color: #00aaec;
+}
+.messagePost .hashtags a:hover, .RetweetMessage .hashtags a:hover {
+  text-decoration: underline;
+}
+
+.RetweetMessage {
+  border: 2px solid var(--alpha3);
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.RetweetMessage_user-information {
+  display: flex;
+  align-items: center;
+}
+.RetweetMessage_user-information .UserAvatar {
+  height: 30px;
+  width: 30px;
+}
+.RetweetMessage_user-information .user-name {
+  margin-left: 5px;
+  font-size: 16px;
+}
+.RetweetMessage_user-information .user-email {
+  font-size: 15px;
+}
+.RetweetMessage_user-information .user-info {
+  display: flex;
+}
+.RetweetMessage .message-text {
+  font-size: 17px;
+}
+
+.messagePost {
+  background-color: var(--main-bg-color);
   display: flex;
 }
 .messagePost:not(:first-child) {
@@ -17,32 +81,9 @@
   padding-top: 5px;
   position: relative;
 }
-.messagePost .message-contant .message-text p {
-  word-break: break-all;
-}
-.messagePost .message-info {
-  margin-top: 5px;
-}
 .messagePost .user-info {
   display: flex;
   font-family: "Nunito", sans-serif;
-}
-.messagePost .likes {
-  margin-right: 10px;
-  display: flex;
-  gap: 6px;
-  color: var(--alpha7);
-  margin-left: auto;
-  align-items: center;
-}
-.messagePost .likes h5 {
-  font-size: 16px;
-}
-.messagePost .likes .svg {
-  stroke: var(--main-elements-color);
-}
-.messagePost .message-rewiews {
-  margin-top: 5px;
 }
 .messagePost .likes.active {
   color: var(--main-elements-color);
@@ -53,38 +94,31 @@
 .messagePost .likes.active .svg > * {
   stroke: red;
 }
-.messagePost .user-name {
-  line-height: 20.5px;
-  font-size: 20px;
-  font-weight: 600;
-}
-.messagePost .user-email {
-  margin-left: 5px;
-  color: var(--alpha6);
-}
-.messagePost .message-text {
-  white-space: pre-wrap;
-  line-height: 18px;
-  padding: 0px 5px;
-}
 .messagePost .UserAvatar {
   height: 45px;
   width: 45px;
 }
 
-.messagePost .hashtags {
+.message-rewiews {
+  margin-top: 5px;
   display: flex;
-  margin-top: 4px;
+  justify-content: flex-end;
 }
-.messagePost .hashtags a {
-  margin-left: 3px;
-  cursor: pointer;
-  font-family: "Nunito", sans-serif;
-  font-size: 14px;
-  color: #00aaec;
+.message-rewiews > * {
+  margin-right: 5%;
+  display: flex;
+  gap: 6px;
+  color: var(--alpha7);
+  align-items: center;
 }
-.messagePost .hashtags a:hover {
-  text-decoration: underline;
+.message-rewiews > * h5 {
+  font-size: 16px;
+}
+.message-rewiews > * svg {
+  stroke: var(--main-elements-color);
+}
+.message-rewiews > *:last-child {
+  margin-right: 10px;
 }
 
 .hiddenMenu {

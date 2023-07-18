@@ -1,4 +1,4 @@
-.upload-btn-container .upload-btn, .buttonBlue {
+.upload-btn-container .upload-btn, .buttonBlue, .commonButton {
   border-radius: 8px;
   display: block;
   text-align: center;
@@ -10,7 +10,7 @@
   transition: background 200ms linear;
   background-color: var(--cancel-btn);
 }
-.upload-btn-container .upload-btn:enabled:hover, .buttonBlue:enabled:hover {
+.upload-btn-container .upload-btn:enabled:hover, .buttonBlue:enabled:hover, .commonButton:enabled:hover {
   background-color: var(--cancel-btn-hover);
 }
 
@@ -21,7 +21,7 @@
 .buttonBlue svg {
   fill: #fff;
 }
-.buttonBlue:hover:enabled {
+.buttonBlue:enabled:hover {
   background-color: var(--blue-btn-color-hover);
 }
 

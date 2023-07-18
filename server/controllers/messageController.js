@@ -10,12 +10,30 @@ class messageRouter {
         try {
             const { text, hashtags } = req.body;
             const { id } = req.user;
+            const retweetId = req.body?.retweetId
 
-            if (!text || !id || !hashtags) return res.status(400).json({ message: 'bad request' });
+            if ((!retweetId && !text)) return res.status(400).json({ message: 'bad request' });
 
-            const message = await Message.create({ text, userId: id });
+            const retweetMessage = await Message.findOne({ where: { id: retweetId } })
+
+            if (!retweetMessage && retweetId) return res.status(404).json({ message: 'bad request' });
+
+            const message = await Message.create({ text, userId: id, retweetId: retweetId || null });
 
             res.status(200).json({ message })
+
+            if (retweetId) {
+                await message.setRetweet(retweetMessage);
+
+                if (retweetMessage.userId === id) return;
+
+                await retweetMessage.increment('retweetCount', {
+                    by: 1,
+                })
+                return;
+            }
+
+            if (!hashtags || !(hashtags.length === 0)) return;
 
             hashtags.filter(item => item.length > 0).forEach(async (hashtagName) => {
                 const hashtag = await Hashtag.findOne({ where: { name: hashtagName } })
@@ -90,7 +108,14 @@ class messageRouter {
             if (!message) return res.status(404).json({ message: 'message not found' })
             const result = message.destroy()
 
-            return res.status(200).json(result)
+            res.status(200).json(result)
+
+            if (!message.retweetId) return;
+            const retweetMessage = await Message.findOne({ where: { id: message.retweetId } })
+
+            if (!retweetMessage || retweetMessage.userId === userId) return;
+
+            retweetMessage.decrement('retweetCount', { by: 1 })
         } catch (error) {
             return res.status(500).json(error.message)
         }
@@ -135,6 +160,7 @@ class messageRouter {
                     ['createdAt', 'DESC'],
                     ['likesNum', 'DESC'],
                 ],
+                attributes: ['text', 'id', 'likesNum', 'retweetCount', 'retweetId', 'createdAt'],
                 include: [
                     {
                         model: User,
@@ -147,7 +173,26 @@ class messageRouter {
                         through: {
                             attributes: []
                         }
-                    }, ...includes
+                    }, {
+                        model: Message,
+                        as: 'retweet',
+                        attributes: ['text', 'id', 'likesNum', 'retweetCount', 'retweetId'],
+                        include: [
+                            {
+                                model: User,
+                                attributes: ['img', 'name', 'email', 'id'],
+                                raw: true,
+
+                            }, {
+                                model: Hashtag,
+                                attributes: ['name', 'id'],
+                                through: {
+                                    attributes: []
+                                }
+                            }
+                        ]
+                    }
+                    , ...includes
                 ]
             })
             return res.status(200).json(AllMessages)

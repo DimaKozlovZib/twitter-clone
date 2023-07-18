@@ -1,0 +1,65 @@
+.RetweetMessage {
+  padding: 10px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  color: var(--main-elements-color);
+  width: 100%;
+}
+.RetweetMessage .message-info {
+  margin-top: 5px;
+}
+.RetweetMessage .user-info {
+  display: flex;
+}
+.RetweetMessage .user-info .user-name {
+  line-height: 20.5px;
+  font-weight: 600;
+}
+.RetweetMessage .user-info .user-email {
+  margin-left: 5px;
+  color: var(--alpha6);
+}
+.RetweetMessage .message-text {
+  white-space: pre-wrap;
+  line-height: 18px;
+  padding: 0px 5px;
+  word-break: break-all;
+}
+.RetweetMessage .hashtags {
+  display: flex;
+  margin-top: 4px;
+}
+.RetweetMessage .hashtags a {
+  margin-left: 3px;
+  cursor: pointer;
+  font-family: "Nunito", sans-serif;
+  font-size: 14px;
+  color: #00aaec;
+}
+.RetweetMessage .hashtags a:hover {
+  text-decoration: underline;
+}
+
+.RetweetMessage {
+  border: 2px solid var(--alpha3);
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.RetweetMessage_user-information {
+  display: flex;
+  align-items: center;
+}
+.RetweetMessage_user-information .UserAvatar {
+  height: 30px;
+  width: 30px;
+}
+.RetweetMessage_user-information .user-name {
+  margin-left: 5px;
+  font-size: 16px;
+}
+.RetweetMessage_user-information .user-email {
+  font-size: 15px;
+}
+.RetweetMessage .message-text {
+  font-size: 16px;
+}/*# sourceMappingURL=RetweetMessage.css.map */

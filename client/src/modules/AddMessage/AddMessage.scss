@@ -8,8 +8,9 @@
 		margin-left: auto;
 		display: block;
 	}
-	form {
+	.AddMessage-form {
 		width: 100%;
+		margin-top: 10px;
 	}
 	.form-wrapper {
 		textarea {
@@ -24,7 +25,13 @@
 			border: 1.6px solid var(--grey-color-2);
 			background-color: rgb(235, 235, 235);
 			border-radius: 10px;
-			height: 100px;
+			height: 150px;
+			&::placeholder,
+			&::-webkit-input-placeholder,
+			&:-moz-placeholder {
+				color: var(--main-elements-color);
+				opacity: 0.9;
+			}
 		}
 	}
 

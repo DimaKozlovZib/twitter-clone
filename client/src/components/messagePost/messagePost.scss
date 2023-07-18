@@ -1,10 +1,8 @@
+@use "../../UI/RetweetMessage/RetweetMessage.scss";
+
 .messagePost {
-	color: var(--main-elements-color);
-	width: 100%;
+	@extend %MessageElement;
 	background-color: var(--main-bg-color);
-	padding: 10px;
-	border-radius: 10px;
-	box-sizing: border-box;
 	display: flex;
 
 	&:not(:first-child) {
@@ -16,34 +14,12 @@
 		margin-left: 10px;
 		padding-top: 5px;
 		position: relative;
-		.message-text p {
-			word-break: break-all;
-		}
-	}
-	.message-info {
-		margin-top: 5px;
 	}
 	.user-info {
 		display: flex;
 		font-family: "Nunito", sans-serif;
 	}
-	.likes {
-		margin-right: 10px;
-		display: flex;
-		gap: 6px;
-		color: var(--alpha7);
-		margin-left: auto;
-		align-items: center;
-		h5 {
-			font-size: 16px;
-		}
-		.svg {
-			stroke: var(--main-elements-color);
-		}
-	}
-	.message-rewiews {
-		margin-top: 5px;
-	}
+
 	.likes.active {
 		color: var(--main-elements-color);
 		.svg {
@@ -53,37 +29,31 @@
 			}
 		}
 	}
-	.user-name {
-		line-height: 20.5px;
-		font-size: 20px;
-		font-weight: 600;
-	}
-	.user-email {
-		margin-left: 5px;
-		color: var(--alpha6);
-	}
-	.message-text {
-		white-space: pre-wrap;
-		line-height: 18px;
-		padding: 0px 5px;
-	}
 	.UserAvatar {
 		height: 45px;
 		width: 45px;
 	}
 }
 
-.messagePost .hashtags {
+.message-rewiews {
+	margin-top: 5px;
 	display: flex;
-	margin-top: 4px;
-	a {
-		margin-left: 3px;
-		cursor: pointer;
-		font-family: "Nunito", sans-serif;
-		font-size: 14px;
-		color: #00aaec;
-		&:hover {
-			text-decoration: underline;
+	justify-content: flex-end;
+
+	> * {
+		margin-right: 5%;
+		display: flex;
+		gap: 6px;
+		color: var(--alpha7);
+		align-items: center;
+		h5 {
+			font-size: 16px;
+		}
+		svg {
+			stroke: var(--main-elements-color);
+		}
+		&:last-child {
+			margin-right: 10px;
 		}
 	}
 }
