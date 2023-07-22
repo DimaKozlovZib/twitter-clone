@@ -4,6 +4,7 @@ const path = require("path")
 const ApiError = require("../error/ApiError")
 const jwt = require("jsonwebtoken")
 const { Sequelize, Op } = require("sequelize");
+const interactionMessage = require('../analytics/interactionMessage')
 
 class messageRouter {
     async addMessage(req, res, next) {
@@ -202,7 +203,7 @@ class messageRouter {
         }
 
     }
-    async likeMessage(req, res) {
+    async likeMessage(req, res, next) {
         try {
             const { mesId } = req.body.params;
             const { id } = req.user;
@@ -221,8 +222,8 @@ class messageRouter {
                 })
                 const message = await Message.findOne({ where: { id: mesId }, attributes: ['likesNum'] })
 
-                return res.json({ likeIsActive: true, likesNum: message.dataValues.likesNum })
-
+                res.json({ likeIsActive: true, likesNum: message.dataValues.likesNum })
+                interactionMessage.setLike(id, mesId, true)
             } else {
                 await Likes.destroy({ where: { messageId: mesId, userId: id } })
                 await Message.decrement('likesNum', {
@@ -233,7 +234,8 @@ class messageRouter {
                 })
                 const message = await Message.findOne({ where: { id: mesId }, attributes: ['likesNum'] })
 
-                return res.status(200).json({ likeIsActive: false, likesNum: message.dataValues.likesNum })
+                res.status(200).json({ likeIsActive: false, likesNum: message.dataValues.likesNum })
+                interactionMessage.setLike(id, mesId, false)
             }
         } catch (error) {
             console.log(error)

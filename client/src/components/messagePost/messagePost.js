@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { likeMessage } from './API';
+import { likeMessage, messageShown } from './API';
 import UserAvatar from '../../UI/UserAvatar/UserAvatar';
 import "./messagePost.css";
 import { Link } from 'react-router-dom';
@@ -8,7 +8,7 @@ import useModal from '../../hooks/useModal';
 import { useSelector } from 'react-redux';
 import RetweetMessage from '../../UI/RetweetMessage/RetweetMessage';
 
-const MessagePost = ({ messageObject, setDelete, isRetweet = false }) => {
+const MessagePost = ({ messageObject, setDelete }) => {
     const { user, text, likesNum, id, likes, hashtags, retweet, retweetId, retweetCount } = messageObject;
     const { img, name, email } = user;
 
@@ -18,6 +18,7 @@ const MessagePost = ({ messageObject, setDelete, isRetweet = false }) => {
     const [likesNumState, setLikesNumState] = useState(likesNum);
     const [hiddenMenu, setHiddenMenu] = useState(false);
     const menu = useRef();
+    const mesageElement = useRef()
     const [openModal] = useModal('DELETE_MESSAGE-MODAL', null, { setDelete, id: messageObject.id })
     const [openModalToWriteMess] = useModal('RETWEET-MODAL', null, { user, text, id })
 
@@ -69,8 +70,28 @@ const MessagePost = ({ messageObject, setDelete, isRetweet = false }) => {
         }
     }
 
+    useEffect(() => {
+        const callback = (entries, observer) => {
+            entries.forEach(async (entry) => {
+                // Текст блока полностью видим на экране
+                if (entry.intersectionRatio !== 1 || !isAuth) return;
+
+                const res = await messageShown(id)
+
+                // Остановка отслеживания после первого срабатывания
+                observer.unobserve(entry.target);
+            })
+        };
+        const observer = new IntersectionObserver(callback, {
+            threshold: 1,
+        });
+
+        observer.observe(mesageElement.current);
+    }, []);
+
+
     return (
-        <div className={`messagePost ${isRetweet ? 'retweet' : ''}`} >
+        <div className='messagePost' ref={mesageElement}>
             <div className='user-image'>
                 <UserAvatar url={img} id={user.id}></UserAvatar>
             </div>
