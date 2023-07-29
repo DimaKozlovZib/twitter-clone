@@ -12,14 +12,24 @@ const User = sequelize.define('user', {
     coverImage: { type: DataTypes.STRING }
 })
 
-const Message = sequelize.define('message', {
+const basicMessageSheme = {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     userId: { type: DataTypes.INTEGER, allowNull: false },
     text: { type: DataTypes.STRING, allowNull: false },
-    likesNum: { type: DataTypes.INTEGER, defaultValue: 0 },
     img: { type: DataTypes.STRING, unique: true, },
+}
+
+const Message = sequelize.define('message', {
+    ...basicMessageSheme,
+    likesNum: { type: DataTypes.INTEGER, defaultValue: 0 },
+    commentsCount: { type: DataTypes.INTEGER, defaultValue: 0 },
     retweetCount: { type: DataTypes.INTEGER, defaultValue: 0 },
     retweetId: { type: DataTypes.INTEGER },
+})
+
+const Comment = sequelize.define('comment', {
+    ...basicMessageSheme,
+    messageId: { type: DataTypes.INTEGER, allowNull: false }
 })
 
 const Likes = sequelize.define('likes', {
@@ -71,6 +81,10 @@ Message.belongsToMany(Hashtag, { through: messageHashtag })
 Message.belongsTo(User, { onDelete: 'CASCADE' })
 Message.belongsTo(Message, { as: 'retweet', foreignKey: 'retweetId' })
 Message.hasOne(Message, { foreignKey: 'retweetId' })
+Message.hasMany(Comment)
+
+Comment.belongsTo(Message, { onDelete: 'CASCADE' })
+Comment.belongsTo(User, { foreignKey: 'userId' })
 
 messageHashtag.belongsTo(Message)
 messageHashtag.belongsTo(Hashtag)
@@ -95,5 +109,6 @@ module.exports = {
     Hashtag,
     Friends,
     Image,
-    messageHashtag
+    messageHashtag,
+    Comment
 }

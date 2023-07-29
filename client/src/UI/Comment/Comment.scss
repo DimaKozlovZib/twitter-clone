@@ -1,0 +1,29 @@
+@use "../RetweetMessage/RetweetMessage.scss";
+
+.CommentMessage {
+	@extend %MessageElement;
+	margin-top: 10px;
+	background-color: var(--main-bg-color);
+	font-family: "Nunito", sans-serif;
+	display: flex;
+	padding-bottom: 20px;
+
+	.UserAvatar {
+		height: 40px;
+		width: 40px;
+	}
+	.user-name {
+		margin-left: 5px;
+		font-size: 16px;
+	}
+	.user-email {
+		font-size: 15px;
+	}
+	.message-text {
+		margin-top: 5px;
+		font-size: 16px;
+	}
+	.message-info {
+		margin-left: 5px;
+	}
+}

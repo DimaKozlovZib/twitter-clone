@@ -22,3 +22,14 @@ export const getMessagesByHashtag = async (hashtagName, params) => {
         return error
     }
 }
+
+export const likeMessage = async (mesId) => {
+    try {
+        const response = await $authHost.post('/message/like', { params: { mesId } })
+        console.log(response)
+        return response;
+    } catch (error) {
+        console.error(error)
+        return error
+    }
+}

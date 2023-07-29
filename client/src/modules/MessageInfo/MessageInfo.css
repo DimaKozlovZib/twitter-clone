@@ -1,0 +1,120 @@
+.MessageInfo, .RetweetMessage {
+  padding: 10px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  color: var(--main-elements-color);
+  width: 100%;
+}
+.MessageInfo .message-info, .RetweetMessage .message-info {
+  margin-top: 5px;
+}
+.MessageInfo .user-info, .RetweetMessage .user-info {
+  display: flex;
+}
+.MessageInfo .user-info .user-name, .RetweetMessage .user-info .user-name {
+  line-height: 20.5px;
+  font-weight: 600;
+}
+.MessageInfo .user-info .user-email, .RetweetMessage .user-info .user-email {
+  margin-left: 5px;
+  color: var(--alpha6);
+}
+.MessageInfo .message-text, .RetweetMessage .message-text {
+  white-space: pre-wrap;
+  line-height: 18px;
+  padding: 0px 5px;
+  word-break: break-all;
+}
+.MessageInfo .hashtags, .RetweetMessage .hashtags {
+  display: flex;
+  margin-top: 4px;
+}
+.MessageInfo .hashtags a, .RetweetMessage .hashtags a {
+  margin-left: 3px;
+  cursor: pointer;
+  font-family: "Nunito", sans-serif;
+  font-size: 14px;
+  color: #00aaec;
+}
+.MessageInfo .hashtags a:hover, .RetweetMessage .hashtags a:hover {
+  text-decoration: underline;
+}
+
+.RetweetMessage {
+  border: 2px solid var(--alpha3);
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.RetweetMessage_user-information {
+  display: flex;
+  align-items: center;
+}
+.RetweetMessage_user-information .UserAvatar {
+  height: 30px;
+  width: 30px;
+}
+.RetweetMessage_user-information .user-name {
+  margin-left: 5px;
+  font-size: 16px;
+}
+.RetweetMessage_user-information .user-email {
+  font-size: 15px;
+}
+.RetweetMessage .message-text {
+  font-size: 16px;
+}
+
+.MessageInfo {
+  background-color: var(--main-bg-color);
+}
+.MessageInfo .user-box {
+  margin-left: 10px;
+}
+.MessageInfo .user-info {
+  display: flex;
+  align-items: center;
+  font-family: "Nunito", sans-serif;
+}
+.MessageInfo .user-info .user-name {
+  font-weight: 600;
+  font-size: 17px;
+  height: 20px;
+  min-width: 200px;
+}
+.MessageInfo .user-info .user-email {
+  margin-top: 3px;
+  margin-left: 0px;
+  font-size: 15px;
+  height: 17px;
+  min-width: 200px;
+}
+.MessageInfo .UserAvatar {
+  height: 55px;
+  width: 55px;
+}
+.MessageInfo .message-info {
+  font-family: "Nunito", sans-serif;
+  font-size: 22px;
+  margin-top: 20px;
+}
+.MessageInfo .message-rewiews {
+  justify-content: space-evenly;
+  border-top: 1px solid var(--alpha3);
+  padding-top: 10px;
+}
+.MessageInfo .dateOfCreate {
+  font-family: "Nunito", sans-serif;
+  font-size: 18px;
+  margin-top: 5px;
+  padding-left: 15px;
+  width: 200px;
+  height: 10px;
+}
+.MessageInfo .loaded {
+  border-radius: 5px;
+}
+.MessageInfo .message-text {
+  min-height: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}/*# sourceMappingURL=MessageInfo.css.map */

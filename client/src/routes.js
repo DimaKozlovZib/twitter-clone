@@ -7,3 +7,4 @@ export const registrationPath = 'twitter-clone/registration';
 export const loginPath = 'twitter-clone/login';
 export const editPath = 'twitter-clone/edit';
 export const searchPath = 'twitter-clone/search/:model/:searchText';
+export const messagePath = 'twitter-clone/message/:id';

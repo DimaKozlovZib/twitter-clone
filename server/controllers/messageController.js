@@ -1,4 +1,4 @@
-const { Message, Image, User, Likes, Hashtag } = require('../models/models')
+const { Message, Image, User, Likes, Hashtag, Comment } = require('../models/models')
 const uuid = require("uuid")
 const path = require("path")
 const ApiError = require("../error/ApiError")
@@ -98,6 +98,113 @@ class messageRouter {
             return res.status(500).json(error)
         }
     }
+    async addComment(req, res, next) {
+        try {
+            const { text, messageId } = req.body;
+            const { id } = req.user;
+
+            if (!text || !messageId) return res.status(400).json({ message: 'bad request' });
+
+            const message = await Message.findOne({ where: { id: messageId } })
+
+            if (!message) return res.status(404).json({ message: 'bad request' });
+
+            const comment = await Comment.create({ text, userId: id, messageId });
+
+            const CommentObject = await Comment.findOne({
+                where: { id: comment.id },
+                attributes: ['text', 'id', 'createdAt', 'messageId', 'userId'],
+                include: [{
+                    model: User,
+                    attributes: ['name', 'id', 'img', 'email']
+                }]
+
+            })
+
+            res.status(200).json(CommentObject)
+
+            message.increment('commentsCount', { by: 1 })
+        } catch (error) {
+            console.log(error)
+            return res.status(500).json(error.message)
+        }
+    }
+    async getMessageInfo(req, res) {
+        try {
+            const data = req.body;
+            const { id, isAuth } = req.user
+
+            if (!data?.messageId) return res.status(400).json({ message: 'bad request' })
+            const { messageId } = data;
+
+            const include = isAuth ?
+                [{
+                    model: Likes,
+                    where: {
+                        userId: +req.user.id
+                    },
+                    required: false
+                }] : []
+
+            const message = await Message.findOne({
+                where: {
+                    id: messageId
+                },
+                attributes: ['text', 'id', 'likesNum', 'retweetCount', 'retweetId', 'createdAt', 'commentsCount'],
+                include: [
+                    {
+                        model: User,
+                        attributes: ['name', 'id', 'img', 'email']
+                    },
+                    {
+                        model: Hashtag,
+                        attributes: ['name', 'id'],
+                        through: { attributes: [] } // Отключаем вывод информации о промежуточной таблице
+                    }, {
+                        model: Message,
+                        as: 'retweet',
+                        attributes: ['text', 'id', 'likesNum', 'retweetCount', 'retweetId'],
+                        include: [
+                            {
+                                model: User,
+                                attributes: ['img', 'name', 'email', 'id'],
+                                raw: true,
+
+                            }, {
+                                model: Hashtag,
+                                attributes: ['name', 'id'],
+                                through: {
+                                    attributes: []
+                                }
+                            }
+                        ]
+                    }, ...include
+                ]
+            });
+
+            const comments = await Comment.findAndCountAll({
+                where: {
+                    messageId
+                },
+                attributes: ['text', 'id', 'messageId', 'userId'],
+                include: [
+                    {
+                        model: User,
+                        attributes: ['img', 'name', 'email', 'id'],
+                        raw: true,
+
+                    }
+                ]
+            })
+
+            if (!message) return res.status(404).json('message is not defined')
+
+            return res.status(200).json({ message, comments })
+        } catch (error) {
+            console.log(error)
+            return res.status(500).json(error)
+        }
+    }
     async deleteMessage(req, res) {
         try {
             if (!req.params.id) return res.status(400).json({ message: 'bad request' })
@@ -161,7 +268,7 @@ class messageRouter {
                     ['createdAt', 'DESC'],
                     ['likesNum', 'DESC'],
                 ],
-                attributes: ['text', 'id', 'likesNum', 'retweetCount', 'retweetId', 'createdAt'],
+                attributes: ['text', 'id', 'likesNum', 'retweetCount', 'retweetId', 'createdAt', 'commentsCount'],
                 include: [
                     {
                         model: User,

@@ -60,11 +60,8 @@
 .RetweetMessage_user-information .user-email {
   font-size: 15px;
 }
-.RetweetMessage_user-information .user-info {
-  display: flex;
-}
 .RetweetMessage .message-text {
-  font-size: 17px;
+  font-size: 16px;
 }
 
 .messagePost {
@@ -116,6 +113,7 @@
 }
 .message-rewiews > * svg {
   stroke: var(--main-elements-color);
+  fill: var(--main-elements-color);
 }
 .message-rewiews > *:last-child {
   margin-right: 10px;

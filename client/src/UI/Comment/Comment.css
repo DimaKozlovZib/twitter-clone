@@ -1,0 +1,91 @@
+.CommentMessage, .RetweetMessage {
+  padding: 10px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  color: var(--main-elements-color);
+  width: 100%;
+}
+.CommentMessage .message-info, .RetweetMessage .message-info {
+  margin-top: 5px;
+}
+.CommentMessage .user-info, .RetweetMessage .user-info {
+  display: flex;
+}
+.CommentMessage .user-info .user-name, .RetweetMessage .user-info .user-name {
+  line-height: 20.5px;
+  font-weight: 600;
+}
+.CommentMessage .user-info .user-email, .RetweetMessage .user-info .user-email {
+  margin-left: 5px;
+  color: var(--alpha6);
+}
+.CommentMessage .message-text, .RetweetMessage .message-text {
+  white-space: pre-wrap;
+  line-height: 18px;
+  padding: 0px 5px;
+  word-break: break-all;
+}
+.CommentMessage .hashtags, .RetweetMessage .hashtags {
+  display: flex;
+  margin-top: 4px;
+}
+.CommentMessage .hashtags a, .RetweetMessage .hashtags a {
+  margin-left: 3px;
+  cursor: pointer;
+  font-family: "Nunito", sans-serif;
+  font-size: 14px;
+  color: #00aaec;
+}
+.CommentMessage .hashtags a:hover, .RetweetMessage .hashtags a:hover {
+  text-decoration: underline;
+}
+
+.RetweetMessage {
+  border: 2px solid var(--alpha3);
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.RetweetMessage_user-information {
+  display: flex;
+  align-items: center;
+}
+.RetweetMessage_user-information .UserAvatar {
+  height: 30px;
+  width: 30px;
+}
+.RetweetMessage_user-information .user-name {
+  margin-left: 5px;
+  font-size: 16px;
+}
+.RetweetMessage_user-information .user-email {
+  font-size: 15px;
+}
+.RetweetMessage .message-text {
+  font-size: 16px;
+}
+
+.CommentMessage {
+  margin-top: 10px;
+  background-color: var(--main-bg-color);
+  font-family: "Nunito", sans-serif;
+  display: flex;
+  padding-bottom: 20px;
+}
+.CommentMessage .UserAvatar {
+  height: 40px;
+  width: 40px;
+}
+.CommentMessage .user-name {
+  margin-left: 5px;
+  font-size: 16px;
+}
+.CommentMessage .user-email {
+  font-size: 15px;
+}
+.CommentMessage .message-text {
+  margin-top: 5px;
+  font-size: 16px;
+}
+.CommentMessage .message-info {
+  margin-left: 5px;
+}/*# sourceMappingURL=Comment.css.map */

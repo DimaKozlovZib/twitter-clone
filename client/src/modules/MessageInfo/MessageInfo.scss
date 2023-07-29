@@ -1,0 +1,58 @@
+@use "../../UI/RetweetMessage/RetweetMessage.scss";
+
+.MessageInfo {
+	@extend %MessageElement;
+	background-color: var(--main-bg-color);
+	.user-box {
+		margin-left: 10px;
+	}
+	.user-info {
+		display: flex;
+		align-items: center;
+		font-family: "Nunito", sans-serif;
+		.user-name {
+			font-weight: 600;
+			font-size: 17px;
+			height: 20px;
+			min-width: 200px;
+		}
+		.user-email {
+			margin-top: 3px;
+			margin-left: 0px;
+			font-size: 15px;
+			height: 17px;
+			min-width: 200px;
+		}
+	}
+	.UserAvatar {
+		height: 55px;
+		width: 55px;
+	}
+	//mesage-content
+	.message-info {
+		font-family: "Nunito", sans-serif;
+		font-size: 22px;
+		margin-top: 20px;
+	}
+	.message-rewiews {
+		justify-content: space-evenly;
+		border-top: 1px solid var(--alpha3);
+		padding-top: 10px;
+	}
+	.dateOfCreate {
+		font-family: "Nunito", sans-serif;
+		font-size: 18px;
+		margin-top: 5px;
+		padding-left: 15px;
+		width: 200px;
+		height: 10px;
+	}
+	.loaded {
+		border-radius: 5px;
+	}
+	.message-text {
+		min-height: 20px;
+		width: 100%;
+		box-sizing: border-box;
+	}
+}

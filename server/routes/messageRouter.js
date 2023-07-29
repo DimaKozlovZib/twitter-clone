@@ -10,6 +10,8 @@ router.get("/", authOrNotMiddleware, messageRouter.getMessages)
 router.post("/", authMiddleware, messageRouter.addMessage)
 router.post("/searchMessages", messageRouter.searchMessages)
 router.post("/like", authMiddleware, messageRouter.likeMessage)
+router.post("/getMessageInfo", authOrNotMiddleware, messageRouter.getMessageInfo)
+router.post("/addCommentToMessage", authMiddleware, messageRouter.addComment)
 
 router.post("/messageShown", authMiddleware, interactionMessage.setMessageShown)
 
