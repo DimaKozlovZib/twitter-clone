@@ -3,7 +3,7 @@ import './AddCommentForm.css';
 import UserAvatar from '../../UI/UserAvatar/UserAvatar';
 import { useSelector } from 'react-redux';
 import ButtonBlue from '../../UI/ButtonBlue/ButtonBlue'
-import { addComment } from './API';
+import { addComment, setCommentMood } from './API';
 
 const AddCommentForm = ({ setNewComment, messageId }) => {
     const user = useSelector(state => state.user)
@@ -25,8 +25,9 @@ const AddCommentForm = ({ setNewComment, messageId }) => {
         if (newComment) {
             setNewComment(newComment.data)
             setValue('')
-        }
 
+            await setCommentMood(value, messageId)
+        }
     }
 
     return (

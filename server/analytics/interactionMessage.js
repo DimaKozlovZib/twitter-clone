@@ -1,4 +1,5 @@
 const { Message } = require("../models/models");
+const { PythonShell } = require('python-shell');
 const { USER_MESSAGE } = require("../models/mongoModels");
 
 
@@ -50,6 +51,64 @@ class interactionMessage {
         } catch (error) {
             console.log(error)
             return res.sendStatus(500)
+        }
+    }
+    async determiningMood(req, res) {
+        try {
+            const { id } = req.user;
+            const { messageId, text } = req.body;
+
+            const commentMoodStatus = await USER_MESSAGE.findOne({ userId: id, messageId }).commentMood
+
+            if (['positively', 'negatively', 'neutral'].includes(commentMoodStatus)) return;
+
+            const pythonFile = 'python/mood.py';
+            const polarity_threshold = 0.5;
+            const subjectivity_threshold = 0.5;
+
+            const pyshell = new PythonShell(pythonFile);
+
+            pyshell.send(JSON.stringify(text));
+
+            // Получаем результат из Python
+            pyshell.on('message', async function (message) {
+                try {
+                    const result = JSON.parse(message)
+                    const [polarity, subjectivity] = result;
+                    let data;
+
+                    if (polarity >= polarity_threshold && subjectivity >= subjectivity_threshold) {
+                        data = 'positively';
+                    } else if (polarity <= -polarity_threshold && subjectivity >= subjectivity_threshold) {
+                        data = 'negatively';
+                    } else {
+                        data = 'neutral';
+                    }
+
+                    await USER_MESSAGE.setCommentMood(id, messageId, data)
+                    return res.sendStatus(200)
+                } catch (err) {
+                    console.error('Ошибка при разборе JSON:', err);
+                    return res.status(500).json(err)
+                }
+            });
+
+            // Обрабатываем ошибки, если они возникнут
+            pyshell.on('error', function (err) {
+                console.error('Ошибка:', err);
+                return res.status(500).json(err)
+            });
+
+            // Завершаем процесс PythonShell
+            pyshell.end(function (err) {
+                if (err) {
+                    console.error('Ошибка:', err);
+                    return res.status(500).json(err)
+                }
+            });
+        } catch (error) {
+            console.log(error)
+            return res.status(500).json(error)
         }
     }
 }

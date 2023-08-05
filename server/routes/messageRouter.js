@@ -13,6 +13,8 @@ router.post("/like", authMiddleware, messageRouter.likeMessage)
 router.post("/getMessageInfo", authOrNotMiddleware, messageRouter.getMessageInfo)
 router.post("/addCommentToMessage", authMiddleware, messageRouter.addComment)
 
+router.post("/setCommentMood", authMiddleware, interactionMessage.determiningMood)
+
 router.post("/messageShown", authMiddleware, interactionMessage.setMessageShown)
 
 module.exports = router
