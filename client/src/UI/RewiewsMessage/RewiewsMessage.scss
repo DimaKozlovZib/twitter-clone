@@ -1,0 +1,33 @@
+.message-rewiews {
+	margin-top: 5px;
+	display: flex;
+	justify-content: flex-end;
+
+	> * {
+		margin-right: 5%;
+		display: flex;
+		gap: 6px;
+		color: var(--alpha7);
+		align-items: center;
+		h5 {
+			font-size: 16px;
+		}
+		&:last-child {
+			margin-right: 10px;
+		}
+		svg {
+			stroke: var(--main-elements-color);
+			stroke-opacity: 0.7;
+		}
+	}
+	.likes.active {
+		color: var(--main-elements-color);
+		svg {
+			fill: red;
+			& > * {
+				stroke: red;
+				fill: red;
+			}
+		}
+	}
+}

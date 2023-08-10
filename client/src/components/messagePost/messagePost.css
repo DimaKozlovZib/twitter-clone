@@ -82,41 +82,9 @@
   display: flex;
   font-family: "Nunito", sans-serif;
 }
-.messagePost .likes.active {
-  color: var(--main-elements-color);
-}
-.messagePost .likes.active .svg {
-  fill: red;
-}
-.messagePost .likes.active .svg > * {
-  stroke: red;
-}
 .messagePost .UserAvatar {
   height: 45px;
   width: 45px;
-}
-
-.message-rewiews {
-  margin-top: 5px;
-  display: flex;
-  justify-content: flex-end;
-}
-.message-rewiews > * {
-  margin-right: 5%;
-  display: flex;
-  gap: 6px;
-  color: var(--alpha7);
-  align-items: center;
-}
-.message-rewiews > * h5 {
-  font-size: 16px;
-}
-.message-rewiews > * svg {
-  stroke: var(--main-elements-color);
-  fill: var(--main-elements-color);
-}
-.message-rewiews > *:last-child {
-  margin-right: 10px;
 }
 
 .hiddenMenu {

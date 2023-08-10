@@ -145,7 +145,7 @@ class messageRouter {
                     },
                     required: false
                 }] : []
-
+            console.log(isAuth)
             const message = await Message.findOne({
                 where: {
                     id: messageId

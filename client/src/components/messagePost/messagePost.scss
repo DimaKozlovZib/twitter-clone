@@ -19,43 +19,9 @@
 		display: flex;
 		font-family: "Nunito", sans-serif;
 	}
-
-	.likes.active {
-		color: var(--main-elements-color);
-		.svg {
-			fill: red;
-			& > * {
-				stroke: red;
-			}
-		}
-	}
 	.UserAvatar {
 		height: 45px;
 		width: 45px;
-	}
-}
-
-.message-rewiews {
-	margin-top: 5px;
-	display: flex;
-	justify-content: flex-end;
-
-	> * {
-		margin-right: 5%;
-		display: flex;
-		gap: 6px;
-		color: var(--alpha7);
-		align-items: center;
-		h5 {
-			font-size: 16px;
-		}
-		svg {
-			stroke: var(--main-elements-color);
-			fill: var(--main-elements-color);
-		}
-		&:last-child {
-			margin-right: 10px;
-		}
 	}
 }
 

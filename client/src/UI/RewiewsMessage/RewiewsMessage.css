@@ -1,0 +1,32 @@
+.message-rewiews {
+  margin-top: 5px;
+  display: flex;
+  justify-content: flex-end;
+}
+.message-rewiews > * {
+  margin-right: 5%;
+  display: flex;
+  gap: 6px;
+  color: var(--alpha7);
+  align-items: center;
+}
+.message-rewiews > * h5 {
+  font-size: 16px;
+}
+.message-rewiews > *:last-child {
+  margin-right: 10px;
+}
+.message-rewiews > * svg {
+  stroke: var(--main-elements-color);
+  stroke-opacity: 0.7;
+}
+.message-rewiews .likes.active {
+  color: var(--main-elements-color);
+}
+.message-rewiews .likes.active svg {
+  fill: red;
+}
+.message-rewiews .likes.active svg > * {
+  stroke: red;
+  fill: red;
+}/*# sourceMappingURL=RewiewsMessage.css.map */
