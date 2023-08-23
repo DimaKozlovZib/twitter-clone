@@ -1,5 +1,5 @@
-const { Op, NOW } = require("sequelize")
-const { Likes, Message, Friends, User } = require("../models/models")
+const { Op } = require("sequelize")
+const { Message, Friends, User } = require("../models/models")
 const { USER_MESSAGE } = require("../models/mongoModels")
 const { Sequelize } = require("../db")
 const moment = require("moment/moment")
@@ -65,8 +65,58 @@ class contentGeneration {
             console.log(error)
         }
     }
+    async getPopularMessages() {
+        try {
+            const commentsCount = `
+            (SELECT COUNT(*)
+            FROM (
+              SELECT DISTINCT "comments"."userId"
+              FROM "comments"
+                WHERE "comments"."messageId" = "message"."id"
+            ) as count)`;
+            const commentsFactor = 2;
+            //получаем количество ретвитов
+            const retweetsCount = `
+            (SELECT COUNT(*)
+            FROM (
+              SELECT DISTINCT "messages"."userId"
+              FROM "messages"
+                WHERE "messages"."retweetId" = "message"."id"
+            ) as count)`;
+            const retweetFactor = 3;
+            //получаем количество людей, которые лайкнули сообщение
+            const likesCount = `
+            (SELECT COUNT(*) 
+            FROM "likes" 
+            WHERE "likes"."messageId" = "message"."id" 
+            AND "likes"."userId" != "message"."userId")`;
+            const likesFactor = 1;
+            //получаем сообщения с сортировкой по популярности на основании лайков, комментариев и ретвитов
+            const maxTime = moment().subtract(4, 'day').toDate();
+            const messages = await Message.findAll({
+                attributes: ['id', 'retweetCount', 'commentsCount', 'likesNum',
+                    [Sequelize.literal(`
+                    (${commentsCount} * ${commentsFactor}) 
+                    + (${retweetsCount} * ${retweetFactor}) 
+                    + (${likesCount} * ${likesFactor})`), 'popularity']],
+                where: {
+                    createdAt: {
+                        [Op.gt]: maxTime
+                    }
+                }
+            });
+            //проверяем сколько раз пользователь видел найденные сообщения и фильтруем от трёх и больше раз
+            const maxShow = 2;
+            const verifiedMessages = await USER_MESSAGE.find({
+                id: { $in: messages }, showCount: { $lte: maxShow }
+            }).select('messageId').exec();
+            return verifiedMessages.map(i => i?.messageId);
+        } catch (error) {
+            console.log(error)
+        }
+    }
 }
 //module.exports = contentGeneration
 
 const cl = new contentGeneration(9)
-cl.getMessageFromSubscriber()
+cl.getPopularMessages()
