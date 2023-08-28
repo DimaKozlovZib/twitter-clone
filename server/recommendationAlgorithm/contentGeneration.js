@@ -15,15 +15,29 @@ class contentGeneration {
     }
     async userGoodAppreciatedMessage() {
         //получаем сообщения, которые понравились пользователю (this.userId)
-        const resultMessageObj = await USER_MESSAGE.find({ grade: { $gt: 0 }, userId: this.userId })
+        const messageWithGoodGrade = await USER_MESSAGE.find({ grade: { $gt: 0 }, userId: this.userId })
             .limit(80).select('messageId').exec()
-        const goodMessagesId = resultMessageObj.map(i => i.messageId)
+        const goodMessagesId = messageWithGoodGrade.map(i => i.messageId)
         // получаем пользователей, которым тоже понравились твиты.
         const peopleLikeObj = await USER_MESSAGE.find({ grade: { $gt: 0 }, messageId: { $in: goodMessagesId } })
             .limit(500).select('userId').exec()
-        const usersGooGrade = peopleLikeObj.map(i => i.userId)
+        const usersGoodGrade = peopleLikeObj.map(i => i.userId)
         //оставляем пользователей которым конравились два и больше (общих с this.userId) твита
-        return deleteDuplicates(deleteUnique(usersGooGrade))
+        const filteredUsers = deleteDuplicates(deleteUnique(usersGoodGrade))
+        const messagesForResult =
+            await USER_MESSAGE.find({ grade: { $gt: 0 }, userId: { $in: filteredUsers }, messageId: { $nin: messageWithGoodGrade } })
+                .limit(250).select('messageId').exec()
+
+        //максимальное время ,когда сообщение остается актуальным
+        const maxTime = moment().subtract(5, 'day').toDate();
+        const resultMessages = await Message.findAll({
+            where: {
+                id: { [Op.or]: messagesForResult },
+                createdAt: { [Op.gt]: maxTime }
+            },
+            attributes: [['id', 'messageId'], 'userId']
+        });
+        return resultMessages;
     }
     async getMessageFromSubscriber() {
         try {
@@ -59,8 +73,8 @@ class contentGeneration {
             const maxShow = 2;
             const verifiedMessages = await USER_MESSAGE.find({
                 id: { $in: subscribersMessageId }, showCount: { $lte: maxShow }
-            }).select('messageId').exec()
-            return verifiedMessages.map(i => i?.messageId);
+            }).select('messageId userId').exec()
+            return verifiedMessages;
         } catch (error) {
             console.log(error)
         }
@@ -109,8 +123,8 @@ class contentGeneration {
             const maxShow = 2;
             const verifiedMessages = await USER_MESSAGE.find({
                 id: { $in: messages }, showCount: { $lte: maxShow }
-            }).select('messageId').exec();
-            return verifiedMessages.map(i => i?.messageId);
+            }).select('messageId userId').exec();
+            return verifiedMessages;
         } catch (error) {
             console.log(error)
         }
