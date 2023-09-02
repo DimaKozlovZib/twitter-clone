@@ -5,6 +5,8 @@ const ApiError = require("../error/ApiError")
 const jwt = require("jsonwebtoken")
 const { Sequelize, Op } = require("sequelize");
 const interactionMessage = require('../analytics/interactionMessage')
+const client = require('../models/redis')
+const Recommendations = require('../recommendationAlgorithm/main')
 
 class messageRouter {
     async addMessage(req, res, next) {
@@ -15,7 +17,7 @@ class messageRouter {
 
             if ((!retweetId && !text)) return res.status(400).json({ message: 'bad request' });
 
-            const retweetMessage = await Message.findOne({ where: { id: retweetId } })
+            const retweetMessage = retweetId ? await Message.findOne({ where: { id: retweetId } }) : null
 
             if (!retweetMessage && retweetId) return res.status(404).json({ message: 'bad request' });
 
@@ -232,42 +234,26 @@ class messageRouter {
 
     async getMessages(req, res) {
         try {
-            const { isAuth } = req.user;
+            const { isAuth, id } = req.user;
             const params = req.query;
 
             const Limit = +params.limit || 20;
-            const Page = +params.page || 1;
-            const indexFirstElement = (Page - 1) * Limit
-            let where = {},
-                includes = []
-
-            if (params.userId) {
-                where = {
-                    userId: +params.userId
-                }
-            } else if (isAuth && !params.userId) {
-                where = {
-                    userId: { [Op.not]: req.user.id }
-                }
+            //смотрим есть ли сообщения в redis
+            const key = `messages-${id}`;
+            let messages = await client.get(key, (err, data) => {
+                if (err) res.status(500).json(err)
+                else return data;
+            })
+            //если нет то вызываем алгоритм
+            if (!messages || messages.length < Limit) {
+                messages = await Recommendations(id)
             }
-            if (isAuth) {
-                includes.push({
-                    model: Likes,
-                    where: {
-                        userId: +req.user.id
-                    },
-                    required: false
-                })
-            }
-
-            const AllMessages = await Message.findAndCountAll({
-                limit: Limit, offset: indexFirstElement,
-                all: true,
-                where,
-                order: [
-                    ['createdAt', 'DESC'],
-                    ['likesNum', 'DESC'],
-                ],
+            // разделяем на два массив, для ответа и для сохранения в базу
+            const dataToSave = messages.slice(Limit);
+            const dataToResponse = messages.slice(0, Limit)
+            //получаем данные для клиента
+            const objects = await Message.findAll({
+                where: { id: { [Op.or]: dataToResponse.map(i => i['dataValues']['messageId']) } },
                 attributes: ['text', 'id', 'likesNum', 'retweetCount', 'retweetId', 'createdAt', 'commentsCount'],
                 include: [
                     {
@@ -281,29 +267,27 @@ class messageRouter {
                         through: {
                             attributes: []
                         }
-                    }, {
-                        model: Message,
-                        as: 'retweet',
-                        attributes: ['text', 'id', 'likesNum', 'retweetCount', 'retweetId'],
-                        include: [
-                            {
-                                model: User,
-                                attributes: ['img', 'name', 'email', 'id'],
-                                raw: true,
-
-                            }, {
-                                model: Hashtag,
-                                attributes: ['name', 'id'],
-                                through: {
-                                    attributes: []
-                                }
-                            }
-                        ]
-                    }
-                    , ...includes
-                ]
+                    }]
             })
-            return res.status(200).json(AllMessages)
+            res.status(200).json(objects)
+            //сохраняем массив в redis
+            if (dataToSave.length === 0) return;
+            client.set(key, JSON.stringify(dataToSave), function (err, reply) {
+                if (err) {
+                    console.error('Ошибка при установке ключа:', err);
+                } else {
+                    console.log('Ключ успешно установлен:', reply);
+                    // Установка ограничения времени жизни в 2 дня
+                    client.expire(key, 2 * 24 * 60 * 60, function (err, reply) {
+                        if (err) {
+                            console.error('Ошибка при установке ограничения времени жизни:', err);
+                        } else {
+                            console.log('Ограничение времени жизни успешно установлено:', reply);
+                        }
+                    });
+                }
+            }
+            )
         } catch (error) {
             console.log(error)
             return res.status(500).json(error.message)

@@ -1,13 +1,4 @@
-const { Op } = require("sequelize")
-const { Message } = require("../models/models")
-const removeDuplicates = require("./removeDuplicates")
-
-async function varietyAuthors() {
-    const arr1 = await Message.findAll({ attributes: ['userId', ['id', 'messageId']] })
-    const arr2 = await Message.findAll({ where: { id: { [Op.gt]: 20 } }, attributes: ['userId', ['id', 'messageId']] })
-    const arr = [...arr1, ...arr2]
-    const array = removeDuplicates(arr)
-
+function varietyAuthors(array) {
     const result = [];
     const delayedMessages = [];
     const delayedUsers = [];
@@ -56,5 +47,6 @@ async function varietyAuthors() {
         //идём дальше
         index += 1;
     }
+    return result;
 }
-varietyAuthors()
+module.exports = varietyAuthors

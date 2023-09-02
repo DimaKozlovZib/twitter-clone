@@ -5,7 +5,6 @@ import { getMessages } from "../API/messagesApi";
 
 const useMessages = (page, limit) => {
     const [messagesArray, setMessagesArray] = useState([]);
-    const [messagesCount, setMessagesCount] = useState(null);
     const isAuth = useSelector(state => state.isAuth)
     const params = useParams();
 
@@ -16,8 +15,7 @@ const useMessages = (page, limit) => {
         }
         const res = await getMessages(paramsObj);
         if (res) {
-            setMessagesCount(res.data.count)
-            setMessagesArray([...messagesArray, ...res.data.rows])
+            setMessagesArray([...messagesArray, ...res.data])
         }
     }
 
@@ -25,7 +23,7 @@ const useMessages = (page, limit) => {
         if (isAuth !== null) getData()
     }, [page, isAuth]);
 
-    return [messagesArray, messagesCount, setMessagesArray]
+    return [messagesArray, setMessagesArray]
 }
 
 export default useMessages;

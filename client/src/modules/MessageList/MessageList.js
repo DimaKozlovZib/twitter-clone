@@ -6,7 +6,7 @@ import useMessages from '../../hooks/useMessages.js';
 const MessageList = () => {
     const [pageNum, setPageNum] = useState(1);
     const limit = 20;
-    const [messagesArray, count, setMessagesArray] = useMessages(pageNum, limit)
+    const [messagesArray, setMessagesArray] = useMessages(pageNum, limit)
     const [succesDeleteId, setSuccesDeleteId] = useState(null);
 
     useEffect(() => {

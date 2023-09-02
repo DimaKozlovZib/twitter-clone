@@ -19,15 +19,16 @@ class contentGeneration {
             .limit(80).select('messageId').exec()
         const goodMessagesId = messageWithGoodGrade.map(i => i.messageId)
         // получаем пользователей, которым тоже понравились твиты.
+        if (!goodMessagesId.length) return [];
         const peopleLikeObj = await USER_MESSAGE.find({ grade: { $gt: 0 }, messageId: { $in: goodMessagesId } })
             .limit(500).select('userId').exec()
         const usersGoodGrade = peopleLikeObj.map(i => i.userId)
         //оставляем пользователей которым конравились два и больше (общих с this.userId) твита
         const filteredUsers = deleteDuplicates(deleteUnique(usersGoodGrade))
+        if (!filteredUsers.length) return [];
         const messagesForResult =
             await USER_MESSAGE.find({ grade: { $gt: 0 }, userId: { $in: filteredUsers }, messageId: { $nin: messageWithGoodGrade } })
                 .limit(250).select('messageId').exec()
-
         //максимальное время ,когда сообщение остается актуальным
         const maxTime = moment().subtract(5, 'day').toDate();
         const resultMessages = await Message.findAll({
@@ -70,11 +71,20 @@ class contentGeneration {
             }
             const subscribersMessageId = messages.map(i => i.id);
             //проверяем сколько раз пользователь видел найденные сообщения и фильтруем от трёх и больше раз
-            const maxShow = 2;
-            const verifiedMessages = await USER_MESSAGE.find({
-                id: { $in: subscribersMessageId }, showCount: { $lte: maxShow }
-            }).select('messageId userId').exec()
-            return verifiedMessages;
+            const maxShow = 3;
+            const moreShowMessages = await USER_MESSAGE.find({//сообщегия с большим количеством просмотров
+                id: { $in: subscribersMessageId }, showCount: { $gte: maxShow }
+            }).select('messageId').exec()
+            //удаляем пересечение массивов, остаются только свежие сообщения
+            const verifiedMessages = subscribersMessageId.filter(function (item) {
+                return moreShowMessages.indexOf(item) === -1;
+            });
+            const result = await Message.findAll(
+                {
+                    where: { id: { [Op.or]: verifiedMessages } },
+                    attributes: [['id', 'messageId'], 'userId']
+                })
+            return result;
         } catch (error) {
             console.log(error)
         }
@@ -130,7 +140,5 @@ class contentGeneration {
         }
     }
 }
-//module.exports = contentGeneration
+module.exports = contentGeneration
 
-const cl = new contentGeneration(9)
-cl.getPopularMessages()
