@@ -3,12 +3,12 @@ import UserAvatar from '../../UI/UserAvatar/UserAvatar';
 import './UserInfo.css';
 import useModal from '../../hooks/useModal';
 import { useSelector } from 'react-redux';
-import { Subscribe, Unsubscribe, getUser } from './API'
+import { Subscribe, Unsubscribe, getMessages, getUser } from './API'
 import { Link, useParams } from 'react-router-dom';
 import '../../styles/changeCover.css';
 import { editPath } from '../../routes';
-import subscribe from '../../images/subscribe.svg'
 import ButtonBlue from '../../UI/ButtonBlue/ButtonBlue';
+import MessagePost from '../../components/messagePost/messagePost';
 
 const UserInfo = () => {
     const { userId } = useParams();
@@ -21,7 +21,18 @@ const UserInfo = () => {
     const [infoStatus, setInfoStatus] = useState('loaded');
     const [canEdit, setCanEdit] = useState(null);
     const [friend, setFriend] = useState(null);
+    const [messagesArray, setMessagesArray] = useState([]);
+    const [page, setPage] = useState(0);
+    const [succesDeleteId, setSuccesDeleteId] = useState(null);
+    const limit = 20;
+    //удаление сообщения
+    useEffect(() => {
+        if (succesDeleteId) {
+            setMessagesArray(messagesArray.filter(item => item.id !== succesDeleteId))
+        }
+    }, [succesDeleteId]);
 
+    //получение данных
     useEffect(() => {
         const getData = async () => {
             if (isAuth !== null) {
@@ -33,7 +44,22 @@ const UserInfo = () => {
             }
         }
         getData()
+        if (isAuth !== null && messagesArray.length === 0) {
+            getUserMessages()
+        }
     }, [isAuth, userId]);
+
+    const getUserMessages = async () => {
+        try {
+            const res = await getMessages(userId, limit, page)
+            if (res) {
+                setMessagesArray([...messagesArray, ...res.data])
+                setPage(page += 1)
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     const { name, email, img, countMessages, totalLikesNum, coverImage } = user;
 
@@ -84,22 +110,33 @@ const UserInfo = () => {
     //{classGenerate()}
 
     return (
-        <div className='userInfo-wrapper profile-header'>
-            <div className={classGenerate('profile-cover')}
-                style={{ 'backgroundImage': `url(http://localhost:5000/${canEdit && userAuthCover ? userAuthCover : coverImage})` }}>
-                {!canEdit || changeCoverBtn}
-            </div>
-            <div className='userInfo'>
-                <div className='userInfo__avatar'>
-                    <UserAvatar isNotLink url={img} />
+        <>
+            <div className='userInfo-wrapper profile-header'>
+                <div className={classGenerate('profile-cover')}
+                    style={{ 'backgroundImage': `url(http://localhost:5000/${canEdit && userAuthCover ? userAuthCover : coverImage})` }}>
+                    {!canEdit || changeCoverBtn}
                 </div>
-                <div className='info-about-user'>
-                    <h2 className={classGenerate('user-name')}>{name}</h2>
-                    <h3 className={classGenerate('user-email')}>{email}</h3>
+                <div className='userInfo'>
+                    <div className='userInfo__avatar'>
+                        <UserAvatar isNotLink url={img} />
+                    </div>
+                    <div className='info-about-user'>
+                        <h2 className={classGenerate('user-name')}>{name}</h2>
+                        <h3 className={classGenerate('user-email')}>{email}</h3>
+                    </div>
+                    {canEdit ? editBtnHTML : friend !== null && (friend ? alreadySubscribeBtn : subscribeBtn)}
                 </div>
-                {canEdit ? editBtnHTML : friend !== null && (friend ? alreadySubscribeBtn : subscribeBtn)}
             </div>
-        </div>
+            <div className='userMessagesList'>
+                {
+                    messagesArray && messagesArray.length > 0 ?
+                        messagesArray
+                            .map(item => <MessagePost setDelete={setSuccesDeleteId} messageObject={item} key={item.id} />)
+                        : ''
+                }
+            </div>
+        </>
+
     );
 }
 

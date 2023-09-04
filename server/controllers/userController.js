@@ -4,7 +4,7 @@ const uuid = require("uuid")
 const path = require("path")
 const jwt = require("jsonwebtoken")
 const fs = require('fs')
-const { User, Image, Message, Friends } = require("../models/models")
+const { User, Image, Message, Friends, Hashtag } = require("../models/models")
 const { Sequelize } = require("../db")
 const { Op } = require("sequelize")
 
@@ -207,6 +207,58 @@ class userRouter {
                 return res.status(200).json({ user, canEdit: true })
             }
             return res.status(200).json({ user, canEdit: false })
+        } catch (error) {
+            console.log(error)
+            return res.status(500).json(error.message)
+        }
+    }
+    async getUserMessages(req, res) {
+        try {
+            const { id } = req.params;
+            const query = req.query;
+            if (!id || !Number(id)) return res.status(400).json('error: bad request')
+
+            const Limit = query?.limit || 20;
+            const Offset = (query?.page || 0) * Limit
+
+            const messages = await Message.findAll({
+                offset: Offset, limit: Limit,
+                where: { userId: id },
+                attributes: ['text', 'id', 'likesNum', 'retweetCount', 'retweetId', 'createdAt', 'commentsCount'],
+                include: [
+                    {
+                        model: User,
+                        attributes: ['img', 'name', 'email', 'id'],
+                        raw: true,
+
+                    }, {
+                        model: Hashtag,
+                        attributes: ['name', 'id'],
+                        through: {
+                            attributes: []
+                        }
+                    }, {
+                        model: Message,
+                        as: 'retweet',
+                        attributes: ['text', 'id', 'likesNum', 'retweetCount', 'retweetId'],
+                        include: [
+                            {
+                                model: User,
+                                attributes: ['img', 'name', 'email', 'id'],
+                                raw: true,
+
+                            }, {
+                                model: Hashtag,
+                                attributes: ['name', 'id'],
+                                through: {
+                                    attributes: []
+                                }
+                            }
+                        ]
+                    }]
+
+            })
+            return res.status(200).json(messages)
         } catch (error) {
             console.log(error)
             return res.status(500).json(error.message)
