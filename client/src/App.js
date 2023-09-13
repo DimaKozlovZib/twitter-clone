@@ -44,7 +44,6 @@ function App() {
     <>
       <LoadModal />
       {(modalType.type === 'ADD_COVER-MODAL') && <AddCover />}
-      {(modalType.type === 'ADD_MESSAGE-MODAL') && <AddMessage />}
       {(modalType.type === 'DELETE_MESSAGE-MODAL') && <DeleteMessage data={modalType.data} />}
       {(modalType.type === 'CHANGE-AVATAR-MODAL') && <ChangeAvatar />}
       {(modalType.type === 'LOGOUT-MODAL') && <LogoutModal />}

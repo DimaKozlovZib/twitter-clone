@@ -11,19 +11,28 @@ const Recommendations = require('../recommendationAlgorithm/main')
 class messageRouter {
     async addMessage(req, res, next) {
         try {
-            const { text, hashtags } = req.body;
+            const { text } = req.body;
             const { id } = req.user;
-            const retweetId = req.body?.retweetId
+            const retweetId = req.body?.retweetId;
 
-            if ((!retweetId && !text)) return res.status(400).json({ message: 'bad request' });
+            if ((!retweetId && !text)) return res.status(400).json({ message: 'no text', text: 0 });
+
+            const regex = /(^|\B)#(?![0-9_]+\b)([a-zA-Z0-9_]{2,12})(\b|\r)/g
+            const hashtags = Array.from(text.matchAll(regex), match => match[0]);
+            const noDublicateHashtags = Array.from(new Set(hashtags))
+
+            for (let index = 0; index < noDublicateHashtags.length; index++) {
+                const element = hashtags[index].toLowerCase();
+                const hashtag = await Hashtag.findOne({ where: { name: { [Op.iLike]: hashtagName.slice(1) } } })
+
+                if (!hashtag) return res.status(400).json({ message: 'hashtag does not exist', hashtag: { name: element } });
+            }
 
             const retweetMessage = retweetId ? await Message.findOne({ where: { id: retweetId } }) : null
 
             if (!retweetMessage && retweetId) return res.status(404).json({ message: 'bad request' });
 
             const message = await Message.create({ text, userId: id, retweetId: retweetId || null });
-
-            res.status(200).json({ message })
 
             if (retweetId) {
                 await message.setRetweet(retweetMessage);
@@ -33,12 +42,12 @@ class messageRouter {
                 await retweetMessage.increment('retweetCount', {
                     by: 1,
                 })
-                return;
             }
 
-            if (!hashtags || !(hashtags.length === 0)) return;
+            if (!hashtags || hashtags.length !== 0) return;
 
-            hashtags.filter(item => item.length > 0).forEach(async (hashtagName) => {
+            noDublicateHashtags.forEach(async i => {
+                const hashtagName = i.slice(1);
                 const hashtag = await Hashtag.findOne({ where: { name: hashtagName } })
 
                 if (hashtag) {
@@ -51,6 +60,7 @@ class messageRouter {
                     message.addHashtag(newHashtag)
                 }
             });
+            return res.status(200).json({ message })
         } catch (error) {
             console.log(error)
             return res.status(500).json(error.message)

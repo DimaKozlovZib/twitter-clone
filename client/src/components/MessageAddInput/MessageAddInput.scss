@@ -1,0 +1,27 @@
+.MessageAddInput {
+	width: 100%;
+	//border: 1.6px solid var(--grey-color-2);
+	//background-color: rgb(235, 235, 235);
+	//border-radius: 10px;
+	//height: 150px;
+	margin-right: 10px;
+	min-height: 24px;
+	position: relative;
+	font-size: 18px;
+	font-weight: 600;
+	color: var(--main-elements-color);
+	font-family: "Nunito", sans-serif;
+	letter-spacing: 0.6px;
+	.public-DraftEditorPlaceholder-root {
+		position: absolute;
+		pointer-events: none;
+		opacity: 0.7;
+	}
+	.hashtag {
+		color: var(--blue-btn-color);
+		text-decoration: underline;
+	}
+	.excess-chars {
+		background-color: rgb(251, 159, 168);
+	}
+}

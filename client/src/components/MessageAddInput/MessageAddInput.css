@@ -1,0 +1,23 @@
+.MessageAddInput {
+  width: 100%;
+  margin-right: 10px;
+  min-height: 24px;
+  position: relative;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--main-elements-color);
+  font-family: "Nunito", sans-serif;
+  letter-spacing: 0.6px;
+}
+.MessageAddInput .public-DraftEditorPlaceholder-root {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.7;
+}
+.MessageAddInput .hashtag {
+  color: var(--blue-btn-color);
+  text-decoration: underline;
+}
+.MessageAddInput .excess-chars {
+  background-color: rgb(251, 159, 168);
+}/*# sourceMappingURL=MessageAddInput.css.map */
