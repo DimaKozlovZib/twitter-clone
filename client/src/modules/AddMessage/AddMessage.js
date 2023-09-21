@@ -3,24 +3,46 @@ import { useSelector } from 'react-redux';
 import { addMessages } from './API';
 import './AddMessage.css';
 import MessageAddInput from '../../components/MessageAddInput/MessageAddInput';
+import ImageTable from '../../components/ImageTable/ImageTable';
 
 const AddMessage = memo(() => {
     const isAuth = useSelector(state => state.isAuth)
     const [value, setValue] = useState('');
-    const [image, setImage] = useState([]);
+    const [images, setImages] = useState([]);
+    const maxImageCount = 4;
 
+    const addImage = e => {
+        const files = e.target.files
+        if (
+            files.length > maxImageCount
+            || images.length + files.length > maxImageCount
+        )
+            return e.preventDefault();
 
+        setImages([...images, ...files])
+    }
+
+    const deleteImage = (e, index) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const arrFiles = [...images]
+        arrFiles.splice(index, 1)
+        setImages(arrFiles)
+    }
 
     return isAuth && (
         <div className='AddMessage'>
             <form id='form' onSubmit={e => e.preventDefault()} className='AddMessage-form'>
                 <MessageAddInput setValue={setValue} />
+                <ImageTable images={images} deleteImage={deleteImage} />
                 <div className='form-wrapper'>
                     <div className='additionalСontent'>
                         <div className='additionalСontent__item'>
                             <input id="addImage"
                                 type="file" hidden
-                                accept="image/jpeg,image/png,image/gif,image/webp" />
+                                accept="image/jpeg,image/png,image/gif,image/webp"
+                                onChange={addImage} maxLength={4} multiple={images.length < maxImageCount - 1} />
 
                             <label htmlFor='addImage' id="addImage-label">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -33,7 +55,6 @@ const AddMessage = memo(() => {
                         Сохранить
                     </button>
                 </div>
-                {error && <p className='error-addMessage'>{error}</p>}
             </form>
         </div>
 

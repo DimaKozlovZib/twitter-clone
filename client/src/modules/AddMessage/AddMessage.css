@@ -53,6 +53,7 @@
 }
 .AddMessage-form .additionalСontent__item label {
   height: 100%;
+  cursor: pointer;
   width: 100%;
   display: block;
 }
