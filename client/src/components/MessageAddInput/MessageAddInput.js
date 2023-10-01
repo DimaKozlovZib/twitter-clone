@@ -1,61 +1,30 @@
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect, useRef, useState } from 'react';
 import './MessageAddInput.css'
-import { CompositeDecorator, Editor, EditorState } from 'draft-js';
-
-const hashtag = memo((props) =>
-(<span {...props} className='hashtag'>
-    {props.children}
-</span>))
-
-const ExcessCharsSpan = memo((props) =>
-    (<span className="excess-chars" {...props}>{props.children}</span>))
+import { Editor, EditorState } from 'draft-js';
+import HelperHashtagInput from '../../UI/HelperHashtagInput/HelperHashtagInput';
+import { compositeDecorator } from './decorators';
 
 const MessageAddInput = memo(({ setValue }) => {
-    const HASHTAG_REGEX = /(^|\B)(#(?![0-9_]+\b)([a-zA-Z0-9_]{2,12}))(\b|\r)/g;
-    const compositeDecorator = new CompositeDecorator([
-        {
-            strategy: hashtagStrategy,
-            component: hashtag,
-        },
-        {
-            strategy: highlightExcessChars,
-            component: ExcessCharsSpan,
-        },
-    ]);
+    const [isInputActive, setIsInputActive] = useState(false);
+    const editorBlock = useRef()
+
     const [editorState, setEditorState] = React.useState(() => EditorState.createEmpty(compositeDecorator));
-
-    function hashtagStrategy(contentBlock, callback, contentState) {
-        findWithRegex(HASHTAG_REGEX, contentBlock, callback);
-    }
-
-    function findWithRegex(regex, contentBlock, callback) {
-        const text = contentBlock.getText();
-        let matchArr, start;
-        while ((matchArr = regex.exec(text)) !== null) {
-            start = matchArr.index;
-            callback(start, start + matchArr[0].length);
-        }
-    }
-
-    function highlightExcessChars(contentBlock, callback, contentState) {
-        const blockText = contentBlock.getText();
-        const excessChars = blockText.slice(140); // Получаем символы с индекса 140 и далее
-
-        if (excessChars.length > 0) {
-            const startIndex = blockText.lastIndexOf(excessChars);
-            callback(startIndex, startIndex + excessChars.length);
-        }
-    };
 
     useEffect(() => {
         const contentState = editorState.getCurrentContent();
         const text = contentState.getPlainText();
         setValue(text);
+
+        const focus = editorState.getSelection().getHasFocus()
+        if (isInputActive !== focus) setIsInputActive(focus)
     }, [editorState]);
 
     return (
         <div className='MessageAddInput'>
-            <Editor placeholder='Расскажите что-то новое?!' editorState={editorState} onChange={setEditorState} />
+            <Editor placeholder='Расскажите что-то новое?!' ref={editorBlock} preserveSelectionOnBlur
+                editorState={editorState} onChange={setEditorState} />
+            <HelperHashtagInput editorState={editorState} editorBlock={editorBlock}
+                setEditorState={setEditorState} isInputActive={isInputActive} />
         </div>
     );
 })

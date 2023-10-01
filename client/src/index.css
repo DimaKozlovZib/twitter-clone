@@ -39,7 +39,7 @@ body.load {
 	--main-bg-color: #fff;
 	--body-bg-color: rgba(181, 180, 180, 0.552);
 	--alternative-bg-color: #fff;
-	--alternative-bg-color-hover: rgba(174, 183, 194, 0.12);
+	--alternative-bg-color--hover: rgba(174, 183, 194, 0.12);
 	--second-bg-color: rgb(235, 235, 235);
 	--main-elements-color: rgb(0, 0, 0);
 	--alpha-main: rgba(0, 0, 0, 0.8);

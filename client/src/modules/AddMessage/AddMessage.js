@@ -31,6 +31,10 @@ const AddMessage = memo(() => {
         setImages(arrFiles)
     }
 
+    const postMessage = e => {
+
+    }
+
     return isAuth && (
         <div className='AddMessage'>
             <form id='form' onSubmit={e => e.preventDefault()} className='AddMessage-form'>
@@ -51,7 +55,7 @@ const AddMessage = memo(() => {
                             </label>
                         </div>
                     </div>
-                    <button className='submit-btn' >
+                    <button className='submit-btn' onClick={postMessage}>
                         Сохранить
                     </button>
                 </div>
