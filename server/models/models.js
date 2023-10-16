@@ -16,7 +16,6 @@ const basicMessageSheme = {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     userId: { type: DataTypes.INTEGER, allowNull: false },
     text: { type: DataTypes.STRING, allowNull: false },
-    img: { type: DataTypes.STRING, unique: true, },
 }
 
 const Message = sequelize.define('message', {
@@ -51,6 +50,8 @@ const Hashtag = sequelize.define('hashtag', {
 const Image = sequelize.define('image', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     url: { type: DataTypes.STRING, unique: true, allowNull: false },
+    messageId: { type: DataTypes.INTEGER, },
+    userId: { type: DataTypes.INTEGER, }
 })
 
 const messageHashtag = sequelize.define('messageHashtag', {
@@ -77,6 +78,7 @@ User.hasMany(Likes)
 User.belongsTo(Friends)
 
 Message.hasMany(Likes)
+Message.hasMany(Image, { onDelete: 'CASCADE' })
 Message.belongsToMany(Hashtag, { through: messageHashtag })
 Message.belongsTo(User, { onDelete: 'CASCADE' })
 Message.belongsTo(Message, { as: 'retweet', foreignKey: 'retweetId' })

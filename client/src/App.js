@@ -6,7 +6,6 @@ import './styles/Modal.css';
 import AppRouter from './appRouter';
 import LoadModal from './components/LoadModal/LoadModal';
 import AddCover from './modules/AddCover/AddCover';
-import AddMessage from './modules/AddMessage/AddMessage';
 import { getUser } from './store/asyncGetUser';
 import DeleteMessage from './modules/DeleteMessage/DeleteMessage';
 import ChangeAvatar from './modules/ChangeAvatar/ChangeAvatar';

@@ -2,7 +2,7 @@ const { Message, Image, User, Likes, Hashtag, Comment } = require('../models/mod
 const uuid = require("uuid")
 const path = require("path")
 const ApiError = require("../error/ApiError")
-const jwt = require("jsonwebtoken")
+//const jwt = require("jsonwebtoken")
 const { Sequelize, Op } = require("sequelize");
 const interactionMessage = require('../analytics/interactionMessage')
 const client = require('../models/redis')
@@ -11,29 +11,35 @@ const Recommendations = require('../recommendationAlgorithm/main')
 class messageRouter {
     async addMessage(req, res, next) {
         try {
-            const { text } = req.body;
+            const { text, hashtagsString } = req.body;
             const { id } = req.user;
             const retweetId = req.body?.retweetId;
 
+            const f = req.files?.file
+            const images = f && !f.length ? [f] : f;
+            const imgLen = images?.length
+
             if ((!retweetId && !text)) return res.status(400).json({ message: 'no text', text: 0 });
 
-            const regex = /(^|\B)#(?![0-9_]+\b)([a-zA-Z0-9_]{2,12})(\b|\r)/g
-            const hashtags = Array.from(text.matchAll(regex), match => match[0]);
-            const noDublicateHashtags = Array.from(new Set(hashtags))
+            // проверяем изображения на типы
 
-            for (let index = 0; index < noDublicateHashtags.length; index++) {
-                const element = hashtags[index].toLowerCase();
-                const hashtag = await Hashtag.findOne({ where: { name: { [Op.iLike]: hashtagName.slice(1) } } })
+            const imageFileCondition = images.filter(file => {
+                return !file || !"image/jpeg,image/png,image/gif,image/webp".split(',').includes(file.mimetype)
+            }).length !== 0
 
-                if (!hashtag) return res.status(400).json({ message: 'hashtag does not exist', hashtag: { name: element } });
+            if (imageFileCondition) {
+                return res.status(415).json({ message: 'не передан файл или файл не правильного типа' })
             }
 
+            //проверка на ретвит
             const retweetMessage = retweetId ? await Message.findOne({ where: { id: retweetId } }) : null
 
-            if (!retweetMessage && retweetId) return res.status(404).json({ message: 'bad request' });
+            if (!retweetMessage && !text) return res.status(404).json({ message: 'bad request' });
 
+            //создаем новый твит
             const message = await Message.create({ text, userId: id, retweetId: retweetId || null });
 
+            //связываем твит с другим как ретвит
             if (retweetId) {
                 await message.setRetweet(retweetMessage);
 
@@ -43,23 +49,36 @@ class messageRouter {
                     by: 1,
                 })
             }
+            //(создаем и) связываем хэштеги с твитом
+            const allHashtags = hashtagsString.split(',')
+            if (allHashtags?.length > 0) {
+                allHashtags.forEach(async i => {
+                    const hashtagName = i.slice(1);
 
-            if (!hashtags || hashtags.length !== 0) return;
+                    if (hashtagName.trim().length === 0) return;
+                    const hashtag = await Hashtag.findOne({ where: { name: hashtagName } })
 
-            noDublicateHashtags.forEach(async i => {
-                const hashtagName = i.slice(1);
-                const hashtag = await Hashtag.findOne({ where: { name: hashtagName } })
+                    if (hashtag) {
+                        message.addHashtag(hashtag, { through: { countMessages: hashtag.countMessages + 1 } })
+                        hashtag.update({
+                            countMessages: hashtag.countMessages + 1
+                        })
+                    } else {
+                        const newHashtag = await Hashtag.create({ name: hashtagName, countMessages: 1 })
+                        message.addHashtag(newHashtag)
+                    }
+                });
+            }
+            //создаем изображения
 
-                if (hashtag) {
-                    message.addHashtag(hashtag, { through: { countMessages: hashtag.countMessages + 1 } })
-                    hashtag.update({
-                        countMessages: hashtag.countMessages + 1
-                    })
-                } else {
-                    const newHashtag = await Hashtag.create({ name: hashtagName, countMessages: 1 })
-                    message.addHashtag(newHashtag)
-                }
-            });
+            if (imgLen > 0) {
+                images.forEach(async file => {
+                    const filename = 'messageImage' + uuid.v4() + ".jpg";
+                    file.mv(path.resolve(__dirname, '..', 'static', filename))
+                    await Image.create({ url: filename, messageId: message.id })
+                })
+            }
+
             return res.status(200).json({ message })
         } catch (error) {
             console.log(error)
@@ -172,7 +191,12 @@ class messageRouter {
                         model: Hashtag,
                         attributes: ['name', 'id'],
                         through: { attributes: [] } // Отключаем вывод информации о промежуточной таблице
-                    }, {
+                    },
+                    {
+                        model: Image,
+                        attributes: ['url', 'id'],
+                    },
+                    {
                         model: Message,
                         as: 'retweet',
                         attributes: ['text', 'id', 'likesNum', 'retweetCount', 'retweetId'],

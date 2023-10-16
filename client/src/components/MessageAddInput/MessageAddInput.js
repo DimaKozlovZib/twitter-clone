@@ -7,7 +7,6 @@ import { compositeDecorator } from './decorators';
 const MessageAddInput = memo(({ setValue }) => {
     const [isInputActive, setIsInputActive] = useState(false);
     const editorBlock = useRef()
-
     const [editorState, setEditorState] = React.useState(() => EditorState.createEmpty(compositeDecorator));
 
     useEffect(() => {

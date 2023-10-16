@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { addMessages } from './API';
 import './AddMessage.css';
@@ -31,8 +31,39 @@ const AddMessage = memo(() => {
         setImages(arrFiles)
     }
 
-    const postMessage = e => {
+    const postMessage = async e => {
+        e.preventDefault();
+        try {
+            if (value.trim().length === 0 || value.length > 200) return;
 
+            //получаем хэштеги
+            const hashtags = document.querySelectorAll(`.MessageAddInput .hashtag`)
+
+            const hashtagNames = []
+
+            for (let index = 0; index < hashtags.length; index++) {
+                const element = hashtags[index];
+                hashtagNames.push(element.textContent)
+            }
+            const hashtagsInText = Array.from(new Set(hashtagNames))
+
+            //передаем данные в форму
+            const formData = new FormData()
+            for (let index = 0; index < images.length; index++) {
+                const element = images[index];
+                formData.append('file', element)
+            }
+            formData.append('text', value)
+            formData.append('hashtagsString', hashtagsInText)
+            //запрос
+            const response = await addMessages(formData)
+
+            if (response) {
+                console.log(response)
+            }
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     return isAuth && (
