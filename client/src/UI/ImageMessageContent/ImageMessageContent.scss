@@ -1,0 +1,32 @@
+.image-table {
+	display: flex;
+	align-items: stretch;
+	justify-content: space-between;
+	min-height: 190px;
+	height: 100%;
+	width: 100%;
+	gap: 10px;
+	margin-top: 15px;
+	padding-right: 10px;
+	box-sizing: border-box;
+
+	& > * {
+		-moz-box-align: stretch;
+		-moz-box-direction: normal;
+		-moz-box-orient: vertical;
+		max-height: 100%;
+		display: flex;
+		flex: 1 1 0px;
+		flex-direction: column;
+		align-items: stretch;
+		row-gap: 10px;
+	}
+	.image-item {
+		max-height: 45vh;
+		border-radius: 10px;
+		object-fit: cover;
+		width: 100%;
+		height: 100%;
+		max-width: 600px;
+	}
+}

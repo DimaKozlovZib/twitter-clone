@@ -5,9 +5,6 @@
   color: var(--main-elements-color);
   width: 100%;
 }
-.messagePost .message-info, .RetweetMessage .message-info {
-  margin-top: 5px;
-}
 .messagePost .user-info, .RetweetMessage .user-info {
   display: flex;
 }
@@ -19,24 +16,27 @@
   margin-left: 5px;
   color: var(--alpha6);
 }
-.messagePost .message-text, .RetweetMessage .message-text {
-  white-space: pre-wrap;
-  line-height: 18px;
+.messagePost .TextMessageContent, .RetweetMessage .TextMessageContent {
+  margin-top: 5px;
   padding: 0px 5px;
+  font-size: 16px;
+}
+.messagePost .TextMessageContent .text, .RetweetMessage .TextMessageContent .text {
   word-break: break-all;
+  white-space: pre-wrap;
 }
-.messagePost .hashtags, .RetweetMessage .hashtags {
-  display: flex;
-  margin-top: 4px;
-}
-.messagePost .hashtags a, .RetweetMessage .hashtags a {
-  margin-left: 3px;
-  cursor: pointer;
+.messagePost .TextMessageContent .text, .RetweetMessage .TextMessageContent .text,
+.messagePost .TextMessageContent .hashtag,
+.RetweetMessage .TextMessageContent .hashtag {
   font-family: "Nunito", sans-serif;
-  font-size: 14px;
+  font-size: inherit;
+  display: inline-block;
+  line-height: 18px;
+}
+.messagePost .TextMessageContent .hashtag, .RetweetMessage .TextMessageContent .hashtag {
   color: #00aaec;
 }
-.messagePost .hashtags a:hover, .RetweetMessage .hashtags a:hover {
+.messagePost .TextMessageContent .hashtag:hover, .RetweetMessage .TextMessageContent .hashtag:hover {
   text-decoration: underline;
 }
 
@@ -59,9 +59,6 @@
 }
 .RetweetMessage_user-information .user-email {
   font-size: 15px;
-}
-.RetweetMessage .message-text {
-  font-size: 16px;
 }
 
 .messagePost {

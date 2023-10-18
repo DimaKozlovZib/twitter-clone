@@ -1,10 +1,11 @@
 import React from 'react';
 import './RetweetMessage.css';
 import UserAvatar from '../UserAvatar/UserAvatar';
-import { Link } from 'react-router-dom';
+import TextMessageContent from '../TextMessageContent/TextMessageContent';
+import ImageMessageContent from '../ImageMessageContent/ImageMessageContent';
 
 const RetweetMessage = ({ retweetMessage }) => {
-    const { user, text, id } = retweetMessage;
+    const { user, text, id, hashtags, images } = retweetMessage;
     const { img, name, email } = user;
 
     return (
@@ -23,18 +24,9 @@ const RetweetMessage = ({ retweetMessage }) => {
                 </div>
             </div>
             <div className='message-info'>
-                <div className='message-text'>
-                    <p>{text}</p>
-                </div>
+                <TextMessageContent originalText={text} hashtags={hashtags} />
+                <ImageMessageContent images={images} />
             </div>
-            {retweetMessage?.hashtags ? (
-                <div className='hashtags'>
-                    {
-                        retweetMessage?.hashtags.map(({ id, name }) =>
-                            <Link to={`/twitter-clone/hashtag/${name}`} key={id}>{`#${name}`}</Link>)
-                    }
-                </div>
-            ) : <></>}
         </div >
     );
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import './MessageInfo.css';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { findOneMessage } from './API';
 import UserAvatar from '../../UI/UserAvatar/UserAvatar';
 import SlimBurgerMenu from '../../UI/SlimBurgerMenu/SlimBurgerMenu';
@@ -12,6 +12,8 @@ import AddCommentForm from '../../components/AddCommentForm/AddCommentForm';
 import Comment from '../../UI/Comment/Comment';
 import InfoBlock from '../../UI/InfoBlock/InfoBlock';
 import RewiewsMessage from '../../UI/RewiewsMessage/RewiewsMessage';
+import TextMessageContent from '../../UI/TextMessageContent/TextMessageContent';
+import ImageMessageContent from '../../UI/ImageMessageContent/ImageMessageContent';
 
 const MessageInfo = () => {
     const userId = useSelector(state => state.user.id)
@@ -25,7 +27,7 @@ const MessageInfo = () => {
     const params = useParams()
 
     const { user, text, likesNum, id, likes, hashtags,
-        retweet, retweetId, retweetCount, createdAt, commentsCount } = message;
+        retweet, retweetId, retweetCount, createdAt, commentsCount, images } = message;
 
     const isLikedByUser = likes && likes.some(like => like.userId === userId && like.messageId === id);
 
@@ -154,16 +156,12 @@ const MessageInfo = () => {
                 <div className='message-contant'>
                     <div className='message-info'>
                         <div className={classGenerate('message-text')}>
-                            <p>{text}</p>
+                            {text && <TextMessageContent originalText={text} hashtags={hashtags} />}
                         </div>
-                        {retweetId ? <RetweetMessage retweetMessage={retweet} /> : <></>}
-                    </div>
 
-                    <div className='hashtags'>
-                        {hashtags &&
-                            hashtags.map(({ id, name }) =>
-                                <Link to={`/twitter-clone/hashtag/${name}`} key={id}>{`#${name}`}</Link>)
-                        }
+                        <ImageMessageContent images={images} />
+
+                        {retweetId ? <RetweetMessage retweetMessage={retweet} /> : <></>}
                     </div>
 
                     <div className={classGenerate('dateOfCreate')}>

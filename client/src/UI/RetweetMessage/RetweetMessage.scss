@@ -4,9 +4,7 @@
 	box-sizing: border-box;
 	color: var(--main-elements-color);
 	width: 100%;
-	.message-info {
-		margin-top: 5px;
-	}
+
 	.user-info {
 		display: flex;
 		.user-name {
@@ -18,20 +16,22 @@
 			color: var(--alpha6);
 		}
 	}
-	.message-text {
-		white-space: pre-wrap;
-		line-height: 18px;
+	.TextMessageContent {
+		margin-top: 5px;
 		padding: 0px 5px;
-		word-break: break-all;
-	}
-	.hashtags {
-		display: flex;
-		margin-top: 4px;
-		a {
-			margin-left: 3px;
-			cursor: pointer;
+		font-size: 16px;
+		.text {
+			word-break: break-all;
+			white-space: pre-wrap;
+		}
+		.text,
+		.hashtag {
 			font-family: "Nunito", sans-serif;
-			font-size: 14px;
+			font-size: inherit;
+			display: inline-block;
+			line-height: 18px;
+		}
+		.hashtag {
 			color: #00aaec;
 			&:hover {
 				text-decoration: underline;
@@ -60,8 +60,5 @@
 		.user-email {
 			font-size: 15px;
 		}
-	}
-	.message-text {
-		font-size: 16px;
 	}
 }

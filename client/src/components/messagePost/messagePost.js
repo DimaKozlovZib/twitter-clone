@@ -2,16 +2,18 @@ import React, { useEffect, useRef, useState } from 'react';
 import { messageShown } from './API';
 import UserAvatar from '../../UI/UserAvatar/UserAvatar';
 import "./messagePost.css";
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import SlimBurgerMenu from '../../UI/SlimBurgerMenu/SlimBurgerMenu';
 import useModal from '../../hooks/useModal';
 import { useSelector } from 'react-redux';
 import RetweetMessage from '../../UI/RetweetMessage/RetweetMessage';
 import { likeMessage } from '../../API/messagesApi';
 import RewiewsMessage from '../../UI/RewiewsMessage/RewiewsMessage';
+import TextMessageContent from '../../UI/TextMessageContent/TextMessageContent';
+import ImageMessageContent from '../../UI/ImageMessageContent/ImageMessageContent';
 
 const MessagePost = ({ messageObject, setDelete }) => {
-    const { user, text, likesNum, id, likes, hashtags, retweet, retweetId, retweetCount, commentsCount } = messageObject;
+    const { user, text, likesNum, id, likes, hashtags, retweet, retweetId, retweetCount, commentsCount, images } = messageObject;
     const { img, name, email } = user;
 
     const userId = useSelector(state => state.user.id)
@@ -124,19 +126,10 @@ const MessagePost = ({ messageObject, setDelete }) => {
                     {(userId === user.id) && <SlimBurgerMenu onClickFunc={openMenu} />}
                 </div>
 
-                <div className='message-info'>
-                    <div className='message-text'>
-                        <p>{text}</p>
-                    </div>
-                    {retweetId ? <RetweetMessage retweetMessage={retweet} /> : <></>}
-                </div>
+                <TextMessageContent originalText={text} hashtags={hashtags} />
+                {retweetId ? <RetweetMessage retweetMessage={retweet} /> : <></>}
 
-                <div className='hashtags'>
-                    {
-                        hashtags.map(({ id, name }) =>
-                            <Link to={`/twitter-clone/hashtag/${name}`} key={id}>{`#${name}`}</Link>)
-                    }
-                </div>
+                <ImageMessageContent images={images} />
 
                 <RewiewsMessage events={events} data={data} />
 
