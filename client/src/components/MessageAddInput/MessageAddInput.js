@@ -1,19 +1,13 @@
 import React, { memo, useEffect, useRef, useState } from 'react';
 import './MessageAddInput.css'
-import { Editor, EditorState } from 'draft-js';
+import { Editor } from 'draft-js';
 import HelperHashtagInput from '../../UI/HelperHashtagInput/HelperHashtagInput';
-import { compositeDecorator } from './decorators';
 
-const MessageAddInput = memo(({ setValue }) => {
+const MessageAddInput = memo(({ editorState, setEditorState }) => {
     const [isInputActive, setIsInputActive] = useState(false);
     const editorBlock = useRef()
-    const [editorState, setEditorState] = React.useState(() => EditorState.createEmpty(compositeDecorator));
 
     useEffect(() => {
-        const contentState = editorState.getCurrentContent();
-        const text = contentState.getPlainText();
-        setValue(text);
-
         const focus = editorState.getSelection().getHasFocus()
         if (isInputActive !== focus) setIsInputActive(focus)
     }, [editorState]);

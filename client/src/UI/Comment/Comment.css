@@ -7,14 +7,17 @@
 }
 .CommentMessage .user-info, .RetweetMessage .user-info {
   display: flex;
+  font-family: "Nunito", sans-serif;
 }
 .CommentMessage .user-info .user-name, .RetweetMessage .user-info .user-name {
   line-height: 20.5px;
   font-weight: 600;
+  font-family: inherit;
 }
 .CommentMessage .user-info .user-email, .RetweetMessage .user-info .user-email {
   margin-left: 5px;
   color: var(--alpha6);
+  font-family: inherit;
 }
 .CommentMessage .TextMessageContent, .RetweetMessage .TextMessageContent {
   margin-top: 5px;

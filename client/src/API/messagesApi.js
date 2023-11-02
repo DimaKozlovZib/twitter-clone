@@ -33,3 +33,12 @@ export const likeMessage = async (mesId) => {
         return error
     }
 }
+
+export const getMessageContent = async (messageId, getRetweet, getLikes) => {
+    try {
+        const response = await $authHost.post('/message/getMessageContent', { messageId, getRetweet, getLikes })
+        return response;
+    } catch (error) {
+        return error
+    }
+}

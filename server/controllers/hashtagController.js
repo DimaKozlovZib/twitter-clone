@@ -1,4 +1,4 @@
-const { Hashtag, Message, messageHashtag, Likes, User } = require('../models/models');
+const { Hashtag, Message, messageHashtag, Likes, User, Image } = require('../models/models');
 const { Op } = require("sequelize");
 const { Sequelize } = require('../db');
 
@@ -105,7 +105,6 @@ class hashtagRouter {
                 })
             }
 
-
             const hashtag = await Hashtag.findAndCountAll({
                 where: { name: params.name },
                 attributes: ['id'],
@@ -127,20 +126,43 @@ class hashtagRouter {
                 where: { hashtagId: hashtag.rows[0].dataValues.id },
                 include: [{
                     model: Message,
-                    attributes: ["id", "userId", "text", "likesNum", "img"],
                     required: true,
+                    attributes: ['text', 'id', 'likesNum', 'retweetCount', 'retweetId', 'createdAt', 'commentsCount'],
                     include: [
+                        {
+                            model: User,
+                            attributes: ['name', 'id', 'img', 'email']
+                        },
                         {
                             model: Hashtag,
                             attributes: ['name', 'id'],
-                            through: {
-                                attributes: [],
-                            },
-                            raw: true
-                        }, {
-                            model: User,
-                            attributes: ['img', 'name', 'email', 'id'],
-                            raw: true,
+                            through: { attributes: [] } // Отключаем вывод информации о промежуточной таблице
+                        },
+                        {
+                            model: Image,
+                            attributes: ['url', 'id'],
+                        },
+                        {
+                            model: Message,
+                            as: 'retweet',
+                            attributes: ['text', 'id', 'likesNum', 'retweetCount'],
+                            include: [
+                                {
+                                    model: User,
+                                    attributes: ['img', 'name', 'email', 'id'],
+                                    raw: true,
+
+                                }, {
+                                    model: Hashtag,
+                                    attributes: ['name', 'id'],
+                                    through: {
+                                        attributes: []
+                                    }
+                                }, {
+                                    model: Image,
+                                    attributes: ['url', 'id'],
+                                },
+                            ]
                         }, ...includes
                     ]
                 }]

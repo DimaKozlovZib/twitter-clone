@@ -6,7 +6,7 @@
 	.user-box {
 		margin-left: 10px;
 	}
-	.user-info {
+	& > .user-info {
 		display: flex;
 		align-items: center;
 		font-family: "Nunito", sans-serif;
@@ -29,10 +29,13 @@
 		width: 55px;
 	}
 	//mesage-content
-	.message-info {
-		font-family: "Nunito", sans-serif;
-		font-size: 22px;
-		margin-top: 20px;
+	& > .message-contant {
+		margin-top: 10px;
+
+		& > .message-info {
+			font-family: "Nunito", sans-serif;
+			font-size: 22px;
+		}
 	}
 	.message-rewiews {
 		justify-content: space-evenly;

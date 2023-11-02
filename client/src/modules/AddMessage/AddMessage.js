@@ -1,15 +1,45 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { addMessages } from './API';
 import './AddMessage.css';
 import MessageAddInput from '../../components/MessageAddInput/MessageAddInput';
 import ImageTable from '../../components/ImageTable/ImageTable';
+import RetweetMessage from '../../UI/RetweetMessage/RetweetMessage';
+import { useParams } from 'react-router-dom';
+import { getMessageContent } from '../../API/messagesApi';
+import LoaderHorizontally from '../../UI/LoaderHorizontally/LoaderHorizontally';
+import { EditorState } from 'draft-js';
+import { compositeDecorator } from '../../components/MessageAddInput/decorators';
 
-const AddMessage = memo(() => {
+const AddMessage = memo(({ isRetweet }) => {
     const isAuth = useSelector(state => state.isAuth)
-    const [value, setValue] = useState('');
     const [images, setImages] = useState([]);
     const maxImageCount = 4;
+
+    const [isLoad, setIsLoad] = useState(null);
+    const [messageRetweetData, setMessageRetweetData] = useState(null);
+    const storageData = useSelector(i => i.data)
+    const params = useParams()
+    const [editorState, setEditorState] = React.useState(() => EditorState.createEmpty(compositeDecorator));
+
+    useEffect(() => {
+        if (!isRetweet) return;
+        const messId = +params.id
+
+        if (storageData?.id === messId) {
+            setMessageRetweetData(storageData)
+            setIsLoad(true)
+        } else {
+            const getContent = async () => {
+                const res = await getMessageContent(messId, false, false)
+                if (res) {
+                    setMessageRetweetData(res.data.message)
+                    setIsLoad(true)
+                }
+            }
+            getContent()
+        }
+    }, [storageData]);
 
     const addImage = e => {
         const files = e.target.files
@@ -34,6 +64,9 @@ const AddMessage = memo(() => {
     const postMessage = async e => {
         e.preventDefault();
         try {
+            const contentState = editorState.getCurrentContent();
+            const value = contentState.getPlainText();
+
             if (value.trim().length === 0 || value.length > 200) return;
 
             //получаем хэштеги
@@ -55,11 +88,15 @@ const AddMessage = memo(() => {
             }
             formData.append('text', value)
             formData.append('hashtagsString', hashtagsInText)
+            formData.append('retweetId', messageRetweetData?.id || null)
             //запрос
             const response = await addMessages(formData)
 
             if (response) {
-                console.log(response)
+                setEditorState(() => EditorState.createEmpty(compositeDecorator))
+                setImages([])
+                setMessageRetweetData(null)
+                setIsLoad(null)
             }
         } catch (error) {
             console.error(error)
@@ -68,8 +105,12 @@ const AddMessage = memo(() => {
 
     return isAuth && (
         <div className='AddMessage'>
+            {isRetweet &&
+                (isLoad && messageRetweetData ?
+                    <RetweetMessage retweetMessage={messageRetweetData} /> : <LoaderHorizontally />)
+            }
             <form id='form' onSubmit={e => e.preventDefault()} className='AddMessage-form'>
-                <MessageAddInput setValue={setValue} />
+                <MessageAddInput editorState={editorState} setEditorState={setEditorState} />
                 <ImageTable images={images} deleteImage={deleteImage} />
                 <div className='form-wrapper'>
                     <div className='additionalСontent'>

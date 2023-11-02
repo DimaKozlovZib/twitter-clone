@@ -8,4 +8,5 @@ export const loginPath = 'twitter-clone/login';
 export const editPath = 'twitter-clone/edit';
 export const searchPath = 'twitter-clone/search/:model/:searchText';
 export const messagePath = 'twitter-clone/message/:id';
+export const addRetweetPath = 'twitter-clone/message/:id/retweet';
 export const addMessagePath = 'twitter-clone/message/add';

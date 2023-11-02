@@ -6,35 +6,58 @@ const ApiError = require("../error/ApiError")
 const { Sequelize, Op } = require("sequelize");
 const interactionMessage = require('../analytics/interactionMessage')
 const client = require('../models/redis')
-const Recommendations = require('../recommendationAlgorithm/main')
+const Recommendations = require('../recommendationAlgorithm/main');
+
+const retweetIncludeObject = {
+    model: Message,
+    as: 'retweet',
+    attributes: ['text', 'id', 'likesNum', 'retweetCount'],
+    include: [
+        {
+            model: User,
+            attributes: ['img', 'name', 'email', 'id'],
+            raw: true,
+
+        }, {
+            model: Hashtag,
+            attributes: ['name', 'id'],
+            through: {
+                attributes: []
+            }
+        }, {
+            model: Image,
+            attributes: ['url', 'id'],
+        },
+    ]
+}
 
 class messageRouter {
     async addMessage(req, res, next) {
         try {
             const { text, hashtagsString } = req.body;
             const { id } = req.user;
-            const retweetId = req.body?.retweetId;
+            const retweetId = Number(req.body?.retweetId);
 
             const f = req.files?.file
             const images = f && !f.length ? [f] : f;
             const imgLen = images?.length
 
-            if ((!retweetId && !text)) return res.status(400).json({ message: 'no text', text: 0 });
+            if (!text) return res.status(400).json({ message: 'no text', text: 0 });
 
             // проверяем изображения на типы
 
-            const imageFileCondition = images.filter(file => {
+            const imageFileCondition = images?.filter(file => {
                 return !file || !"image/jpeg,image/png,image/gif,image/webp".split(',').includes(file.mimetype)
             }).length !== 0
 
-            if (imageFileCondition) {
+            if (imageFileCondition && f) {
                 return res.status(415).json({ message: 'не передан файл или файл не правильного типа' })
             }
 
             //проверка на ретвит
             const retweetMessage = retweetId ? await Message.findOne({ where: { id: retweetId } }) : null
 
-            if (!retweetMessage && !text) return res.status(404).json({ message: 'bad request' });
+            if (!retweetMessage && retweetId) return res.status(404).json({ message: 'retweet message is not defined', retweetMessage: 0 });
 
             //создаем новый твит
             const message = await Message.create({ text, userId: id, retweetId: retweetId || null });
@@ -94,7 +117,6 @@ class messageRouter {
 
             const Limit = data.limit || 3;
             const Page = ((data.page || 1) - 1) * Limit;
-            console.log(Limit)
 
             //получаем сообшения имеющие искомую подстроку
             const messages = await Message.findAndCountAll({
@@ -104,7 +126,7 @@ class messageRouter {
                         [Sequelize.Op.like]: `%${text}%`
                     }
                 },
-                attributes: ['text', 'id', 'likesNum'],
+                attributes: ['text', 'id', 'likesNum', 'retweetCount', 'retweetId', 'createdAt', 'commentsCount'],
                 include: [
                     {
                         model: User,
@@ -114,7 +136,33 @@ class messageRouter {
                         model: Hashtag,
                         attributes: ['name', 'id'],
                         through: { attributes: [] } // Отключаем вывод информации о промежуточной таблице
-                    }
+                    },
+                    {
+                        model: Image,
+                        attributes: ['url', 'id'],
+                    },
+                    {
+                        model: Message,
+                        as: 'retweet',
+                        attributes: ['text', 'id', 'likesNum', 'retweetCount'],
+                        include: [
+                            {
+                                model: User,
+                                attributes: ['img', 'name', 'email', 'id'],
+                                raw: true,
+
+                            }, {
+                                model: Hashtag,
+                                attributes: ['name', 'id'],
+                                through: {
+                                    attributes: []
+                                }
+                            }, {
+                                model: Image,
+                                attributes: ['url', 'id'],
+                            },
+                        ]
+                    },
                 ]
             });
 
@@ -199,7 +247,7 @@ class messageRouter {
                     {
                         model: Message,
                         as: 'retweet',
-                        attributes: ['text', 'id', 'likesNum', 'retweetCount', 'retweetId'],
+                        attributes: ['text', 'id', 'likesNum', 'retweetCount'],
                         include: [
                             {
                                 model: User,
@@ -212,7 +260,10 @@ class messageRouter {
                                 through: {
                                     attributes: []
                                 }
-                            }
+                            }, {
+                                model: Image,
+                                attributes: ['url', 'id'],
+                            },
                         ]
                     }, ...include
                 ]
@@ -265,7 +316,55 @@ class messageRouter {
         }
 
     }
+    async getMessageContent(req, res) {
+        try {
+            const data = req.body;
+            const { id, isAuth } = req.user
 
+            if (!data?.messageId) return res.status(400).json({ message: 'bad request' })
+            const { messageId } = data;
+            const includes = []
+
+            const getRetweet = data.getRetweet || false;
+            if (getRetweet) includes.push(retweetIncludeObject)
+
+            const getLikes = data.getLikes || false;
+            const likesIncludeObject = {
+                model: Likes,
+                where: {
+                    userId: +id
+                },
+                required: false
+            }
+            if (getLikes && isAuth) includes.push(likesIncludeObject)
+
+            const message = await Message.findOne({
+                where: {
+                    id: messageId
+                },
+                attributes: ['text', 'id', 'likesNum', 'retweetCount', 'retweetId', 'createdAt', 'commentsCount'],
+                include: [
+                    {
+                        model: User,
+                        attributes: ['name', 'id', 'img', 'email']
+                    },
+                    {
+                        model: Hashtag,
+                        attributes: ['name', 'id'],
+                        through: { attributes: [] } // Отключаем вывод информации о промежуточной таблице
+                    },
+                    {
+                        model: Image,
+                        attributes: ['url', 'id'],
+                    }, ...includes
+                ]
+            });
+
+            return res.status(200).json({ message })
+        } catch (error) {
+            return res.status(500).json(error)
+        }
+    }
     async getMessages(req, res) {
         try {
             const { isAuth, id } = req.user;
@@ -301,7 +400,10 @@ class messageRouter {
                         through: {
                             attributes: []
                         }
-                    }]
+                    }, {
+                        model: Image,
+                        attributes: ['url', 'id'],
+                    },]
             })
             res.status(200).json(objects)
             //сохраняем массив в redis

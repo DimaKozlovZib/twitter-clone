@@ -4,16 +4,16 @@ const host = process.env.REDIS_HOST
 const password = process.env.REDIS_PASSWORD
 
 const client = createClient({
-    password,
+    password: password,
     socket: {
-        host,
-        port
+        host: host,
+        port: port
     }
 });
 
-(async () => {
-    await client.connect();
-})();
+//(async () => {
+//    await client.connect();
+//})();
 
 client.on('connect', function () {
     console.log('redis connected!');

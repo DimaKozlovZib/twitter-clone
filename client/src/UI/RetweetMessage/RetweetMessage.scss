@@ -7,13 +7,16 @@
 
 	.user-info {
 		display: flex;
+		font-family: "Nunito", sans-serif;
 		.user-name {
 			line-height: 20.5px;
 			font-weight: 600;
+			font-family: inherit;
 		}
 		.user-email {
 			margin-left: 5px;
 			color: var(--alpha6);
+			font-family: inherit;
 		}
 	}
 	.TextMessageContent {

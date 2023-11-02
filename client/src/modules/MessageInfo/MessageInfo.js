@@ -29,12 +29,7 @@ const MessageInfo = () => {
     const { user, text, likesNum, id, likes, hashtags,
         retweet, retweetId, retweetCount, createdAt, commentsCount, images } = message;
 
-    const isLikedByUser = likes && likes.some(like => like.userId === userId && like.messageId === id);
-
-    const [likesNumState, setLikesNumState] = useState(likesNum);
     const [hiddenMenu, setHiddenMenu] = useState(false);
-
-    const [activeLikeClass, setActiveLikeClass] = useState(isLikedByUser);
 
     const loadStatus = 'loaded';
     const [infoStatus, setInfoStatus] = useState(loadStatus);
@@ -64,26 +59,6 @@ const MessageInfo = () => {
             setComments(response?.data?.comments?.rows)
         }
     }
-    // оценка сообщения лайком
-
-    useEffect(() => {
-        const classState = isLikedByUser ? 'active' : '';
-        if (!likesNumState && likesNumState !== 0) {
-            setLikesNumState(likesNum)
-            setActiveLikeClass(classState)
-        }
-    }, [likesNum, activeLikeClass]);
-
-    const postLike = async () => {
-        if (!isAuth) return false;
-
-        const res = await likeMessage(id);
-
-        if (res?.status === 200) {
-            setActiveLikeClass(!res.data.likeIsActive ? '' : 'active')
-            setLikesNumState(res.data.likesNum)
-        }
-    }
 
     // всплывающее меню \/
     const closeOnClickWrapper = (e) => {
@@ -108,8 +83,6 @@ const MessageInfo = () => {
         openModal()
     }
 
-    const retweetMessage = () => { if (isAuth) openModalToWriteMess() }
-
     const stopDefault = (e) => {
         e.stopPropagation();
         e.preventDefault();
@@ -119,20 +92,10 @@ const MessageInfo = () => {
 
     const dateCreated = id ? createdAt.match(/\d+/g).slice(0, -2).reverse() : '';
 
-
     // rewiews props objects
-    const events = {
-        comments: {
-            onClick: null
-        }, retweets: {
-            onClick: retweetMessage
-        }, likes: {
-            onClick: postLike
-        }
-    }
-
     const data = {
-        commentsCount, retweetCount, likesNumState, activeLikeClass: activeLikeClass ? 'active' : ''
+        commentsCount, retweetCount, likes, likesNum,
+        messageData: { user, text, id, images, hashtags, retweet: null }
     }
 
     return (
@@ -166,10 +129,13 @@ const MessageInfo = () => {
 
                     <div className={classGenerate('dateOfCreate')}>
                         <h6>{user &&
-                            `${dateCreated[1]}:${dateCreated[0]} · ${dateCreated[2]}/${dateCreated[3]}/${dateCreated[4]}`}</h6>
+                            `${dateCreated[1]}:${dateCreated[0]} · ${dateCreated[2]}/${dateCreated[3]}/${dateCreated[4]}`}
+                        </h6>
                         {/*hour:min · day/month/year*/}
                     </div>
-                    <RewiewsMessage events={events} data={data} />
+
+                    <RewiewsMessage data={data} />
+
                     {(userId === user?.id) && (<div className={`hiddenMenu ${hiddenMenu && 'active'}`} ref={menu} onClick={stopDefault}>
                         <div className='hiddenMenu-item delete' onClick={openModalToDelete}>
                             <svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">

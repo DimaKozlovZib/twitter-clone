@@ -238,6 +238,9 @@ class userRouter {
                             attributes: []
                         }
                     }, {
+                        model: Image,
+                        attributes: ['url', 'id'],
+                    }, {
                         model: Message,
                         as: 'retweet',
                         attributes: ['text', 'id', 'likesNum', 'retweetCount', 'retweetId'],
@@ -253,9 +256,13 @@ class userRouter {
                                 through: {
                                     attributes: []
                                 }
-                            }
+                            }, {
+                                model: Image,
+                                attributes: ['url', 'id'],
+                            },
                         ]
-                    }]
+                    }],
+                order: [['createdAt', 'DESC']]
 
             })
             return res.status(200).json(messages)

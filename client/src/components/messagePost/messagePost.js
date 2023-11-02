@@ -2,12 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { messageShown } from './API';
 import UserAvatar from '../../UI/UserAvatar/UserAvatar';
 import "./messagePost.css";
-import { useNavigate } from 'react-router-dom';
 import SlimBurgerMenu from '../../UI/SlimBurgerMenu/SlimBurgerMenu';
 import useModal from '../../hooks/useModal';
 import { useSelector } from 'react-redux';
 import RetweetMessage from '../../UI/RetweetMessage/RetweetMessage';
-import { likeMessage } from '../../API/messagesApi';
 import RewiewsMessage from '../../UI/RewiewsMessage/RewiewsMessage';
 import TextMessageContent from '../../UI/TextMessageContent/TextMessageContent';
 import ImageMessageContent from '../../UI/ImageMessageContent/ImageMessageContent';
@@ -19,31 +17,13 @@ const MessagePost = ({ messageObject, setDelete }) => {
     const userId = useSelector(state => state.user.id)
     const isAuth = useSelector(state => state.isAuth)
 
-    const navigate = useNavigate()
     const mesageElement = useRef();
 
-    const [likesNumState, setLikesNumState] = useState(likesNum);
     const [hiddenMenu, setHiddenMenu] = useState(false);
 
     const menu = useRef();
 
     const [openModal] = useModal('DELETE_MESSAGE-MODAL', null, { setDelete, id })
-    const [openModalToWriteMess] = useModal('RETWEET-MODAL', null, { user, text, id })
-
-    const isLikedByUser = likes && likes.some(like => like.userId === userId && like.messageId === id);
-
-    const [activeLikeClass, setActiveLikeClass] = useState(isLikedByUser ? 'active' : '');
-
-    const postLike = async () => {
-        if (!isAuth) return false;
-
-        const res = await likeMessage(id);
-
-        if (res?.status === 200) {
-            setActiveLikeClass(!res.data.likeIsActive ? '' : 'active')
-            setLikesNumState(res.data.likesNum)
-        }
-    }
 
     const closeOnClickWrapper = (e) => {
         if (e.target === menu.current || e.target.className === 'SlimBurgerMenu') return;
@@ -66,24 +46,18 @@ const MessagePost = ({ messageObject, setDelete }) => {
         openModal()
     }
 
-    const retweetMessage = () => { if (isAuth) openModalToWriteMess() }
-
     const stopDefault = (e) => {
         e.stopPropagation();
         e.preventDefault();
-    }
-
-    const openMessageComments = () => {
-        navigate(`/twitter-clone/message/${id}`)
     }
 
     useEffect(() => {
         const callback = (entries, observer) => {
             entries.forEach(async (entry) => {
                 // Текст блока полностью видим на экране
-                if (entry.intersectionRatio !== 1 || !isAuth) return;
+                if (entry.intersectionRatio !== 1 || !isAuth || userId === user.id) return;
 
-                const res = await messageShown(id)
+                await messageShown(id)
 
                 // Остановка отслеживания после первого срабатывания
                 observer.unobserve(entry.target);
@@ -97,18 +71,9 @@ const MessagePost = ({ messageObject, setDelete }) => {
     }, []);
 
     // rewiews props objects
-    const events = {
-        comments: {
-            onClick: openMessageComments
-        }, retweets: {
-            onClick: retweetMessage
-        }, likes: {
-            onClick: postLike
-        }
-    }
-
     const data = {
-        commentsCount, retweetCount, likesNumState, activeLikeClass
+        commentsCount, retweetCount, likes, likesNum,
+        messageData: { user, text, id, images, hashtags, retweet: null }
     }
     return (
         <div className='messagePost' ref={mesageElement}>
@@ -127,11 +92,12 @@ const MessagePost = ({ messageObject, setDelete }) => {
                 </div>
 
                 <TextMessageContent originalText={text} hashtags={hashtags} />
-                {retweetId ? <RetweetMessage retweetMessage={retweet} /> : <></>}
 
                 <ImageMessageContent images={images} />
 
-                <RewiewsMessage events={events} data={data} />
+                {retweetId ? <RetweetMessage retweetMessage={retweet} /> : <></>}
+
+                <RewiewsMessage data={data} />
 
                 {(userId === user.id) && (<div className={`hiddenMenu ${hiddenMenu && 'active'}`} ref={menu} onClick={stopDefault}>
                     <div className='hiddenMenu-item delete' onClick={openModalToDelete}>

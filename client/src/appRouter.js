@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from 'react-router-dom';
-import { userFriendsPath, userInfoPath, messagesPath, hashtagPath, registrationPath, loginPath, editPath, myFriendsPath, searchPath, messagePath, addMessagePath } from "./routes";
+import { userFriendsPath, userInfoPath, messagesPath, hashtagPath, registrationPath, loginPath, editPath, myFriendsPath, searchPath, messagePath, addMessagePath, addRetweetPath } from "./routes";
 import MessagesPage from "./pages/MessagesPage";
 import UserPage from "./pages/UserPage";
 import RegistrationPage from './pages/registrationPage'
@@ -24,7 +24,8 @@ const AppRouter = () => {
             <Route path={myFriendsPath} element={<FriendPage />} />
             <Route path={searchPath} element={<SearchPage />} />
             <Route path={messagePath} element={<MessageIdPage />} />
-            <Route path={addMessagePath} element={<AddPostPage />} />
+            <Route path={addMessagePath} element={<AddPostPage retweet={false} />} />
+            <Route path={addRetweetPath} element={<AddPostPage retweet />} />
             <Route path={'*'} element={<MessagesPage />} />
         </Routes>
     )

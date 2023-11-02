@@ -12,6 +12,7 @@ router.post("/searchMessages", messageRouter.searchMessages)
 router.post("/like", authMiddleware, messageRouter.likeMessage)
 router.post("/getMessageInfo", authOrNotMiddleware, messageRouter.getMessageInfo)
 router.post("/addCommentToMessage", authMiddleware, messageRouter.addComment)
+router.post("/getMessageContent", authOrNotMiddleware, messageRouter.getMessageContent)
 
 router.post("/setCommentMood", authMiddleware, interactionMessage.determiningMood)
 
