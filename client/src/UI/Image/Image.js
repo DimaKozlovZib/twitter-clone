@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { PhotoView } from 'react-photo-view';
 
 const Image = ({ index, deleteImage, img }) => {
     const deleteImageOnClick = e => deleteImage(e, index)
@@ -14,11 +15,13 @@ const Image = ({ index, deleteImage, img }) => {
         reader.readAsDataURL(img);
     }, [img]);
 
-
-
     return (
         <div className={`image-wrapper ${srcImage === null ? 'loaded' : ''}`}>
-            <img src={srcImage} />
+            {srcImage &&
+                (<PhotoView src={srcImage}>
+                    <img src={srcImage} />
+                </PhotoView>)
+            }
             <div className='delete-btn-wrapper'>
                 <button className='delete' onClick={deleteImageOnClick}>
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">

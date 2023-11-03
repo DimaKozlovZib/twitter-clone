@@ -57,7 +57,11 @@
 .image-list .image-wrapper .delete:hover {
   opacity: 1;
 }
+.image-list .image-wrapper.loaded {
+  pointer-events: none;
+}
 .image-list img {
+  cursor: pointer;
   -o-object-fit: cover;
      object-fit: cover;
   width: 100%;

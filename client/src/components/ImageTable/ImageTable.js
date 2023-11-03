@@ -1,6 +1,7 @@
 import React from 'react';
 import './ImageTable.css'
 import Image from '../../UI/Image/Image';
+import { PhotoProvider } from 'react-photo-view';
 
 const ImageTable = ({ images, deleteImage }) => {
     const len = images.length;
@@ -21,14 +22,17 @@ const ImageTable = ({ images, deleteImage }) => {
             {
                 len !== 0 &&
                 <div className='image-list'>
-                    <div className='colum-1'>
-                        {len > 2 ? getImagesForClient([0, 1]) : getImagesForClient([0])}
-                    </div>
-                    {len > 1 &&
-                        <div className='colum-2'>
-                            {len > 2 ? getImagesForClient([2, 3]) : getImagesForClient([1])}
+                    <PhotoProvider maskOpacity={0.9}>
+                        <div className='colum-1'>
+                            {len > 2 ? getImagesForClient([0, 1]) : getImagesForClient([0])}
                         </div>
-                    }
+                        {len > 1 &&
+                            <div className='colum-2'>
+                                {len > 2 ? getImagesForClient([2, 3]) : getImagesForClient([1])}
+                            </div>
+                        }
+                    </PhotoProvider>
+
                 </div>
             }
         </>

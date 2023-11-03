@@ -1,5 +1,7 @@
 import React from 'react';
 import './ImageMessageContent.css'
+import { PhotoProvider, PhotoView } from 'react-photo-view';
+import '../../styles/photoView.css';
 
 const ImageMessageContent = ({ images }) => {
     const len = images?.length;
@@ -10,8 +12,13 @@ const ImageMessageContent = ({ images }) => {
             const url = imageUrls[i]
 
             if (!url) return;
+            const src = `http://localhost:5000/${url}`
 
-            return (<img className='image-item' src={`http://localhost:5000/${url}`} loading='lazy' />)
+            return (
+                <PhotoView src={src}>
+                    <img className='image-item' src={src} loading='lazy' />
+                </PhotoView>
+            )
         })
         return result
     }
@@ -19,14 +26,16 @@ const ImageMessageContent = ({ images }) => {
     return len > 0 && (
         <div className='ImageMessageContent'>
             <div className='image-table'>
-                <div className='colum-1'>
-                    {len > 2 ? getImagesForClient([0, 1]) : getImagesForClient([0])}
-                </div>
-                {len > 1 &&
-                    <div className='colum-2'>
-                        {len > 2 ? getImagesForClient([2, 3]) : getImagesForClient([1])}
+                <PhotoProvider maskOpacity={0.9}>
+                    <div className='colum-1'>
+                        {len > 2 ? getImagesForClient([0, 1]) : getImagesForClient([0])}
                     </div>
-                }
+                    {len > 1 &&
+                        <div className='colum-2'>
+                            {len > 2 ? getImagesForClient([2, 3]) : getImagesForClient([1])}
+                        </div>
+                    }
+                </PhotoProvider>
             </div>
         </div>
     );

@@ -61,7 +61,11 @@
 			}
 		}
 	}
+	.image-wrapper.loaded {
+		pointer-events: none;
+	}
 	img {
+		cursor: pointer;
 		object-fit: cover;
 		width: 100%;
 		height: 100%;
