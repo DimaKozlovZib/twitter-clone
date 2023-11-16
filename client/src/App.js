@@ -12,6 +12,7 @@ import ChangeAvatar from './modules/ChangeAvatar/ChangeAvatar';
 import LogoutModal from './modules/LogoutModal/LogoutModal';
 import { loginPath, registrationPath } from './routes';
 import RetweetModal from './modules/RetweetModal/RetweetModal';
+import MediaSlider from './modules/MediaSlider/MediaSlider';
 
 function App() {
   const location = useLocation();
@@ -47,6 +48,7 @@ function App() {
       {(modalType.type === 'CHANGE-AVATAR-MODAL') && <ChangeAvatar />}
       {(modalType.type === 'LOGOUT-MODAL') && <LogoutModal />}
       {(modalType.type === 'RETWEET-MODAL') && <RetweetModal retweetMessage={modalType.data} />}
+      {(modalType.type === 'MEDIA-SLIDER-MODAL') && <MediaSlider data={modalType.data} />}
       <AppRouter />
     </>
 

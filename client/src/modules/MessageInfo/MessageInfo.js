@@ -122,7 +122,7 @@ const MessageInfo = () => {
                             {text && <TextMessageContent originalText={text} hashtags={hashtags} />}
                         </div>
 
-                        <ImageMessageContent images={images} />
+                        <ImageMessageContent messageData={{ images }} />
 
                         {retweetId ? <RetweetMessage retweetMessage={retweet} /> : <></>}
                     </div>

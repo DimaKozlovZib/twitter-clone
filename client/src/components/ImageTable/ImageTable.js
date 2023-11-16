@@ -1,19 +1,26 @@
 import React from 'react';
 import './ImageTable.css'
 import Image from '../../UI/Image/Image';
-import { PhotoProvider } from 'react-photo-view';
+import Video from '../../UI/Video/Video';
+import { MediaProvider } from '../MediaProvider/MediaProvider';
 
-const ImageTable = ({ images, deleteImage }) => {
-    const len = images.length;
+const ImageTable = ({ customOrderedFiles, deleteImage }) => {
+    const len = customOrderedFiles.length;
 
-    const getImagesForClient = (filesIndex) => {
-        const result = filesIndex.map(i => {
-            const img = images[i]
+    const getMediaForClient = (startIndex) => {
+        const result = []
 
-            if (!img) return;
+        for (let i = startIndex; i < len; i += 2) {
+            const file = customOrderedFiles[i]
 
-            return <Image key={i} deleteImage={deleteImage} img={img} index={i} />
-        })
+            if (!file) return;
+            //type: 'image/*' or 'video/mp4'
+            if (file.type.split('/')[0] === 'video') {
+                return result.push(<Video key={i} deleteImage={deleteImage} file={file} index={i} />)
+            }
+            result.push(<Image key={i} deleteImage={deleteImage} img={file} index={i} />)
+        }
+
         return result
     }
 
@@ -22,17 +29,14 @@ const ImageTable = ({ images, deleteImage }) => {
             {
                 len !== 0 &&
                 <div className='image-list'>
-                    <PhotoProvider maskOpacity={0.9}>
-                        <div className='colum-1'>
-                            {len > 2 ? getImagesForClient([0, 1]) : getImagesForClient([0])}
+                    <div className='colum-1'>
+                        {getMediaForClient(0)}
+                    </div>
+                    {len > 1 &&
+                        <div className='colum-2'>
+                            {getMediaForClient(1)}
                         </div>
-                        {len > 1 &&
-                            <div className='colum-2'>
-                                {len > 2 ? getImagesForClient([2, 3]) : getImagesForClient([1])}
-                            </div>
-                        }
-                    </PhotoProvider>
-
+                    }
                 </div>
             }
         </>

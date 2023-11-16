@@ -1,24 +1,20 @@
 import React, { useEffect, useState } from 'react';
+import './Video.css'
 
-const Image = ({ index, deleteImage, img }) => {
+const Video = ({ file, index, deleteImage }) => {
+    const [videoSrc, setVideoSrc] = useState(null);
     const deleteImageOnClick = e => deleteImage(e, index)
-    const [srcImage, setSrcImage] = useState(null);
 
     useEffect(() => {
-        const reader = new FileReader();
-
-        reader.onload = (event) => {
-            const imageDataUrl = event.target.result;
-            setSrcImage(imageDataUrl)
-        };
-        reader.readAsDataURL(img);
-    }, [img]);
+        if (videoSrc === null) {
+            const src = URL.createObjectURL(file)
+            setVideoSrc(src)
+        }
+    }, [file]);
 
     return (
-        <div className={`image-wrapper ${srcImage === null ? 'loaded' : ''}`}>
-            {srcImage &&
-                (<img src={srcImage} />)
-            }
+        <div className='video-wrapper'>
+
             <div className='delete-btn-wrapper'>
                 <button className='delete' onClick={deleteImageOnClick}>
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -30,4 +26,4 @@ const Image = ({ index, deleteImage, img }) => {
     );
 }
 
-export default Image;
+export default Video;

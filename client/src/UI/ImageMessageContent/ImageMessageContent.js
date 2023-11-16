@@ -1,9 +1,11 @@
 import React from 'react';
 import './ImageMessageContent.css'
-import { PhotoProvider, PhotoView } from 'react-photo-view';
 import '../../styles/photoView.css';
+import { MediaProvider } from '../../components/MediaProvider/MediaProvider';
+import MediaView from '../MediaView/MediaView';
 
-const ImageMessageContent = ({ images }) => {
+const ImageMessageContent = ({ messageData }) => {
+    const { images } = messageData
     const len = images?.length;
     const imageUrls = images?.map(i => i.url)
 
@@ -15,9 +17,9 @@ const ImageMessageContent = ({ images }) => {
             const src = `http://localhost:5000/${url}`
 
             return (
-                <PhotoView src={src}>
+                <MediaView index={i} src={src} mediaType='image'>
                     <img className='image-item' src={src} loading='lazy' />
-                </PhotoView>
+                </MediaView>
             )
         })
         return result
@@ -26,7 +28,7 @@ const ImageMessageContent = ({ images }) => {
     return len > 0 && (
         <div className='ImageMessageContent'>
             <div className='image-table'>
-                <PhotoProvider maskOpacity={0.9}>
+                <MediaProvider mediaCount={len}>
                     <div className='colum-1'>
                         {len > 2 ? getImagesForClient([0, 1]) : getImagesForClient([0])}
                     </div>
@@ -35,7 +37,7 @@ const ImageMessageContent = ({ images }) => {
                             {len > 2 ? getImagesForClient([2, 3]) : getImagesForClient([1])}
                         </div>
                     }
-                </PhotoProvider>
+                </MediaProvider>
             </div>
         </div>
     );

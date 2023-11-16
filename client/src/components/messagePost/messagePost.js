@@ -93,7 +93,7 @@ const MessagePost = ({ messageObject, setDelete }) => {
 
                 <TextMessageContent originalText={text} hashtags={hashtags} />
 
-                <ImageMessageContent images={images} />
+                <ImageMessageContent messageData={{ images }} />
 
                 {retweetId ? <RetweetMessage retweetMessage={retweet} /> : <></>}
 

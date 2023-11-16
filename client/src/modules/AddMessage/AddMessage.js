@@ -14,7 +14,9 @@ import { compositeDecorator } from '../../components/MessageAddInput/decorators'
 const AddMessage = memo(({ isRetweet }) => {
     const isAuth = useSelector(state => state.isAuth)
     const [images, setImages] = useState([]);
-    const maxImageCount = 4;
+    const [videos, setVideos] = useState([]);
+    const [customOrderedFiles, setCustomOrderedFiles] = useState([]);
+    const maxMediaCount = 6;
 
     const [isLoad, setIsLoad] = useState(null);
     const [messageRetweetData, setMessageRetweetData] = useState(null);
@@ -41,18 +43,18 @@ const AddMessage = memo(({ isRetweet }) => {
         }
     }, [storageData]);
 
-    const addImage = e => {
+    const addMedia = e => {
         const files = e.target.files
         if (
-            files.length > maxImageCount
-            || images.length + files.length > maxImageCount
+            files.length > maxMediaCount
+            || images.length + videos.length + files.length > maxMediaCount
         )
             return e.preventDefault();
 
-        setImages([...images, ...files])
+        setCustomOrderedFiles([...customOrderedFiles, ...files])
     }
 
-    const deleteImage = (e, index) => {
+    const deleteMedia = (e, index) => {
         e.preventDefault();
         e.stopPropagation();
 
@@ -111,14 +113,15 @@ const AddMessage = memo(({ isRetweet }) => {
             }
             <form id='form' onSubmit={e => e.preventDefault()} className='AddMessage-form'>
                 <MessageAddInput editorState={editorState} setEditorState={setEditorState} />
-                <ImageTable images={images} deleteImage={deleteImage} />
+                <ImageTable customOrderedFiles={customOrderedFiles} deleteImage={deleteMedia} />
                 <div className='form-wrapper'>
                     <div className='additionalСontent'>
                         <div className='additionalСontent__item'>
                             <input id="addImage"
                                 type="file" hidden
-                                accept="image/jpeg,image/png,image/gif,image/webp"
-                                onChange={addImage} maxLength={4} multiple={images.length < maxImageCount - 1} />
+                                accept="image/jpeg,image/png,image/gif,image/webp,video/mp4"
+                                onChange={addMedia} maxLength={maxMediaCount}
+                                multiple={customOrderedFiles.length < maxMediaCount - 1} />
 
                             <label htmlFor='addImage' id="addImage-label">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

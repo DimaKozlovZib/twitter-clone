@@ -29,12 +29,22 @@
   border-radius: 10px;
   position: relative;
 }
-.image-list .image-wrapper .delete-btn-wrapper {
+.image-list .image-wrapper.loaded {
+  pointer-events: none;
+}
+.image-list img {
+  cursor: pointer;
+  -o-object-fit: cover;
+     object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+.image-list .delete-btn-wrapper {
   position: absolute;
   top: 10px;
   right: 10px;
 }
-.image-list .image-wrapper .delete {
+.image-list .delete {
   border-radius: 50%;
   height: 20px;
   width: 20px;
@@ -45,7 +55,7 @@
   cursor: pointer;
   transition: opacity ease 0.3s;
 }
-.image-list .image-wrapper .delete svg {
+.image-list .delete svg {
   fill: var(--main-elements-color);
   position: absolute;
   left: 0;
@@ -54,16 +64,6 @@
   top: 0;
   margin: auto;
 }
-.image-list .image-wrapper .delete:hover {
+.image-list .delete:hover {
   opacity: 1;
-}
-.image-list .image-wrapper.loaded {
-  pointer-events: none;
-}
-.image-list img {
-  cursor: pointer;
-  -o-object-fit: cover;
-     object-fit: cover;
-  width: 100%;
-  height: 100%;
 }/*# sourceMappingURL=ImageTable.css.map */

@@ -64,12 +64,11 @@
 	position: absolute;
 	background: var(--main-elements-color);
 	height: 2px;
+	width: 100%;
 }
 .close-modal span {
-	width: 17px;
 	transform: rotate(-45deg);
 }
 .close-modal::after {
-	width: 17px;
 	transform: rotate(45deg);
 }
