@@ -30,16 +30,20 @@
   display: block;
   max-width: 100%;
   max-height: 100%;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
 .MediaSlider__wrapper .slider {
   position: relative;
   flex: 1 1 auto;
 }
 .MediaSlider__wrapper .control-btn {
-  z-index: 150;
+  z-index: 10;
   position: absolute;
   height: 100%;
-  width: 50%;
+  width: 20%;
+  flex: 1 1 auto;
   content: "";
   top: 0;
 }

@@ -5,9 +5,9 @@ const useModal = (modalType, wrapperSelector, data) => {
     const dispatch = useDispatch();
     const isAuth = useSelector(state => state.isAuth);
 
-    const setModal = () => {
+    const setModal = (currentData) => {
         if (isAuth) {
-            dispatch(setModalAction({ type: modalType, data }))
+            dispatch(setModalAction({ type: modalType, data: { ...data, ...currentData } }))
             const classList = document.querySelector('body').classList;
 
             modalType && !classList.contains('modalActive') ? classList.add('modalActive') : classList.remove('modalActive')

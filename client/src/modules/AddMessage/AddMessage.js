@@ -13,8 +13,6 @@ import { compositeDecorator } from '../../components/MessageAddInput/decorators'
 
 const AddMessage = memo(({ isRetweet }) => {
     const isAuth = useSelector(state => state.isAuth)
-    const [images, setImages] = useState([]);
-    const [videos, setVideos] = useState([]);
     const [customOrderedFiles, setCustomOrderedFiles] = useState([]);
     const maxMediaCount = 6;
 
@@ -47,7 +45,7 @@ const AddMessage = memo(({ isRetweet }) => {
         const files = e.target.files
         if (
             files.length > maxMediaCount
-            || images.length + videos.length + files.length > maxMediaCount
+            || customOrderedFiles.length + files.length > maxMediaCount
         )
             return e.preventDefault();
 
@@ -58,9 +56,9 @@ const AddMessage = memo(({ isRetweet }) => {
         e.preventDefault();
         e.stopPropagation();
 
-        const arrFiles = [...images]
+        const arrFiles = [...customOrderedFiles]
         arrFiles.splice(index, 1)
-        setImages(arrFiles)
+        setCustomOrderedFiles(arrFiles)
     }
 
     const postMessage = async e => {
@@ -84,8 +82,8 @@ const AddMessage = memo(({ isRetweet }) => {
 
             //передаем данные в форму
             const formData = new FormData()
-            for (let index = 0; index < images.length; index++) {
-                const element = images[index];
+            for (let index = 0; index < customOrderedFiles.length; index++) {
+                const element = customOrderedFiles[index];
                 formData.append('file', element)
             }
             formData.append('text', value)
@@ -96,7 +94,7 @@ const AddMessage = memo(({ isRetweet }) => {
 
             if (response) {
                 setEditorState(() => EditorState.createEmpty(compositeDecorator))
-                setImages([])
+                setCustomOrderedFiles([])
                 setMessageRetweetData(null)
                 setIsLoad(null)
             }

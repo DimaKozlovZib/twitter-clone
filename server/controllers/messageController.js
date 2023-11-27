@@ -1,4 +1,4 @@
-const { Message, Image, User, Likes, Hashtag, Comment } = require('../models/models')
+const { Message, Media, User, Likes, Hashtag, Comment } = require('../models/models')
 const uuid = require("uuid")
 const path = require("path")
 const ApiError = require("../error/ApiError")
@@ -7,31 +7,41 @@ const { Sequelize, Op } = require("sequelize");
 const interactionMessage = require('../analytics/interactionMessage')
 const client = require('../models/redis')
 const Recommendations = require('../recommendationAlgorithm/main');
+const { user_IncludeObject, hashtag_IncludeObject, media_IncludeObject, retweetIncludeObject } = require('../includeObjects');
 
-const retweetIncludeObject = {
-    model: Message,
-    as: 'retweet',
-    attributes: ['text', 'id', 'likesNum', 'retweetCount'],
-    include: [
-        {
-            model: User,
-            attributes: ['img', 'name', 'email', 'id'],
-            raw: true,
-
-        }, {
-            model: Hashtag,
-            attributes: ['name', 'id'],
-            through: {
-                attributes: []
-            }
-        }, {
-            model: Image,
-            attributes: ['url', 'id'],
-        },
-    ]
-}
 
 class messageRouter {
+    //async getVideo(req, res) {
+    //    console.log(req)
+    //    
+    //    const range = req.headers.range;
+    //    if (!range) {
+    //        res.status(400).send("Requires Range header");
+    //    }
+    //
+    //    const videoSize = fs.statSync(videoPath).size;
+    //
+    //    const CHUNK_SIZE = 10 ** 6; // 1MB
+    //    const start = Number(range.replace(/\D/g, ""));
+    //    const end = Math.min(start + CHUNK_SIZE, videoSize - 1);
+    //
+    //    // Create headers
+    //    const contentLength = end - start + 1;
+    //    const headers = {
+    //        "Content-Range": `bytes ${start}-${end}/${videoSize}`,
+    //        "Accept-Ranges": "bytes",
+    //        "Content-Length": contentLength,
+    //        "Content-Type": "video/mp4",
+    //    };
+    //
+    //    // HTTP Status 206 for Partial Content
+    //    res.writeHead(206, headers);
+    //
+    //    // create video read stream for this particular chunk
+    //    const videoStream = fs.createReadStream(videoPath, { start, end });
+    //
+    //    videoStream.pipe(res);
+    //}
     async addMessage(req, res, next) {
         try {
             const { text, hashtagsString } = req.body;
@@ -39,18 +49,18 @@ class messageRouter {
             const retweetId = Number(req.body?.retweetId);
 
             const f = req.files?.file
-            const images = f && !f.length ? [f] : f;
-            const imgLen = images?.length
+            const media = f && !f.length ? [f] : f;
+            const filesLen = media?.length
 
             if (!text) return res.status(400).json({ message: 'no text', text: 0 });
 
             // проверяем изображения на типы
 
-            const imageFileCondition = images?.filter(file => {
-                return !file || !"image/jpeg,image/png,image/gif,image/webp".split(',').includes(file.mimetype)
+            const mediaFileCondition = media?.filter(file => {
+                return !file || !"image/jpeg,image/png,image/gif,image/webp,video/mp4".split(',').includes(file.mimetype)
             }).length !== 0
 
-            if (imageFileCondition && f) {
+            if (mediaFileCondition && f) {
                 return res.status(415).json({ message: 'не передан файл или файл не правильного типа' })
             }
 
@@ -94,11 +104,23 @@ class messageRouter {
             }
             //создаем изображения
 
-            if (imgLen > 0) {
-                images.forEach(async file => {
-                    const filename = 'messageImage' + uuid.v4() + ".jpg";
+            if (filesLen > 0) {
+                media.forEach(async (file, index) => {
+                    let filename, type;
+
+                    switch (file.mimetype.split('/')[0]) {
+                        case 'video':
+                            type = 'video';
+                            filename = 'messageVideo' + uuid.v4() + ".mp4";
+                            break;
+                        case 'image':
+                            type = 'image';
+                            filename = 'messageImage' + uuid.v4() + ".jpg";
+                            break;
+                    }
                     file.mv(path.resolve(__dirname, '..', 'static', filename))
-                    await Image.create({ url: filename, messageId: message.id })
+                    console.log(index)
+                    await Media.create({ url: filename, messageId: message.id, type, indexInMessage: index })
                 })
             }
 
@@ -128,41 +150,10 @@ class messageRouter {
                 },
                 attributes: ['text', 'id', 'likesNum', 'retweetCount', 'retweetId', 'createdAt', 'commentsCount'],
                 include: [
-                    {
-                        model: User,
-                        attributes: ['name', 'id', 'img', 'email']
-                    },
-                    {
-                        model: Hashtag,
-                        attributes: ['name', 'id'],
-                        through: { attributes: [] } // Отключаем вывод информации о промежуточной таблице
-                    },
-                    {
-                        model: Image,
-                        attributes: ['url', 'id'],
-                    },
-                    {
-                        model: Message,
-                        as: 'retweet',
-                        attributes: ['text', 'id', 'likesNum', 'retweetCount'],
-                        include: [
-                            {
-                                model: User,
-                                attributes: ['img', 'name', 'email', 'id'],
-                                raw: true,
-
-                            }, {
-                                model: Hashtag,
-                                attributes: ['name', 'id'],
-                                through: {
-                                    attributes: []
-                                }
-                            }, {
-                                model: Image,
-                                attributes: ['url', 'id'],
-                            },
-                        ]
-                    },
+                    user_IncludeObject,
+                    hashtag_IncludeObject,
+                    media_IncludeObject,
+                    retweetIncludeObject
                 ]
             });
 
@@ -193,10 +184,7 @@ class messageRouter {
             const CommentObject = await Comment.findOne({
                 where: { id: comment.id },
                 attributes: ['text', 'id', 'createdAt', 'messageId', 'userId'],
-                include: [{
-                    model: User,
-                    attributes: ['name', 'id', 'img', 'email']
-                }]
+                include: [user_IncludeObject]
 
             })
 
@@ -231,41 +219,10 @@ class messageRouter {
                 },
                 attributes: ['text', 'id', 'likesNum', 'retweetCount', 'retweetId', 'createdAt', 'commentsCount'],
                 include: [
-                    {
-                        model: User,
-                        attributes: ['name', 'id', 'img', 'email']
-                    },
-                    {
-                        model: Hashtag,
-                        attributes: ['name', 'id'],
-                        through: { attributes: [] } // Отключаем вывод информации о промежуточной таблице
-                    },
-                    {
-                        model: Image,
-                        attributes: ['url', 'id'],
-                    },
-                    {
-                        model: Message,
-                        as: 'retweet',
-                        attributes: ['text', 'id', 'likesNum', 'retweetCount'],
-                        include: [
-                            {
-                                model: User,
-                                attributes: ['img', 'name', 'email', 'id'],
-                                raw: true,
-
-                            }, {
-                                model: Hashtag,
-                                attributes: ['name', 'id'],
-                                through: {
-                                    attributes: []
-                                }
-                            }, {
-                                model: Image,
-                                attributes: ['url', 'id'],
-                            },
-                        ]
-                    }, ...include
+                    user_IncludeObject,
+                    hashtag_IncludeObject,
+                    media_IncludeObject,
+                    retweetIncludeObject, ...include
                 ]
             });
 
@@ -275,12 +232,7 @@ class messageRouter {
                 },
                 attributes: ['text', 'id', 'messageId', 'userId'],
                 include: [
-                    {
-                        model: User,
-                        attributes: ['img', 'name', 'email', 'id'],
-                        raw: true,
-
-                    }
+                    user_IncludeObject
                 ]
             })
 
@@ -344,19 +296,9 @@ class messageRouter {
                 },
                 attributes: ['text', 'id', 'likesNum', 'retweetCount', 'retweetId', 'createdAt', 'commentsCount'],
                 include: [
-                    {
-                        model: User,
-                        attributes: ['name', 'id', 'img', 'email']
-                    },
-                    {
-                        model: Hashtag,
-                        attributes: ['name', 'id'],
-                        through: { attributes: [] } // Отключаем вывод информации о промежуточной таблице
-                    },
-                    {
-                        model: Image,
-                        attributes: ['url', 'id'],
-                    }, ...includes
+                    user_IncludeObject,
+                    hashtag_IncludeObject,
+                    media_IncludeObject, ...includes
                 ]
             });
 
@@ -389,21 +331,10 @@ class messageRouter {
                 where: { id: { [Op.or]: dataToResponse.map(i => i['dataValues']['messageId']) } },
                 attributes: ['text', 'id', 'likesNum', 'retweetCount', 'retweetId', 'createdAt', 'commentsCount'],
                 include: [
-                    {
-                        model: User,
-                        attributes: ['img', 'name', 'email', 'id'],
-                        raw: true,
-
-                    }, {
-                        model: Hashtag,
-                        attributes: ['name', 'id'],
-                        through: {
-                            attributes: []
-                        }
-                    }, {
-                        model: Image,
-                        attributes: ['url', 'id'],
-                    },]
+                    user_IncludeObject,
+                    hashtag_IncludeObject,
+                    media_IncludeObject,
+                ]
             })
             res.status(200).json(objects)
             //сохраняем массив в redis

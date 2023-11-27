@@ -11,7 +11,7 @@ import TextMessageContent from '../../UI/TextMessageContent/TextMessageContent';
 import ImageMessageContent from '../../UI/ImageMessageContent/ImageMessageContent';
 
 const MessagePost = ({ messageObject, setDelete }) => {
-    const { user, text, likesNum, id, likes, hashtags, retweet, retweetId, retweetCount, commentsCount, images } = messageObject;
+    const { user, text, likesNum, id, likes, hashtags, retweet, retweetId, retweetCount, commentsCount, media } = messageObject;
     const { img, name, email } = user;
 
     const userId = useSelector(state => state.user.id)
@@ -73,7 +73,7 @@ const MessagePost = ({ messageObject, setDelete }) => {
     // rewiews props objects
     const data = {
         commentsCount, retweetCount, likes, likesNum,
-        messageData: { user, text, id, images, hashtags, retweet: null }
+        messageData: { user, text, id, media, hashtags, retweet: null }
     }
     return (
         <div className='messagePost' ref={mesageElement}>
@@ -93,7 +93,7 @@ const MessagePost = ({ messageObject, setDelete }) => {
 
                 <TextMessageContent originalText={text} hashtags={hashtags} />
 
-                <ImageMessageContent messageData={{ images }} />
+                <ImageMessageContent messageData={{ media }} />
 
                 {retweetId ? <RetweetMessage retweetMessage={retweet} /> : <></>}
 

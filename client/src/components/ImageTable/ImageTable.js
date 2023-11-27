@@ -2,7 +2,6 @@ import React from 'react';
 import './ImageTable.css'
 import Image from '../../UI/Image/Image';
 import Video from '../../UI/Video/Video';
-import { MediaProvider } from '../MediaProvider/MediaProvider';
 
 const ImageTable = ({ customOrderedFiles, deleteImage }) => {
     const len = customOrderedFiles.length;
@@ -15,8 +14,10 @@ const ImageTable = ({ customOrderedFiles, deleteImage }) => {
 
             if (!file) return;
             //type: 'image/*' or 'video/mp4'
+
             if (file.type.split('/')[0] === 'video') {
-                return result.push(<Video key={i} deleteImage={deleteImage} file={file} index={i} />)
+                result.push(<Video key={i} deleteImage={deleteImage} file={file} index={i} />)
+                continue;
             }
             result.push(<Image key={i} deleteImage={deleteImage} img={file} index={i} />)
         }

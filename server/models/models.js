@@ -23,7 +23,7 @@ const Message = sequelize.define('message', {
     likesNum: { type: DataTypes.INTEGER, defaultValue: 0 },
     commentsCount: { type: DataTypes.INTEGER, defaultValue: 0 },
     retweetCount: { type: DataTypes.INTEGER, defaultValue: 0 },
-    retweetId: { type: DataTypes.INTEGER },
+    retweetId: { type: DataTypes.INTEGER },//указывает на сообщение которое было ретвитнуто в сообщении с id
 })
 
 const Comment = sequelize.define('comment', {
@@ -47,9 +47,11 @@ const Hashtag = sequelize.define('hashtag', {
     countMessages: { type: DataTypes.INTEGER, allowNull: false },
 })
 
-const Image = sequelize.define('image', {
+const Media = sequelize.define('media', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     url: { type: DataTypes.STRING, unique: true, allowNull: false },
+    type: { type: DataTypes.STRING, allowNull: false },
+    indexInMes: { type: DataTypes.INTEGER },
     messageId: { type: DataTypes.INTEGER, },
     userId: { type: DataTypes.INTEGER, }
 })
@@ -78,7 +80,7 @@ User.hasMany(Likes)
 User.belongsTo(Friends)
 
 Message.hasMany(Likes)
-Message.hasMany(Image, { onDelete: 'CASCADE' })
+Message.hasMany(Media, { onDelete: 'CASCADE' })
 Message.belongsToMany(Hashtag, { through: messageHashtag })
 Message.belongsTo(User, { onDelete: 'CASCADE' })
 Message.belongsTo(Message, { as: 'retweet', foreignKey: 'retweetId' })
@@ -93,8 +95,8 @@ messageHashtag.belongsTo(Hashtag)
 messageHashtag.hasMany(Message)
 messageHashtag.hasMany(Hashtag)
 
-Image.belongsTo(Message, { onDelete: 'CASCADE' })
-Image.belongsTo(User, { onDelete: 'CASCADE' })
+Media.belongsTo(Message, { onDelete: 'CASCADE' })
+Media.belongsTo(User, { onDelete: 'CASCADE' })
 
 Likes.belongsTo(User, { onDelete: 'CASCADE' })
 Likes.belongsTo(Message, { onDelete: 'CASCADE' })
@@ -110,7 +112,7 @@ module.exports = {
     Likes,
     Hashtag,
     Friends,
-    Image,
+    Media,
     messageHashtag,
     Comment
 }

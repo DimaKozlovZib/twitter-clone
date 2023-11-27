@@ -7,7 +7,6 @@ import UserAvatar from '../../UI/UserAvatar/UserAvatar';
 import SlimBurgerMenu from '../../UI/SlimBurgerMenu/SlimBurgerMenu';
 import RetweetMessage from '../../UI/RetweetMessage/RetweetMessage';
 import useModal from '../../hooks/useModal';
-import { likeMessage } from '../../API/messagesApi';
 import AddCommentForm from '../../components/AddCommentForm/AddCommentForm';
 import Comment from '../../UI/Comment/Comment';
 import InfoBlock from '../../UI/InfoBlock/InfoBlock';
@@ -27,7 +26,7 @@ const MessageInfo = () => {
     const params = useParams()
 
     const { user, text, likesNum, id, likes, hashtags,
-        retweet, retweetId, retweetCount, createdAt, commentsCount, images } = message;
+        retweet, retweetId, retweetCount, createdAt, commentsCount, media } = message;
 
     const [hiddenMenu, setHiddenMenu] = useState(false);
 
@@ -95,7 +94,7 @@ const MessageInfo = () => {
     // rewiews props objects
     const data = {
         commentsCount, retweetCount, likes, likesNum,
-        messageData: { user, text, id, images, hashtags, retweet: null }
+        messageData: { user, text, id, hashtags, retweet: null }
     }
 
     return (
@@ -122,7 +121,7 @@ const MessageInfo = () => {
                             {text && <TextMessageContent originalText={text} hashtags={hashtags} />}
                         </div>
 
-                        <ImageMessageContent messageData={{ images }} />
+                        {media && (<ImageMessageContent messageData={{ media }} />)}
 
                         {retweetId ? <RetweetMessage retweetMessage={retweet} /> : <></>}
                     </div>

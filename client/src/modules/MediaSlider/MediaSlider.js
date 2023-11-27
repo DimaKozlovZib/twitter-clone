@@ -3,8 +3,8 @@ import './MediaSlider.css'
 import useModal from '../../hooks/useModal';
 
 const MediaSlider = ({ data }) => {
-    const [index, setIndex] = useState(0);
-    const { media, mediaCount } = data;
+    const { media, mediaCount, startIndex } = data;
+    const [index, setIndex] = useState(startIndex);
     const leftDisabled = index <= 0
     const rightDisabled = index >= mediaCount - 1;
     const [closeModal] = useModal('', null, {})
@@ -15,7 +15,8 @@ const MediaSlider = ({ data }) => {
         switch (element.mediaType) {
             case 'image':
                 return (<img src={element.src} />)
-
+            case 'video':
+                return (<video src={element.src} controls autoPlay />)
             default:
                 return (<img src={element.src} />)
         }

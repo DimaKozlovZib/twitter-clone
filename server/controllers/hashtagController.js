@@ -1,6 +1,7 @@
-const { Hashtag, Message, messageHashtag, Likes, User, Image } = require('../models/models');
+const { Hashtag, Message, messageHashtag, Likes, User, Media } = require('../models/models');
 const { Op } = require("sequelize");
 const { Sequelize } = require('../db');
+const { retweetIncludeObject, media_IncludeObject, hashtag_IncludeObject, user_IncludeObject } = require('../includeObjects');
 
 class hashtagRouter {
     async addHashtag(req, res) {
@@ -116,7 +117,6 @@ class hashtagRouter {
                     }
                 ],
             })
-            console.log(hashtag)
 
             if (!hashtag.rows[0]) return res.status(404).json({ message: 'hashtag is not defined' })
 
@@ -129,41 +129,10 @@ class hashtagRouter {
                     required: true,
                     attributes: ['text', 'id', 'likesNum', 'retweetCount', 'retweetId', 'createdAt', 'commentsCount'],
                     include: [
-                        {
-                            model: User,
-                            attributes: ['name', 'id', 'img', 'email']
-                        },
-                        {
-                            model: Hashtag,
-                            attributes: ['name', 'id'],
-                            through: { attributes: [] } // Отключаем вывод информации о промежуточной таблице
-                        },
-                        {
-                            model: Image,
-                            attributes: ['url', 'id'],
-                        },
-                        {
-                            model: Message,
-                            as: 'retweet',
-                            attributes: ['text', 'id', 'likesNum', 'retweetCount'],
-                            include: [
-                                {
-                                    model: User,
-                                    attributes: ['img', 'name', 'email', 'id'],
-                                    raw: true,
-
-                                }, {
-                                    model: Hashtag,
-                                    attributes: ['name', 'id'],
-                                    through: {
-                                        attributes: []
-                                    }
-                                }, {
-                                    model: Image,
-                                    attributes: ['url', 'id'],
-                                },
-                            ]
-                        }, ...includes
+                        user_IncludeObject,
+                        hashtag_IncludeObject,
+                        media_IncludeObject,
+                        retweetIncludeObject, ...includes
                     ]
                 }]
             })

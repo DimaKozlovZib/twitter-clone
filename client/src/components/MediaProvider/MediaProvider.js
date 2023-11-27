@@ -17,10 +17,10 @@ const MediaProvider = ({ children, mediaCount }) => {
         });
     };
 
-    const openSlider = useCallback((e) => {
+    const openSlider = useCallback((index) => {
         if (media.length < mediaCount) return;
 
-        openModal()
+        openModal({ startIndex: index })
     }, [media])
 
     return (

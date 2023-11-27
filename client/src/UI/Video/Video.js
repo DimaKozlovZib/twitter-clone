@@ -10,11 +10,16 @@ const Video = ({ file, index, deleteImage }) => {
             const src = URL.createObjectURL(file)
             setVideoSrc(src)
         }
+
     }, [file]);
 
     return (
         <div className='video-wrapper'>
-
+            {videoSrc &&
+                (<video controls>
+                    <source src={videoSrc} type='video/mp4' />
+                </video>)
+            }
             <div className='delete-btn-wrapper'>
                 <button className='delete' onClick={deleteImageOnClick}>
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -1,14 +1,4 @@
 .video-wrapper {
-	height: 100%;
-	width: 100%;
-	overflow: hidden;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	position: relative;
-	border-radius: 10px;
-	position: relative;
-
 	video {
 		cursor: pointer;
 		object-fit: cover;

@@ -2,10 +2,10 @@
 	display: flex;
 	align-items: stretch;
 	justify-content: space-between;
-	max-height: 45vh;
 	min-height: 190px;
 	height: 100%;
-	width: 100%;
+	width: 90%;
+	max-width: 1000px;
 	gap: 15px;
 	margin-top: 15px;
 
@@ -20,7 +20,8 @@
 		align-items: stretch;
 		row-gap: 15px;
 	}
-	.image-wrapper {
+	.image-wrapper,
+	.video-wrapper {
 		height: 100%;
 		width: 100%;
 		overflow: hidden;
@@ -30,6 +31,7 @@
 		position: relative;
 		border-radius: 10px;
 		position: relative;
+		aspect-ratio: 1.2;
 	}
 	.image-wrapper.loaded {
 		pointer-events: none;

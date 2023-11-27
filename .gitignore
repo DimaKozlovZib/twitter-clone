@@ -6,6 +6,7 @@ client/node_modules
 .pnp.js
 
 server/static/*.jpg
+server/static/*.mp4
 server/static-avatars/*.jpg
 
 .env

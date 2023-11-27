@@ -48,6 +48,8 @@ body.load {
 	--alpha6: rgba(0, 0, 0, 0.6);
 	--alpha5: rgba(0, 0, 0, 0.5);
 	--alpha3: rgba(0, 0, 0, 0.3);
+	--alpha2: rgba(0, 0, 0, 0.2);
+	--alpha1: rgba(0, 0, 0, 0.1);
 	--delta-main: rgba(255, 255, 255, 1);
 	--delta7: rgba(255, 255, 255, 0.7);
 	--delta5: rgba(255, 255, 255, 0.5);
@@ -75,6 +77,8 @@ body.load {
 	--alpha6: rgba(255, 255, 255, 0.6);
 	--alpha5: rgba(255, 255, 255, 0.5);
 	--alpha3: rgba(255, 255, 255, 0.3);
+	--alpha2: rgba(255, 255, 255, 0.2);
+	--alpha1: rgba(255, 255, 255, 0.1);
 	--delta-main: rgba(0, 0, 0, 1);
 	--delta7: rgba(0, 0, 0, 0.7);
 	--delta5: rgba(0, 0, 0, 0.5);

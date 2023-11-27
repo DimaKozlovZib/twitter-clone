@@ -4,9 +4,10 @@ const uuid = require("uuid")
 const path = require("path")
 const jwt = require("jsonwebtoken")
 const fs = require('fs')
-const { User, Image, Message, Friends, Hashtag } = require("../models/models")
+const { User, Media, Message, Friends, Hashtag } = require("../models/models")
 const { Sequelize } = require("../db")
 const { Op } = require("sequelize")
+const { friend_IncludeObject, media_IncludeObject, hashtag_IncludeObject, user_IncludeObject, retweetIncludeObject } = require("../includeObjects")
 
 const generateJwt = (payload) => {
     const accessToken = jwt.sign(
@@ -65,6 +66,7 @@ class userRouter {
         }
 
     }
+
     async autoLogin(req, res, next) {
         try {
             const { email, id } = req.user
@@ -138,12 +140,11 @@ class userRouter {
             return res.status(401).json({ message: 'не авторизован' })
         }
     }
+
     async getFriends(req, res) {
         try {
             const { email, id } = req.user;
             const params = req.query;
-
-            console.log(req)
 
             if (!params?.page) return res.status(400).json({ message: 'bad request' });
 
@@ -154,11 +155,7 @@ class userRouter {
             const friends = await User.findAndCountAll({
                 limit: Limit, offset,
                 attributes: ['id', 'name', 'email', 'img'],
-                include: {
-                    model: Friends,
-                    where: { userId: id },
-                    attributes: []
-                }
+                include: friend_IncludeObject(id)
             })
             return res.status(200).json(friends)
 
@@ -166,24 +163,22 @@ class userRouter {
             return res.status(500).json(error.message)
         }
     }
+
     async getUser(req, res) {
         try {
             const { id } = req.params;
             const { isAuth } = req.user;
-            console.log(isAuth)
 
             if (!Number(id) || !id) return res.status(400).json({ message: 'bad request' })
 
             const userObj = await User.findOne({
                 where: { id },
                 attributes: ['img', 'age', 'name', 'email', 'id', 'coverImage', 'shortInfo'],
-                include: isAuth ? [
-                    {
-                        model: Friends,
-                        where: { userId: req.user?.id, },
-                        required: false
-                    }
-                ] : []
+                include: isAuth ? {
+                    model: Friends,
+                    where: { userId: req.user?.id, },
+                    required: false
+                } : []
             })
 
             if (!userObj) return res.status(404).json({ message: 'user is not found' })
@@ -212,6 +207,7 @@ class userRouter {
             return res.status(500).json(error.message)
         }
     }
+
     async getUserMessages(req, res) {
         try {
             const { id } = req.params;
@@ -225,43 +221,7 @@ class userRouter {
                 offset: Offset, limit: Limit,
                 where: { userId: id },
                 attributes: ['text', 'id', 'likesNum', 'retweetCount', 'retweetId', 'createdAt', 'commentsCount'],
-                include: [
-                    {
-                        model: User,
-                        attributes: ['img', 'name', 'email', 'id'],
-                        raw: true,
-
-                    }, {
-                        model: Hashtag,
-                        attributes: ['name', 'id'],
-                        through: {
-                            attributes: []
-                        }
-                    }, {
-                        model: Image,
-                        attributes: ['url', 'id'],
-                    }, {
-                        model: Message,
-                        as: 'retweet',
-                        attributes: ['text', 'id', 'likesNum', 'retweetCount', 'retweetId'],
-                        include: [
-                            {
-                                model: User,
-                                attributes: ['img', 'name', 'email', 'id'],
-                                raw: true,
-
-                            }, {
-                                model: Hashtag,
-                                attributes: ['name', 'id'],
-                                through: {
-                                    attributes: []
-                                }
-                            }, {
-                                model: Image,
-                                attributes: ['url', 'id'],
-                            },
-                        ]
-                    }],
+                include: [user_IncludeObject, hashtag_IncludeObject, media_IncludeObject, retweetIncludeObject],
                 order: [['createdAt', 'DESC']]
 
             })
@@ -281,16 +241,16 @@ class userRouter {
                 return res.status(415).json({ message: 'не передан файл или файл не правильного типа' })
             }
 
-            const oldCover = await Image.findOne({ where: { userId: id } })
+            const oldCover = await Media.findOne({ where: { userId: id } })
             if (oldCover) {
                 const oldCoverPath = path.resolve(__dirname, '..', 'static', oldCover.url)
                 fs.unlink(oldCoverPath, console.log)
-                await Image.destroy({ where: { id: oldCover.id } })
+                await Media.destroy({ where: { id: oldCover.id } })
             }
 
             const filename = uuid.v4() + ".jpg";
             file.mv(path.resolve(__dirname, '..', 'static', filename))
-            const newCover = await Image.create({ url: filename, userId: id })
+            const newCover = await Media.create({ url: filename, userId: id })
 
             await User.update({ coverImage: newCover.url }, { where: { id: id } })
 
@@ -320,13 +280,13 @@ class userRouter {
             if (oldAvatar) {
                 const oldAvatarPath = path.resolve(__dirname, '..', 'static-avatars', oldAvatar)
                 fs.unlink(oldAvatarPath, console.log)
-                await Image.destroy({ where: { userId: id, url: oldAvatar } })
+                await Media.destroy({ where: { userId: id, url: oldAvatar } })
             }
 
 
             const filename = uuid.v4() + ".jpg";
             file.mv(path.resolve(__dirname, '..', 'static-avatars', filename))
-            const newAvatar = await Image.create({ url: filename, userId: id })
+            const newAvatar = await Media.create({ url: filename, userId: id })
 
             await User.update({ img: filename }, { where: { id } })
 
