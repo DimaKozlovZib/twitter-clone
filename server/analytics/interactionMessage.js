@@ -50,7 +50,7 @@ class interactionMessage {
             return res.sendStatus(200)
         } catch (error) {
             console.log(error)
-            return res.sendStatus(500)
+            return res.status(500).json(error)
         }
     }
     async determiningMood(req, res) {

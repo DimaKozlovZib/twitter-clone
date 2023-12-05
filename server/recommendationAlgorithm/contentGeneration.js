@@ -11,82 +11,82 @@ const deleteDuplicates = arr => Array.from(new Set(arr))// Set хранит то
 
 class contentGeneration {
     constructor(userId) {
-        this.userId = userId
+        this.userId = userId,
+            this.maxTime = 30,
+            this.maxShow = 5
     }
     async userGoodAppreciatedMessage() {
-        //получаем сообщения, которые понравились пользователю (this.userId)
-        const messageWithGoodGrade = await USER_MESSAGE.find({ grade: { $gt: 0 }, userId: this.userId })
-            .limit(80).select('messageId').exec()
-        const goodMessagesId = messageWithGoodGrade.map(i => i.messageId)
-        // получаем пользователей, которым тоже понравились твиты.
-        if (!goodMessagesId.length) return [];
-        const peopleLikeObj = await USER_MESSAGE.find({ grade: { $gt: 0 }, messageId: { $in: goodMessagesId } })
-            .limit(500).select('userId').exec()
-        const usersGoodGrade = peopleLikeObj.map(i => i.userId)
-        //оставляем пользователей которым конравились два и больше (общих с this.userId) твита
-        const filteredUsers = deleteDuplicates(deleteUnique(usersGoodGrade))
-        if (!filteredUsers.length) return [];
-        const messagesForResult =
-            await USER_MESSAGE.find({ grade: { $gt: 0 }, userId: { $in: filteredUsers }, messageId: { $nin: messageWithGoodGrade } })
-                .limit(250).select('messageId').exec()
-        //максимальное время ,когда сообщение остается актуальным
-        const maxTime = moment().subtract(5, 'day').toDate();
-        const resultMessages = await Message.findAll({
-            where: {
-                id: { [Op.or]: messagesForResult },
-                createdAt: { [Op.gt]: maxTime }
-            },
-            attributes: [['id', 'messageId'], 'userId']
-        });
-        return resultMessages;
+        try {
+            //получаем сообщения, которые понравились пользователю (this.userId)
+            const messageWithGoodGrade = await USER_MESSAGE.find({ grade: { $gt: 0 }, userId: this.userId })
+                .limit(80).select('messageId').exec()
+            const goodMessagesId = messageWithGoodGrade.map(i => i.messageId)
+            // получаем пользователей, которым тоже понравились твиты.
+            if (!goodMessagesId.length) return [];
+            const peopleLikeObj = await USER_MESSAGE.find({ grade: { $gt: 0 }, messageId: { $in: goodMessagesId } })
+                .limit(500).select('userId').exec()
+            const usersGoodGrade = peopleLikeObj.map(i => i.userId)
+            //оставляем пользователей которым конравились два и больше (общих с this.userId) твита
+            const filteredUsers = deleteDuplicates(deleteUnique(usersGoodGrade))
+            if (!filteredUsers.length) return [];
+            const messagesForResult =
+                await USER_MESSAGE.find({ grade: { $gt: 0 }, userId: { $in: filteredUsers }, messageId: { $nin: messageWithGoodGrade } })
+                    .limit(250).select('messageId').exec()
+            //максимальное время ,когда сообщение остается актуальным
+            const maxTime = moment().subtract(this.maxTime, 'day').toDate();
+            const resultMessages = await Message.findAll({
+                where: {
+                    id: { [Op.or]: messagesForResult },
+                    createdAt: { [Op.gt]: maxTime }
+                },
+                attributes: [['id', 'messageId'], 'userId']
+            });
+            return resultMessages;
+        } catch (error) {
+            return []
+        }
     }
     async getMessageFromSubscriber() {
         try {
-            //получаем людей которые подписанны на пользователя
-            const usersFromFriends = await User.findAll({
-                attributes: ['id'],
-                include: [{
-                    model: Friends,
-                    where: { userId: this.userId },
-                    attributes: [],
-                    required: true
-                }],
-            })
-            const subscribersId = usersFromFriends.map(i => i.id);
             // возвращаем сообщения которые созданны не позже недели
-            const maxTime = moment().subtract(1, 'week').toDate();
+            const maxTime = moment().subtract(this.maxTime, 'day').toDate();
             const messages = await Message.findAll({
-                attributes: ['id'],
+                attributes: [['id', 'messageId'], 'userId'],
                 where: {
-                    userId: {
-                        [Op.or]: subscribersId
-                    },
                     createdAt: {
                         [Op.gt]: maxTime
                     }
-                }
+                },
+                include: [{
+                    //получаем людей на которых подписан пользователь
+                    model: User,
+                    attributes: [],
+                    where: { id: { [Op.ne]: this.userId } },
+                    include: [{
+                        model: Friends,
+                        where: { userId: this.userId },
+                        attributes: [],
+                        required: true
+                    }],
+                    required: true
+                }]
             });
             if (messages.length === 0) {
                 return []
             }
-            const subscribersMessageId = messages.map(i => i.id);
+            const subscribersMessageId = messages.map(i => i.messageId);
             //проверяем сколько раз пользователь видел найденные сообщения и фильтруем от трёх и больше раз
-            const maxShow = 3;
             const moreShowMessages = await USER_MESSAGE.find({//сообщегия с большим количеством просмотров
-                id: { $in: subscribersMessageId }, showCount: { $gte: maxShow }
+                id: { $in: subscribersMessageId }, showCount: { $gte: this.maxShow }
             }).select('messageId').exec()
             //удаляем пересечение массивов, остаются только свежие сообщения
-            const verifiedMessages = subscribersMessageId.filter(function (item) {
-                return moreShowMessages.indexOf(item) === -1;
+            const verifiedMessages = messages.filter((item) => {
+                return moreShowMessages.indexOf(item.messageId) === -1;
             });
-            const result = await Message.findAll(
-                {
-                    where: { id: { [Op.or]: verifiedMessages } },
-                    attributes: [['id', 'messageId'], 'userId']
-                })
-            return result;
+            return verifiedMessages;
         } catch (error) {
             console.log(error)
+            return []
         }
     }
     async getPopularMessages() {
@@ -116,10 +116,10 @@ class contentGeneration {
             AND "likes"."userId" != "message"."userId")`;
             const likesFactor = 1;
             //получаем сообщения с сортировкой по популярности на основании лайков, комментариев и ретвитов
-            const maxTime = moment().subtract(4, 'day').toDate();
-            const messages = await Message.findAll({
-                attributes: ['id', 'retweetCount', 'commentsCount', 'likesNum',
-                    [Sequelize.literal(`
+            const maxTime = moment().subtract(this.maxTime, 'day').toDate();
+            const messagesObjects = await Message.findAll({
+                attributes: [['id', 'messageId'], 'retweetCount', 'commentsCount', 'likesNum', 'userId',
+                [Sequelize.literal(`
                     (${commentsCount} * ${commentsFactor}) 
                     + (${retweetsCount} * ${retweetFactor}) 
                     + (${likesCount} * ${likesFactor})`), 'popularity']],
@@ -129,14 +129,25 @@ class contentGeneration {
                     }
                 }
             });
+
+            const messages = messagesObjects.map(i => {
+                return {
+                    userId: i['dataValues'].userId,
+                    messageId: i['dataValues'].messageId
+                }
+            })
             //проверяем сколько раз пользователь видел найденные сообщения и фильтруем от трёх и больше раз
-            const maxShow = 2;
-            const verifiedMessages = await USER_MESSAGE.find({
-                id: { $in: messages }, showCount: { $lte: maxShow }
-            }).select('messageId userId').exec();
+            const inappropriateMessages = await USER_MESSAGE.find({
+                messageId: { $in: messages.map(i => i.messageId) }, showCount: { $gte: this.maxShow }
+            }).select('messageId').exec();
+
+            const verifiedMessages = messages.filter((item) => {
+                return inappropriateMessages.indexOf(item.messageId) === -1
+            })
             return verifiedMessages;
         } catch (error) {
             console.log(error)
+            return []
         }
     }
 }

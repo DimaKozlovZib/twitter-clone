@@ -75,10 +75,43 @@ const user_messageShema = new Schema({
         },
     })
 
+const U_R_Model = 'user_recommendation';
+const user_recommendation = new Schema({
+    userId: {
+        type: Number,
+        required: true,
+    },
+    messagesId: {//main data
+        type: [Number],
+        required: true,
+    },
+    expireAt: {
+        type: Date,
+        expires: 60 * 60 * 24 * 1.5 //1.5 дня в сек
+    }
+}, {
+    statics: {
+        async setRecommendation(userId, data) {
+            try {
+                await model(U_R_Model).updateOne({ userId }, { messagesId: data })
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async getRecommendation(userId) {
+            try {
+                const result = await model(U_R_Model).findOne({ userId })
+                return result?.data;
+            } catch (error) {
+                console.log(error)
+            }
+        },
+    }
+})
 
-
+const USER_RECOMMENDATION = model(U_R_Model, user_recommendation)
 const USER_MESSAGE = model(U_M_Model, user_messageShema)
 
 module.exports = {
-    USER_MESSAGE
+    USER_MESSAGE, USER_RECOMMENDATION
 }
