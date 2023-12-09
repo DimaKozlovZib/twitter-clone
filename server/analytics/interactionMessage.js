@@ -33,20 +33,11 @@ class interactionMessage {
     async setMessageShown(req, res, next) {
         try {
             const userId = req.user?.id;
-            const messageId = req.body?.mesId;
+            const messagesArrayId = req.body?.arrayId;
 
-            if (await userHasThisMessage(userId, messageId)) return res.sendStatus(400);
+            await USER_MESSAGE.updateMessageShown(userId, messagesArrayId)
 
-            const userAction = await USER_MESSAGE.findOne({ userId, messageId })
 
-            if (userAction) {
-                await USER_MESSAGE.updateMessageShown(userId, messageId)
-                return res.sendStatus(200)
-            }
-
-            const newAction = new USER_MESSAGE({ userId, messageId, showCount: 1 })
-
-            await newAction.save()
             return res.sendStatus(200)
         } catch (error) {
             console.log(error)

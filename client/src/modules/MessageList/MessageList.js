@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './MessageList.css';
+import { messageShown } from './API';
 import MessagePost from '../../components/messagePost/messagePost';
 import useMessages from '../../hooks/useMessages.js';
 
@@ -8,6 +9,7 @@ const MessageList = () => {
     const limit = 20;
     const [messagesArray, setMessagesArray] = useMessages(pageNum, limit)
     const [succesDeleteId, setSuccesDeleteId] = useState(null);
+    const [viewedMessages, setViewedMessages] = useState([]);
 
     useEffect(() => {
         if (succesDeleteId) {
@@ -15,12 +17,31 @@ const MessageList = () => {
         }
     }, [succesDeleteId]);
 
+    const addViewedMessage = (id) => {
+        if (viewedMessages.includes(id)) return;
+        setViewedMessages((oldData) => {
+            return [...oldData, id]
+        })
+    }
+
+    useEffect(() => {
+        const maxElementCount = 5;
+        if (viewedMessages.length < maxElementCount) return;
+
+        const f = async () => {
+            await messageShown(viewedMessages)
+            setViewedMessages([])
+        }
+        f()
+    }, [viewedMessages]);
+
     return (
         <div className='messagesList'>
             {
                 messagesArray && messagesArray.length > 0 ?
                     messagesArray
-                        .map(item => <MessagePost setDelete={setSuccesDeleteId} messageObject={item} key={item.id} />)
+                        .map(item => <MessagePost addViewedMessage={addViewedMessage}
+                            setDelete={setSuccesDeleteId} messageObject={item} key={item.id} />)
                     : ''
             }
         </div>

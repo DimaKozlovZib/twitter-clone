@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { messageShown } from './API';
 import UserAvatar from '../../UI/UserAvatar/UserAvatar';
 import "./messagePost.css";
 import SlimBurgerMenu from '../../UI/SlimBurgerMenu/SlimBurgerMenu';
@@ -10,7 +9,7 @@ import RewiewsMessage from '../../UI/RewiewsMessage/RewiewsMessage';
 import TextMessageContent from '../../UI/TextMessageContent/TextMessageContent';
 import ImageMessageContent from '../../UI/ImageMessageContent/ImageMessageContent';
 
-const MessagePost = ({ messageObject, setDelete }) => {
+const MessagePost = ({ messageObject, setDelete, addViewedMessage }) => {
     const { user, text, likesNum, id, likes, hashtags, retweet, retweetId, retweetCount, commentsCount, media } = messageObject;
     const { img, name, email } = user;
 
@@ -52,12 +51,14 @@ const MessagePost = ({ messageObject, setDelete }) => {
     }
 
     useEffect(() => {
+        if (userId === user.Id) return
+
         const callback = (entries, observer) => {
             entries.forEach(async (entry) => {
                 // Текст блока полностью видим на экране
                 if (entry.intersectionRatio !== 1 || !isAuth || userId === user.id) return;
 
-                await messageShown(id)
+                addViewedMessage(id)
 
                 // Остановка отслеживания после первого срабатывания
                 observer.unobserve(entry.target);

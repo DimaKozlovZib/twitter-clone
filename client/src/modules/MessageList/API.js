@@ -14,3 +14,12 @@ export const getMessages = async (pageNum, limit = 20, isAuth, userId) => {
         return error
     }
 }
+
+export const messageShown = async (arrayId) => {
+    try {
+        const response = await $authHost.post('/message/messageShown', { arrayId })
+        return response;
+    } catch (error) {
+        console.error(error)
+    }
+}
