@@ -4,11 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { myFriendsPath } from '../../routes';
 import { setModalAction, setThemeAction } from '../../store';
+import UserAvatar from '../../UI/UserAvatar/UserAvatar';
 
 const AccountMenu = memo(({ isActive, setActiveMenu }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch()
     const id = useSelector(state => state.user?.id)
+    const userImg = useSelector(state => state.user?.img)
+    const userName = useSelector(state => state.user?.name)
     const theme = useSelector(state => state.theme)
 
     const profile = () => {
@@ -33,16 +36,17 @@ const AccountMenu = memo(({ isActive, setActiveMenu }) => {
 
     return (
         <div className={`AccountMenu ${isActive ? 'active' : ''}`} id='AccountMenu'>
-            <button className='AccountMenu--item' onClick={profile}>
-                <div className='icon-box'>
-                    <svg viewBox="0 0 20 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M15.1429 5.88889C15.1429 7.1855 14.601 8.42901 13.6365 9.34586C12.6721 10.2627 11.364 10.7778 10 10.7778C8.63603 10.7778 7.32792 10.2627 6.36345 9.34586C5.39898 8.42901 4.85714 7.1855 4.85714 5.88889C4.85714 4.59227 5.39898 3.34877 6.36345 2.43192C7.32792 1.51508 8.63603 1 10 1C11.364 1 12.6721 1.51508 13.6365 2.43192C14.601 3.34877 15.1429 4.59227 15.1429 5.88889ZM10 14.4444C7.61305 14.4444 5.32387 15.3458 3.63604 16.9503C1.94821 18.5548 1 20.7309 1 23H19C19 20.7309 18.0518 18.5548 16.364 16.9503C14.6761 15.3458 12.3869 14.4444 10 14.4444Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <div className='profile__wrapper'>
+                <button className='AccountMenu--profile' onClick={profile}>
+                    <UserAvatar url={userImg} isNotLink />
+
+                    <h5>{userName}</h5>
+
+                    <svg viewBox="0 0 17 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1.625 1.25L15.3333 17L1.625 32.75" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
-                </div>
-
-                <h5>Профиль</h5>
-            </button>
-
+                </button>
+            </div>
             <button className='AccountMenu--item' onClick={openFriendsPage}>
                 <div className='icon-box'>
                     <svg viewBox="0 0 22 18" fill="none" xmlns="http://www.w3.org/2000/svg">

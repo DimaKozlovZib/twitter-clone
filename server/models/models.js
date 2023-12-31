@@ -38,7 +38,13 @@ const Likes = sequelize.define('likes', {
 })
 const Friends = sequelize.define('friends', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    userId: { type: DataTypes.INTEGER, allowNull: false, unique: true }
+    userId: {
+        type: DataTypes.INTEGER, allowNull: false, unique: true,
+        //references: {
+        //    model: User,
+        //    key: 'id'
+        //}
+    }
 })
 
 const Hashtag = sequelize.define('hashtag', {
@@ -75,9 +81,8 @@ const messageHashtag = sequelize.define('messageHashtag', {
 })
 
 User.hasMany(Message)
-User.hasOne(Friends)
+//User.belongsToMany(Friends)
 User.hasMany(Likes)
-User.belongsTo(Friends)
 
 Message.hasMany(Likes)
 Message.hasMany(Media, { onDelete: 'CASCADE' })
@@ -103,8 +108,8 @@ Likes.belongsTo(Message, { onDelete: 'CASCADE' })
 
 Hashtag.belongsToMany(Message, { through: messageHashtag })
 
-Friends.hasMany(User)
-Friends.belongsTo(User, { onDelete: 'CASCADE' })
+User.belongsToMany(Friends, { through: 'UserFriends' });
+Friends.belongsToMany(User, { through: 'UserFriends' });
 
 module.exports = {
     User,

@@ -40,7 +40,7 @@ const user_messageShema = new Schema({
             async updateMessageShown(userId, messageArrayId) {
                 await model(U_M_Model).updateMany({ userId, messageId: { $in: messageArrayId } }, { $inc: { showCount: 1 } },
                     { upsert: true })
-                messageArrayId.array.forEach(messageId => this.gradeCalculate(userId, messageId));
+                messageArrayId.forEach(messageId => this.gradeCalculate(userId, messageId));
             },
             async setCommentMood(userId, messageId, data) {//data: 'positively', 'negatively', 'neutral'
                 const object = await model(U_M_Model).updateOne({ userId, messageId }, { commentMood: data })

@@ -78,11 +78,14 @@ const MessagePost = ({ messageObject, setDelete, addViewedMessage }) => {
     }
     return (
         <div className='messagePost' ref={mesageElement}>
-            <div className='user-image'>
+            <div className='user-image computer'>
                 <UserAvatar url={img} id={user.id}></UserAvatar>
             </div>
             <div className='message-contant'>
                 <div className='user-info'>
+                    <div className='user-image mobile'>
+                        <UserAvatar url={img} id={user.id}></UserAvatar>
+                    </div>
                     <div className='user-name'>
                         {name}
                     </div>

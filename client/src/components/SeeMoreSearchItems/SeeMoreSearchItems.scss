@@ -1,14 +1,15 @@
 .SeeMoreSearchItems {
 	display: block;
-	background-color: var(--main-bg-color);
+	background-color: var(--alternative-bg-color);
 	box-sizing: border-box;
-	padding: 10px 10px 10px 15px;
+	padding: 10px 10px 10px 20px;
 	border-radius: 10px;
 	font-family: "Nunito", sans-serif;
 	margin-top: 10px;
 	display: flex;
 	align-items: center;
 	width: 100%;
+	box-sizing: border-box;
 	&:disabled {
 		cursor: auto;
 	}
@@ -55,11 +56,19 @@
 		}
 	}
 }
+.search-titleNoOne {
+	margin-top: 10px;
+	color: var(--alpha8);
+	text-align: center;
+	font-size: 16px;
+	font-family: "Nunito", sans-serif;
+}
 .SeeMoreSearchItems + .search-items {
-	padding: 0px 5px 0px 10px;
+	padding: 0px 7px;
 	margin-top: 10px;
 }
 [theme="dark-theme"] .SeeMoreSearchItems {
-	border: 1px solid var(--grey-color-2);
+	border: 2px solid transparent;
+	border-bottom: 2px solid var(--alpha1);
 	box-sizing: border-box;
 }

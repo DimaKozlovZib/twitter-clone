@@ -130,44 +130,6 @@ class messageRouter {
             return res.status(500).json(error.message)
         }
     }
-    async searchMessages(req, res) {
-        try {
-            const data = req.body;
-
-            if (!data?.text) return res.status(400).json({ message: 'bad request' })
-            const { text } = data;
-
-            const Limit = data.limit || 3;
-            const Page = ((data.page || 1) - 1) * Limit;
-
-            //получаем сообшения имеющие искомую подстроку
-            const messages = await Message.findAndCountAll({
-                limit: Limit, offset: Page,
-                where: {
-                    text: {
-                        [Sequelize.Op.like]: `%${text}%`
-                    }
-                },
-                attributes: ['text', 'id', 'likesNum', 'retweetCount', 'retweetId', 'createdAt', 'commentsCount'],
-                include: [
-                    user_IncludeObject,
-                    hashtag_IncludeObject,
-                    media_IncludeObject,
-                    retweetIncludeObject
-                ]
-            });
-
-            messages.responseTitle = 'Сообщения'
-            messages.responseTitleEng = 'Messages'
-
-            if (messages?.rows.length === 0) return res.status(404).json(messages)
-
-            return res.status(200).json(messages)
-        } catch (error) {
-            console.log(error)
-            return res.status(500).json(error)
-        }
-    }
     async addComment(req, res, next) {
         try {
             const { text, messageId } = req.body;

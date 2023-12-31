@@ -20,7 +20,7 @@ const UserInfo = () => {
     const [user, setUser] = useState({});
     const [infoStatus, setInfoStatus] = useState('loaded');
     const [canEdit, setCanEdit] = useState(null);
-    const [friend, setFriend] = useState(null);
+    const [friends, setFriends] = useState(null);
     const [messagesArray, setMessagesArray] = useState([]);
     const [page, setPage] = useState(0);
     const [succesDeleteId, setSuccesDeleteId] = useState(null);
@@ -40,7 +40,7 @@ const UserInfo = () => {
                 setUser(userInfo.data.user)
                 setCanEdit(userInfo.data.canEdit)
                 setInfoStatus('sucsses')
-                setFriend(userInfo.data.user?.friend ? true : false)
+                setFriends(userInfo.data.user?.friends?.length > 0 ? true : false)
             }
         }
         getData()
@@ -66,14 +66,14 @@ const UserInfo = () => {
     const onSubscribe = async () => {
         const res = await Subscribe(user.id)
         if (res) {
-            setFriend(true)
+            setFriends(true)
         }
     }
 
     const onUnsubscribe = async () => {
         const res = await Unsubscribe(user.id)
         if (res) {
-            setFriend(false)
+            setFriends(false)
         }
     }
 
@@ -124,7 +124,7 @@ const UserInfo = () => {
                         <h2 className={classGenerate('user-name')}>{name}</h2>
                         <h3 className={classGenerate('user-email')}>{email}</h3>
                     </div>
-                    {canEdit ? editBtnHTML : friend !== null && (friend ? alreadySubscribeBtn : subscribeBtn)}
+                    {canEdit ? editBtnHTML : friends !== null && (friends ? alreadySubscribeBtn : subscribeBtn)}
                 </div>
             </div>
             <div className='userMessagesList'>

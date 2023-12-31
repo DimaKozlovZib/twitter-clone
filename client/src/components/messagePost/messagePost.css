@@ -81,10 +81,15 @@
 .messagePost .user-info {
   display: flex;
   font-family: "Nunito", sans-serif;
+  align-items: center;
 }
 .messagePost .UserAvatar {
   height: 45px;
   width: 45px;
+}
+.messagePost .user-image.mobile {
+  display: none;
+  margin-right: 10px;
 }
 
 .hiddenMenu {
@@ -134,4 +139,20 @@
 }
 .hiddenMenu-item.delete:hover {
   opacity: 1;
+}
+
+@media (max-width: 800px) {
+  .user-image.computer {
+    display: none;
+  }
+  .messagePost {
+    display: block;
+  }
+  .messagePost .user-image.mobile {
+    display: block;
+  }
+  .messagePost .UserAvatar {
+    height: 40px;
+    width: 40px;
+  }
 }/*# sourceMappingURL=messagePost.css.map */

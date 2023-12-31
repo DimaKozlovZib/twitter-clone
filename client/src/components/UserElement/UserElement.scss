@@ -3,6 +3,7 @@
 	border-radius: 10px;
 	padding: 10px;
 	display: flex;
+	align-items: center;
 
 	&:not(:first-child) {
 		margin-top: 6px;
@@ -11,25 +12,53 @@
 		display: flex;
 		align-items: center;
 		flex: 1 1 auto;
+		margin-right: 10px;
 	}
 	.UserAvatar {
 		height: 40px;
 		width: 40px;
 		margin-right: 10px;
+		min-width: 40px;
+		min-height: 40px;
 	}
 	&__info {
 		color: var(--main-elements-color);
 		font-family: "Nunito", sans-serif;
-
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
 		h3 {
-			font-size: 20px;
+			font-size: 22px;
+			margin-right: 6px;
 		}
 		h4 {
 			font-size: 14px;
 			line-height: 10px;
+			color: var(--alpha3);
 		}
-		.info__email {
-			opacity: 0.7;
+	}
+
+	.subscribe-btn {
+		margin-left: auto;
+		margin-right: 5px;
+		padding: 5px;
+		.unsubscribe,
+		.subscribe {
+			transition: stroke 0.3s ease-out;
+			height: 19px;
+			width: 21px;
+		}
+		.subscribe {
+			stroke: var(--blue-btn-color);
+			&:hover {
+				stroke: var(--blue-btn-color-hover);
+			}
+		}
+		.unsubscribe {
+			stroke: var(--alpha3);
+			&:hover {
+				stroke: var(--alpha5);
+			}
 		}
 	}
 }

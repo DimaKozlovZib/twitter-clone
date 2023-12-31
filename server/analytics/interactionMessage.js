@@ -37,7 +37,6 @@ class interactionMessage {
 
             await USER_MESSAGE.updateMessageShown(userId, messagesArrayId)
 
-
             return res.sendStatus(200)
         } catch (error) {
             console.log(error)

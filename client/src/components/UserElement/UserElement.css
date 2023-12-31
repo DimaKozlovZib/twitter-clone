@@ -3,6 +3,7 @@
   border-radius: 10px;
   padding: 10px;
   display: flex;
+  align-items: center;
 }
 .UserElement:not(:first-child) {
   margin-top: 6px;
@@ -11,23 +12,51 @@
   display: flex;
   align-items: center;
   flex: 1 1 auto;
+  margin-right: 10px;
 }
 .UserElement .UserAvatar {
   height: 40px;
   width: 40px;
   margin-right: 10px;
+  min-width: 40px;
+  min-height: 40px;
 }
 .UserElement__info {
   color: var(--main-elements-color);
   font-family: "Nunito", sans-serif;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
 }
 .UserElement__info h3 {
-  font-size: 20px;
+  font-size: 22px;
+  margin-right: 6px;
 }
 .UserElement__info h4 {
   font-size: 14px;
   line-height: 10px;
+  color: var(--alpha3);
 }
-.UserElement__info .info__email {
-  opacity: 0.7;
+.UserElement .subscribe-btn {
+  margin-left: auto;
+  margin-right: 5px;
+  padding: 5px;
+}
+.UserElement .subscribe-btn .unsubscribe,
+.UserElement .subscribe-btn .subscribe {
+  transition: stroke 0.3s ease-out;
+  height: 19px;
+  width: 21px;
+}
+.UserElement .subscribe-btn .subscribe {
+  stroke: var(--blue-btn-color);
+}
+.UserElement .subscribe-btn .subscribe:hover {
+  stroke: var(--blue-btn-color-hover);
+}
+.UserElement .subscribe-btn .unsubscribe {
+  stroke: var(--alpha3);
+}
+.UserElement .subscribe-btn .unsubscribe:hover {
+  stroke: var(--alpha5);
 }/*# sourceMappingURL=UserElement.css.map */

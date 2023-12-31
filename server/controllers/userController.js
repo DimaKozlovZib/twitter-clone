@@ -55,8 +55,8 @@ class userRouter {
 
             const user = await User.create({ name, password: hashPassword, email, age, coverImage: userCoverPath })
 
-            Friends.create({ userId: user.id })
-
+            const d = await Friends.create({ userId: user.id })
+            d.addUser(user)
             const { accessToken, refreshToken } = generateJwt({ id: user.id, email: user.email })
             res.cookie('refreshToken', refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
 
@@ -155,7 +155,14 @@ class userRouter {
             const friends = await User.findAndCountAll({
                 limit: Limit, offset,
                 attributes: ['id', 'name', 'email', 'img'],
-                include: friend_IncludeObject(id)
+                where: { id: { [Op.ne]: id } },
+                include: {
+                    model: Friends,
+                    where: { userId: id },
+                    attributes: [],
+                    through: { attribute: [] },
+                    require
+                }
             })
             return res.status(200).json(friends)
 
@@ -177,7 +184,10 @@ class userRouter {
                 include: isAuth ? {
                     model: Friends,
                     where: { userId: req.user?.id, },
-                    required: false
+                    required: false,
+                    through: {
+                        attributes: []
+                    }
                 } : []
             })
 
@@ -299,36 +309,6 @@ class userRouter {
 
     }
 
-    async searchUser(req, res) {
-        try {
-            const data = req.body;
-
-            if (!data?.text) return res.status(400).json({ message: 'bad request' })
-            const { text } = data;
-
-            const Limit = data.limit || 3;
-            const Page = ((data.page || 1) - 1) * Limit;
-
-            const users = await User.findAndCountAll({
-                limit: Limit, offset: Page,
-                where: {
-                    [Op.or]: [{ 'name': { [Op.iLike]: `%${text}%` } }, { 'shortInfo': { [Op.iLike]: `%${text}%` } }]
-                },
-                attributes: ['img', 'name', 'email', 'id', 'shortInfo']
-            })
-
-            if (!users) return res.status(404).json(users)
-
-            users.responseTitle = 'Пользователи';
-            users.responseTitleEng = 'Users';
-
-            return res.status(200).json(users)
-        } catch (error) {
-            console.log(error)
-            return res.status(500).json(error)
-        }
-    }
-
     async changeInfo(req, res) {
         try {
             const { email, id } = req.user;
@@ -375,8 +355,8 @@ class userRouter {
 
             if (!newFutureFriend) return res.status(404).json({ message: 'user not found' })
 
-            const userFriends = await Friends.findOne({ where: { userId: id } });
-
+            const [userFriends] = await Friends.findOrCreate({ where: { userId: id } });
+            console.log(userFriends)
             userFriends.addUser(newFutureFriend)
 
             return res.status(200).json({ message: 'succes' })
@@ -411,6 +391,92 @@ class userRouter {
             res.clearCookie('refreshToken')
             return res.status(200).json({ message: 'succes' })
         } catch (error) {
+            return res.status(500).json(error.message)
+        }
+    }
+    async getFirstConnectionUsers(req, res) {
+        try {
+            const user = req.user;
+
+            const friends = await User.findAll({
+                attributes: ['id'],
+                raw: true,
+                where: { id: { [Op.ne]: user.id } },
+                include: [{
+                    model: Friends,
+                    where: { userId: user.id },
+                    attributes: [],
+                    through: {
+                        attributes: []
+                    }
+                }]
+            })
+            if (!friends || friends.length === 0) return res.status(400).json({ users: [] })
+
+            const friendsOfFriends = await User.findAll({
+                attributes: ['id'],
+                raw: true,
+                where: { id: { [Op.notIn]: friends.map(i => i.id) } },
+                include: [{
+                    attributes: [],
+                    model: Friends,
+                    where: { userId: { [Op.in]: friends.map(i => i.id) } },
+                    through: {
+                        attributes: []
+                    }
+                }]
+            })
+
+            if (!friendsOfFriends || friendsOfFriends.length === 0) return res.status(400).json({ users: [] })
+
+            const uniqueFriends = Array.from(new Set(friendsOfFriends))
+            // Перемешайте элементы списка
+            const shuffled = uniqueFriends.sort(() => 0.5 - Math.random());
+
+            // Получите первые три элемента
+            const randomThree = shuffled.slice(0, 3);
+
+            const result = []
+            for (let index = 0; index < randomThree.length; index++) {
+                const element = randomThree[index];
+
+                const user = await User.findOne({
+                    where: { id: element.id },
+                    attributes: ['id', 'name', 'email', 'img']
+                })
+
+                const mutualFriends = await User.findAndCountAll({
+                    limit: 3,
+                    where: { id: { [Op.col]: 'friend.userId' }, id: { [Op.in]: friends.map(i => i.id) } },
+                    attributes: ['id', 'img'],
+                    include: [{
+                        model: Friends,
+                        where: { userId: { [Op.or]: friends.map(i => i.id) } },
+                        required: true,
+                        attributes: [],
+                        through: {
+                            attributes: []
+                        },
+                        include: [{
+                            model: User,
+                            required: true,
+                            where: { id: element.id },
+                            attributes: [],
+                            through: {
+                                attributes: []
+                            }
+                        }]
+                    }],
+
+                })
+
+                result.push({ user, mutualFriends })
+            }
+
+            console.log(result)
+            return res.status(200).json({ users: result })
+        } catch (error) {
+            console.log(error)
             return res.status(500).json(error.message)
         }
     }

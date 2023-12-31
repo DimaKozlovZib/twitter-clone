@@ -18,8 +18,8 @@ const MessageList = () => {
     }, [succesDeleteId]);
 
     const addViewedMessage = (id) => {
-        if (viewedMessages.includes(id)) return;
         setViewedMessages((oldData) => {
+            if (viewedMessages.includes(id)) return;
             return [...oldData, id]
         })
     }

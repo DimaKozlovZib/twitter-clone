@@ -1,10 +1,9 @@
 import React, { memo, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { searchHashtags, searchUsers, searchMessages } from './API';
+import { search } from './API';
 import SeeMoreSearchItems from '../../components/SeeMoreSearchItems/SeeMoreSearchItems';
 import UserElement from '../../components/UserElement/UserElement';
 import HashtagElement from '../../components/HashtagElement/HashtagElement';
-import MessagePost from '../../components/messagePost/messagePost';
 
 const Search = memo(() => {
     const params = useParams();
@@ -13,23 +12,11 @@ const Search = memo(() => {
 
     const [visibleParams, setVisibleParams] = useState({});
 
-    const [users, setUsers] = useState(null);
-    const [hashtags, setHashtags] = useState(null);
-    const [messages, setMessages] = useState(null);
+    const [searchData, setsearchData] = useState(null);
 
-    const userDataGet = async (limit) => {
-        const userObj = await searchUsers(params.searchText, limit)
-        setUsers(userObj)
-    }
-
-    const hashtagDataGet = async (limit) => {
-        const hashtagObj = await searchHashtags(params.searchText, limit)
-        setHashtags(hashtagObj)
-    }
-
-    const messageDataGet = async (limit) => {
-        const messagesObj = await searchMessages(params.searchText, limit)
-        setMessages(messagesObj)
+    const dataGet = async (limit, onlyModel = null) => {
+        const res = await search(params.searchText, limit, onlyModel)
+        setsearchData(res.data)
     }
 
     useEffect(() => {
@@ -38,64 +25,53 @@ const Search = memo(() => {
         setVisibleParams(params)
 
         switch (params.model) {
-            case 'all':
-                userDataGet(smallRequestLimit)
-                hashtagDataGet(smallRequestLimit)
-                messageDataGet(smallRequestLimit)
-                break;
             case 'user':
-                userDataGet(commonRequestLimit)
+                dataGet(commonRequestLimit, 'user')
                 break;
             case 'hashtag':
-                hashtagDataGet(commonRequestLimit)
-                break;
-            case 'message':
-                messageDataGet(commonRequestLimit)
+                dataGet(commonRequestLimit, 'hashtag')
                 break;
             default:
+                dataGet(smallRequestLimit)
                 break;
         }
     }, [params]);
 
-    const generateElements = (obj, callbackComponent, hasSeeMore) => {
+    const generateElements = (object, callbackComponent, title, hasSeeMore) => {
+        if (!object) return (<></>)
 
-        if (!obj || String(obj?.status)[0] !== '2' || obj.data?.rows?.length === 0) return <></>
-
-        const { count, rows, responseTitle, responseTitleEng } = obj.data;
+        const { count, rows } = object;
 
         return (
             <>
-                {hasSeeMore && <SeeMoreSearchItems title={responseTitle} titleEng={responseTitleEng}
-                    itemsCount={count} link={params.searchText} key={Date.now()} />}
-                <div className={`search-items ${responseTitleEng}`} >
-                    {rows.map(callbackComponent)}
-                </div>
+                <SeeMoreSearchItems title={title} hasSeeMore={hasSeeMore}
+                    itemsCount={count} link={params.searchText} />
+                {count > 0 ?
+                    (<div className={`search-items ${title}`} >
+                        {rows.map(callbackComponent)}
+                    </div>) :
+                    (<div className='search-titleNoOne'><h4>
+                        --Ничего не найдено--
+                    </h4></div>)
+                }
             </>
         )
     }
+    const usersArguments = [searchData?.users, el => <UserElement user={el} subscribeBtn />, 'user']
+    const hashtagsArguments = [searchData?.hashtags, el => <HashtagElement hashtag={el} />, 'hashtag']
 
     return (
         <div className='searchBox'>
             {params.model === 'all' && (
                 <>
-                    {generateElements(users, user => <UserElement user={user} />, true)}
-                    {generateElements(hashtags, hashtag => <HashtagElement hashtag={hashtag} />, true)}
-                    {generateElements(messages, message => <MessagePost messageObject={message} key={message.id} />, true)}
+                    {generateElements(...usersArguments, true)}
+                    {generateElements(...hashtagsArguments, true)}
                 </>
             )}
-            {params.model === 'user' && (
+            {params.model !== 'all' && (
                 <>
-                    {generateElements(users, user => <UserElement user={user} />, false)}
-                </>
-            )}
-            {params.model === 'hashtag' && (
-                <>
-                    {generateElements(hashtags, hashtag => <HashtagElement hashtag={hashtag} />, false)}
-                </>
-            )}
-            {params.model === 'message' && (
-                <>
-                    {generateElements(messages, message => <MessagePost messageObject={message} key={message.id} />, false)}
+                    {generateElements(...usersArguments, false)}
+                    {generateElements(...hashtagsArguments, false)}
                 </>
             )}
         </div>

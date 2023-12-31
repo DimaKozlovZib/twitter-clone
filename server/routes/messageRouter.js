@@ -8,7 +8,6 @@ const interactionMessage = require("../analytics/interactionMessage");
 router.delete("/:id", authMiddleware, messageRouter.deleteMessage)
 router.get("/", authOrNotMiddleware, messageRouter.getMessages)
 router.post("/", authMiddleware, messageRouter.addMessage)
-router.post("/searchMessages", messageRouter.searchMessages)
 router.post("/like", authMiddleware, messageRouter.likeMessage)
 router.post("/getMessageInfo", authOrNotMiddleware, messageRouter.getMessageInfo)
 router.post("/addCommentToMessage", authMiddleware, messageRouter.addComment)
