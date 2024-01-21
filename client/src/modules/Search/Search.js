@@ -4,38 +4,43 @@ import { search } from './API';
 import SeeMoreSearchItems from '../../components/SeeMoreSearchItems/SeeMoreSearchItems';
 import UserElement from '../../components/UserElement/UserElement';
 import HashtagElement from '../../components/HashtagElement/HashtagElement';
+import './Search.css'
+import PageChanger from '../../components/PageChanger/PageChanger';
+import LoaderHorizontally from '../../UI/LoaderHorizontally/LoaderHorizontally';
 
 const Search = memo(() => {
     const params = useParams();
     const smallRequestLimit = 3;
     const commonRequestLimit = 15;
 
-    const [visibleParams, setVisibleParams] = useState({});
-
+    const [isLoadData, setIsLoadData] = useState(false);
+    const [page, setPage] = useState(0);
     const [searchData, setsearchData] = useState(null);
 
-    const dataGet = async (limit, onlyModel = null) => {
-        const res = await search(params.searchText, limit, onlyModel)
-        setsearchData(res.data)
+
+    const dataGet = async (limit, pageindex, onlyModel = null) => {
+        setIsLoadData(false)
+        const res = await search(params.searchText, limit, pageindex, onlyModel)
+
+        if (res) {
+            setsearchData(res.data)
+        }
+        setIsLoadData(true)
     }
 
     useEffect(() => {
-        if (params.model === visibleParams.model && params.searchText === visibleParams.searchText) return;
-
-        setVisibleParams(params)
-
         switch (params.model) {
             case 'user':
-                dataGet(commonRequestLimit, 'user')
+                dataGet(commonRequestLimit, page, 'user')
                 break;
             case 'hashtag':
-                dataGet(commonRequestLimit, 'hashtag')
+                dataGet(commonRequestLimit, page, 'hashtag')
                 break;
             default:
-                dataGet(smallRequestLimit)
+                dataGet(smallRequestLimit, 0)
                 break;
         }
-    }, [params]);
+    }, [params, page]);
 
     const generateElements = (object, callbackComponent, title, hasSeeMore) => {
         if (!object) return (<></>)
@@ -44,15 +49,24 @@ const Search = memo(() => {
 
         return (
             <>
-                <SeeMoreSearchItems title={title} hasSeeMore={hasSeeMore}
-                    itemsCount={count} link={params.searchText} />
-                {count > 0 ?
-                    (<div className={`search-items ${title}`} >
-                        {rows.map(callbackComponent)}
-                    </div>) :
-                    (<div className='search-titleNoOne'><h4>
-                        --Ничего не найдено--
-                    </h4></div>)
+                <div className='search-box'>
+                    <SeeMoreSearchItems title={title} hasSeeMore={hasSeeMore}
+                        itemsCount={count} link={params.searchText} />
+                    <div className='search-box__list'>
+                        {isLoadData ?
+                            (count > 0 ?
+                                (<div className={`search-items ${title}`} >
+                                    {rows.map(callbackComponent)}
+                                </div>) :
+                                (<div className='search-titleNoOne'><h4>
+                                    --Ничего не найдено--
+                                </h4></div>)
+                            ) : <LoaderHorizontally />
+                        }
+                    </div>
+                </div>
+                {(count > commonRequestLimit && hasSeeMore === false) &&
+                    <PageChanger page={page} setpage={setPage} limit={commonRequestLimit} count={count} />
                 }
             </>
         )
@@ -61,7 +75,7 @@ const Search = memo(() => {
     const hashtagsArguments = [searchData?.hashtags, el => <HashtagElement hashtag={el} />, 'hashtag']
 
     return (
-        <div className='searchBox'>
+        <div className='search-wrapper'>
             {params.model === 'all' && (
                 <>
                     {generateElements(...usersArguments, true)}

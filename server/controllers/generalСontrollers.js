@@ -8,12 +8,12 @@ class generaleRouter {
             const limit = Number(req.query.limit) || 3
             const onlyModel = req.query.onlyModel || null;
             const needFriend = req.query.needFriend || null;
-            const page = Number(req.query.page) || 1
+            const page = Number(req.query.page) || 0
             const searchString = req.query.searchString
 
             if (!searchString || searchString.lenght === 0) return res.status(400).json('bad request')
 
-            const offset = (page - 1) * limit
+            const offset = page * limit
 
             const searchUsers = async () => {
                 try {

@@ -5,7 +5,7 @@ import TextMessageContent from '../TextMessageContent/TextMessageContent';
 import ImageMessageContent from '../ImageMessageContent/ImageMessageContent';
 
 const RetweetMessage = ({ retweetMessage }) => {
-    const { user, text, id, hashtags, images } = retweetMessage;
+    const { user, text, id, hashtags, media } = retweetMessage;
     const { img, name, email } = user;
 
     return (
@@ -25,7 +25,7 @@ const RetweetMessage = ({ retweetMessage }) => {
             </div>
             <div className='message-info'>
                 <TextMessageContent originalText={text} hashtags={hashtags} />
-                <ImageMessageContent images={images} />
+                <ImageMessageContent messageData={{ media }} />
             </div>
         </div >
     );

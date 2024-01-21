@@ -7,7 +7,7 @@ const fs = require('fs')
 const { User, Media, Message, Friends, Hashtag } = require("../models/models")
 const { Sequelize } = require("../db")
 const { Op } = require("sequelize")
-const { friend_IncludeObject, media_IncludeObject, hashtag_IncludeObject, user_IncludeObject, retweetIncludeObject } = require("../includeObjects")
+const { media_IncludeObject, hashtag_IncludeObject, user_IncludeObject, retweetIncludeObject } = require("../includeObjects")
 
 const generateJwt = (payload) => {
     const accessToken = jwt.sign(
@@ -143,17 +143,15 @@ class userRouter {
 
     async getFriends(req, res) {
         try {
-            const { email, id } = req.user;
+            const { id } = req.user;
             const params = req.query;
 
-            if (!params?.page) return res.status(400).json({ message: 'bad request' });
-
-            const Limit = params?.limit || 20
-
-            const offset = (params.page - 1) * Limit
+            const limit = params?.limit || 20
+            const page = params.page || 0;
+            const offset = page * limit
 
             const friends = await User.findAndCountAll({
-                limit: Limit, offset,
+                limit, offset,
                 attributes: ['id', 'name', 'email', 'img'],
                 where: { id: { [Op.ne]: id } },
                 include: {
@@ -222,14 +220,19 @@ class userRouter {
         try {
             const { id } = req.params;
             const query = req.query;
+
             if (!id || !Number(id)) return res.status(400).json('error: bad request')
 
-            const Limit = query?.limit || 20;
-            const Offset = (query?.page || 0) * Limit
+            const viewedData = req.viewedData?.messages || [];
+
+            const Limit = +query?.limit || 20;
+            const Offset = (+query?.page || 0) * Limit;
+
+            if (Limit <= 0 || Offset < 0) return res.status(400).json('error: bad request')
 
             const messages = await Message.findAll({
                 offset: Offset, limit: Limit,
-                where: { userId: id },
+                where: { userId: id, id: { [Op.notIn]: viewedData } },
                 attributes: ['text', 'id', 'likesNum', 'retweetCount', 'retweetId', 'createdAt', 'commentsCount'],
                 include: [user_IncludeObject, hashtag_IncludeObject, media_IncludeObject, retweetIncludeObject],
                 order: [['createdAt', 'DESC']]
@@ -244,7 +247,7 @@ class userRouter {
 
     async setCover(req, res) {
         try {
-            const { email, id } = req.user;
+            const { id } = req.user;
             const file = req.files.file;
 
             if (!file && !"image/jpeg,image/png,image/gif,image/webp".split(',').includes(file.mimetype)) {
@@ -284,8 +287,6 @@ class userRouter {
 
             const user = await User.findOne({ where: { id } })
             const oldAvatar = user?.img
-
-            console.log(file, oldAvatar)
 
             if (oldAvatar) {
                 const oldAvatarPath = path.resolve(__dirname, '..', 'static-avatars', oldAvatar)
@@ -356,7 +357,7 @@ class userRouter {
             if (!newFutureFriend) return res.status(404).json({ message: 'user not found' })
 
             const [userFriends] = await Friends.findOrCreate({ where: { userId: id } });
-            console.log(userFriends)
+
             userFriends.addUser(newFutureFriend)
 
             return res.status(200).json({ message: 'succes' })
@@ -416,7 +417,7 @@ class userRouter {
             const friendsOfFriends = await User.findAll({
                 attributes: ['id'],
                 raw: true,
-                where: { id: { [Op.notIn]: friends.map(i => i.id) } },
+                where: { id: { [Op.notIn]: friends.map(i => i.id), [Op.ne]: user.id } },
                 include: [{
                     attributes: [],
                     model: Friends,
@@ -447,7 +448,7 @@ class userRouter {
 
                 const mutualFriends = await User.findAndCountAll({
                     limit: 3,
-                    where: { id: { [Op.col]: 'friend.userId' }, id: { [Op.in]: friends.map(i => i.id) } },
+                    where: { id: { [Op.col]: 'friend.userId', [Op.in]: friends.map(i => i.id) } },
                     attributes: ['id', 'img'],
                     include: [{
                         model: Friends,
@@ -473,7 +474,6 @@ class userRouter {
                 result.push({ user, mutualFriends })
             }
 
-            console.log(result)
             return res.status(200).json({ users: result })
         } catch (error) {
             console.log(error)

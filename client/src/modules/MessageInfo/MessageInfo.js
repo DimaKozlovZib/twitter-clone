@@ -35,7 +35,6 @@ const MessageInfo = () => {
 
     const menu = useRef();
     const [openModal] = useModal('DELETE_MESSAGE-MODAL', null, { setDelete: setDeleteSucces, id })
-    const [openModalToWriteMess] = useModal('RETWEET-MODAL', null, { user, text, id })
 
     useEffect(() => {
         if (!newComment) return
@@ -94,7 +93,7 @@ const MessageInfo = () => {
     // rewiews props objects
     const data = {
         commentsCount, retweetCount, likes, likesNum,
-        messageData: { user, text, id, hashtags, retweet: null }
+        messageData: { user, text, id, hashtags, retweet: null, media }
     }
 
     return (

@@ -4,7 +4,7 @@ import HashtagInfo from '../modules/HashtagInfo/HashtagInfo';
 
 const HashtagPage = () => {
     return (
-        <Layout canClose>
+        <Layout>
             <HashtagInfo />
         </Layout>
     );

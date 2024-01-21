@@ -1,11 +1,50 @@
-.SeeMoreSearchItems {
-  display: block;
-  background-color: var(--alternative-bg-color);
-  box-sizing: border-box;
-  padding: 10px 10px 10px 20px;
+.search-box {
+  margin-top: 10px;
+  background-color: var(--main-bg-color);
   border-radius: 10px;
   font-family: "Nunito", sans-serif;
+  padding: 15px 10px;
+  border: 1px solid var(--alpha2);
+}
+.search-box .SeeMoreSearchItems {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--main-elements-color);
+  padding-left: 10px;
+}
+.search-box .SeeMoreSearchItems:disabled {
+  cursor: default;
+}
+.search-box-box {
   margin-top: 10px;
+}
+.search-box .UserElement,
+.search-box .HashtagElement {
+  position: relative;
+  margin-top: 11px;
+}
+.search-box .UserElement:hover,
+.search-box .HashtagElement:hover {
+  background-color: var(--alternative-bg-color);
+}
+.search-box .UserElement:not(.search-box .UserElement:last-child,
+.search-box .HashtagElement:last-child):after,
+.search-box .HashtagElement:not(.search-box .UserElement:last-child,
+.search-box .HashtagElement:last-child):after {
+  left: 0px;
+  right: 0;
+  margin: auto;
+  bottom: -6px;
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 1px;
+  border-radius: 1px;
+  content: "";
+  background-color: var(--alpha5);
+}
+
+.SeeMoreSearchItems {
   display: flex;
   align-items: center;
   width: 100%;
@@ -20,7 +59,7 @@
 }
 .SeeMoreSearchItems h5 {
   font-size: 13px;
-  color: var(--main-elements-color);
+  color: var(--alpha6);
 }
 .SeeMoreSearchItems-seeMore {
   display: flex;
@@ -61,15 +100,4 @@
   text-align: center;
   font-size: 16px;
   font-family: "Nunito", sans-serif;
-}
-
-.SeeMoreSearchItems + .search-items {
-  padding: 0px 7px;
-  margin-top: 10px;
-}
-
-[theme=dark-theme] .SeeMoreSearchItems {
-  border: 2px solid transparent;
-  border-bottom: 2px solid var(--alpha1);
-  box-sizing: border-box;
-}/*# sourceMappingURL=SeeMoreSearchItems.css.map */
+}/*# sourceMappingURL=Search.css.map */

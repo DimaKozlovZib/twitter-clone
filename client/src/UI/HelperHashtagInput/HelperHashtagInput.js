@@ -5,13 +5,14 @@ import { EditorState, Modifier } from 'draft-js';
 
 const HelperHashtagInput = ({ editorState, isInputActive, setEditorState, editorBlock }) => {
     const [hashtagHelper, setHashtagHelper] = useState([]);
+    const [hashtagName, setHashtagName] = useState('');
     const [timer, setTimer] = useState(null);
     const [hashtagHelperIsActive, setHashtagHelperIsActive] = useState(false);
     const [decoratorKey, setDecoratorKey] = useState(null);
 
     const closeHashtagHelper = (e) => {
         setTimeout(() => {
-            if (hashtagHelperIsActive === true) setHashtagHelperIsActive(false)
+            if (hashtagHelperIsActive) setHashtagHelperIsActive(false)
         }, 420)
     }
 
@@ -21,7 +22,7 @@ const HelperHashtagInput = ({ editorState, isInputActive, setEditorState, editor
         }
     }, [isInputActive]);
 
-    useEffect(() => {
+    const hashtagRequest = () => {
         if (!isInputActive) return
 
         const selectionState = editorState.getSelection();
@@ -41,9 +42,12 @@ const HelperHashtagInput = ({ editorState, isInputActive, setEditorState, editor
             const key = element.getAttribute('offsetkey')
             const blockKey = key?.split('-')[0]
 
+            if (elemText.slice(1).length === 0) continue;
+
             if (!(startKey === blockKey && endKey === blockKey)) continue;
 
             const endCursor = element.getAttribute('end')
+
             if (+endCursor < anchorOffset) continue;
 
             const startCursor = element.getAttribute('start')
@@ -51,31 +55,35 @@ const HelperHashtagInput = ({ editorState, isInputActive, setEditorState, editor
 
             if (elementId !== 'none' || elementValue === elemText) return setHashtagHelperIsActive(false);
 
-            if (decoratorKey === key) return setHashtagHelperIsActive(true)
+            if (decoratorKey === key && hashtagName === elemText.slice(1)
+                && hashtagHelper.length > 0) return setHashtagHelperIsActive(true)
 
             setDecoratorKey(element.getAttribute('offsetkey'))
             setHashtagHelper([])
-            getList(element.textContent.slice(1))
+            getList(elemText.slice(1))
             return;
         }
 
         setHashtagHelperIsActive(false)
+    }
+
+    useEffect(() => {
+        if (!editorState.getSelection().getHasFocus()) return
+
+        clearTimeout(timer)
+        setTimer(null)
+
+        setTimer(setTimeout(hashtagRequest, 800))
     }, [editorState, isInputActive]);
 
-    const getList = (text) => {
+    const getList = async (text) => {
         try {
-            clearTimeout(timer)
-            setTimer(null)
-
-            const get = async () => {
-                const response = await getHashtags(text);
-                if (isInputActive) {
-                    setHashtagHelper(response.data.hashtagsToInput.rows);
-                    setHashtagHelperIsActive(true)
-                }
+            const response = await getHashtags(text);
+            if (isInputActive) {
+                setHashtagHelper(response.data.hashtagsToInput.rows);
+                setHashtagHelperIsActive(true)
+                setHashtagName(text)
             }
-
-            setTimer(setTimeout(get, 800))
         } catch (error) {
             console.log(error)
         }

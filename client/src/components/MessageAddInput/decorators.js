@@ -1,7 +1,7 @@
 import { CompositeDecorator } from "draft-js";
 import { memo } from "react";
 
-const HASHTAG_REGEX = /(^|\B)(#(?![0-9_]+\b)([a-zA-Z0-9_]{2,18}))(\b|\r)/g;
+const HASHTAG_REGEX = /(^|\B)(#[^\s!@#$%^&*()=+.\/,\[{\]};:'"?><]{2,14})(?![\p{L}\p{N}_])/g;
 
 const hashtag = memo((props) =>
 (<span {...props} data-hashtagId="none" data-serverHashtagValue='none' className='hashtag'>

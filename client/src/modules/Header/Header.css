@@ -18,11 +18,13 @@
   margin: 0px auto;
   box-sizing: border-box;
 }
-.header .UserAvatar {
-  border: none;
+.header .unite-wrapper > .UserAvatar,
+.header .AccountMenu .UserAvatar {
   cursor: pointer;
   height: 32px;
   width: 32px;
+  min-height: 32px;
+  min-width: 32px;
 }
 .header .login {
   box-sizing: border-box;

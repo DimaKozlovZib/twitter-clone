@@ -1,0 +1,73 @@
+.PageChanger {
+  display: flex;
+  margin: 15px 0px;
+  justify-content: center;
+}
+.PageChanger .back-btn,
+.PageChanger .next-btn {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  opacity: 0.7;
+  position: relative;
+  background-color: var(--blue-btn-color);
+  transition: opacity 0.2s ease;
+}
+.PageChanger .back-btn svg,
+.PageChanger .next-btn svg {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  top: 0;
+  left: 0;
+  height: 19px;
+  margin: auto;
+  stroke: #fff;
+}
+.PageChanger .back-btn svg path,
+.PageChanger .next-btn svg path {
+  height: 100%;
+}
+.PageChanger .back-btn:not(:disabled):hover,
+.PageChanger .next-btn:not(:disabled):hover {
+  opacity: 1;
+}
+.PageChanger .back-btn:disabled,
+.PageChanger .next-btn:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+.PageChanger .back-btn svg {
+  padding-right: 4px;
+}
+.PageChanger .next-btn svg {
+  padding-left: 4px;
+}
+.PageChanger .pageIndexes {
+  display: flex;
+  align-items: center;
+  color: var(--main-elements-color);
+  margin: 0px 10px;
+}
+.PageChanger .pageIndexes button {
+  display: block;
+  color: inherit;
+  border-radius: 50%;
+  text-align: center;
+  width: 25px;
+  height: 25px;
+  font-size: 16px;
+  font-family: "Nunito", sans-serif;
+  transition: background-color 0.3s ease-out;
+}
+.PageChanger .pageIndexes button:not(:first-child) {
+  margin-left: 7px;
+}
+.PageChanger .pageIndexes button:hover {
+  background-color: var(--second-bg-color);
+}
+.PageChanger .pageIndexes .thisPage {
+  pointer-events: none;
+  cursor: default;
+  background-color: var(--second-bg-color);
+}/*# sourceMappingURL=PageChanger.css.map */

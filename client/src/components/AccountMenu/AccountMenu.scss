@@ -3,6 +3,7 @@
 	position: absolute;
 	border-radius: 0px 0px 10px 10px;
 	min-width: 250px;
+	max-width: 270px;
 	font-family: "Nunito", sans-serif;
 	padding: 10px 0px 15px;
 	display: none;
@@ -38,11 +39,15 @@
 			border-radius: 50%;
 		}
 		h5 {
+			font-family: "Nunito", sans-serif;
 			color: var(--main-elements-color);
-			font-size: 14px;
-			padding: 0px 10px;
+			font-size: 18px;
+			padding: 0px 0px 0px 10px;
+			margin-right: 10px;
 			box-sizing: border-box;
 			display: block;
+			text-overflow: ellipsis;
+			overflow: hidden;
 		}
 		svg {
 			stroke-width: 3px;

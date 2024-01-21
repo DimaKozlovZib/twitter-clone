@@ -1,9 +1,9 @@
 import { $authHost } from '../../API';
 
-export const search = async (searchString, limit, onlyModel) => {
+export const search = async (searchString, limit, page, onlyModel) => {
     try {
         const needFriend = true;
-        const result = await $authHost.get('/search', { params: { limit, searchString, onlyModel, needFriend } })
+        const result = await $authHost.get('/search', { params: { limit, page, searchString, onlyModel, needFriend } })
         return result
     } catch (error) {
         console.error(error)

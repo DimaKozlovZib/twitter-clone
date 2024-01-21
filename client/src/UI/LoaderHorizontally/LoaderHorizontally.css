@@ -25,11 +25,11 @@
   margin: 0px 4.5px;
   border-radius: 2px;
   width: 5px;
-  animation: loader 3s infinite linear;
+  animation: loaderH 3s infinite linear;
   opacity: 0.8;
 }
 
-@keyframes loader {
+@keyframes loaderH {
   0% {
     height: 5px;
   }

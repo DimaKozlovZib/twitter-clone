@@ -110,6 +110,43 @@ const user_recommendation = new Schema({
     }
 })
 
+//const S_Model = 'session_data';
+//const session_data = new Schema({
+//    userId: {
+//        type: Number,
+//        required: true,
+//        unique: true
+//    },
+//    viewedData: {//main data
+//        type: String,
+//    },
+//    expireAt: {
+//        type: Date,
+//        expires: 60 * 60 * 24 * 1 //1 день в сек
+//    }
+//}, {
+//    statics: {
+//        async getData(userId) {
+//            try {
+//                const result = await model(S_Model).findOne({ userId }).select('viewedData').exec();
+//                console.log(result)
+//                return result?.data;
+//            } catch (error) {
+//                console.log(error)
+//            }
+//        },
+//        async setData(userId, newData, clearOldData = false) {
+//            try {
+//                const result = await model(S_Model).findOne({ userId }).select('viewedData').exec();
+//                console.log(result)
+//            } catch (error) {
+//                console.log(error)
+//            }
+//        },
+//    }
+//})
+//
+//const SESSION_DATA = model(S_Model, session_data)
 const USER_RECOMMENDATION = model(U_R_Model, user_recommendation)
 const USER_MESSAGE = model(U_M_Model, user_messageShema)
 

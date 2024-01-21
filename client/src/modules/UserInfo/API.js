@@ -4,7 +4,7 @@ export const getUser = async (userId, isAuth) => {
     try {
         const requestHost = isAuth ? $authHost : $host;
         const response = await requestHost.get(`/user/${userId}`)
-        console.log(response)
+
         return response;
     } catch (error) {
         console.error(error)
@@ -12,9 +12,9 @@ export const getUser = async (userId, isAuth) => {
     }
 }
 
-export const getMessages = async (userId, limit, page) => {
+export const getMessages = async (userId, limit, page, viewedData) => {
     try {
-        const response = await $host.get(`/user/content/${userId}`, { props: { limit, page } })
+        const response = await $host.post(`/user/content/${userId}?limit=${limit}&page=${page}`, { viewedData: { messages: viewedData } })
         return response;
     } catch (error) {
         return error;

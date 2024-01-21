@@ -5,7 +5,6 @@
 
 .UserAvatar {
   content: "";
-  border: 2px solid var(--grey-color-1);
   box-sizing: border-box;
   height: 40px;
   width: 40px;

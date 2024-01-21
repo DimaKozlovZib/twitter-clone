@@ -6,15 +6,29 @@
 	margin-top: 15px;
 }
 
-.userInfo {
-	display: flex;
-	align-items: flex-start;
-	width: 100%;
+.userInfo-insideWrapper {
 	background: var(--main-bg-color);
+	width: 100%;
 	border-radius: 10px;
 	padding: 20px 20px;
 	box-sizing: border-box;
 	position: relative;
+
+	.user-shortInfo {
+		margin-top: 5px;
+		color: var(--alpha8);
+		font-size: 14px;
+		font-weight: 500;
+		width: 95%;
+		word-break: break-all;
+		line-height: 19px;
+	}
+}
+
+.userInfo {
+	display: flex;
+	align-items: flex-start;
+	width: 100%;
 
 	.buttonBlue {
 		margin-left: auto;
@@ -52,16 +66,17 @@
 	.user-email {
 		height: 15px;
 		min-width: 200px;
-		margin-top: 5px;
+		margin-top: 1px;
 		font-size: 16px;
 		line-height: 15px;
 		opacity: 0.8;
-		color: var(--main-elements-color);
+		color: var(--alpha7);
 	}
 	.user-email,
 	.user-name {
 		border-radius: 5px;
 	}
+
 	.subscribe-button,
 	.subscribe-already-button {
 		h5 {
@@ -82,7 +97,7 @@
 			text-align: center;
 		}
 		.user-name,
-		.ButtonBlue {
+		.buttonBlue {
 			margin-top: 10px;
 		}
 		.info-about-user {
@@ -99,5 +114,55 @@
 
 	&:hover {
 		background-color: var(--main-bg-color);
+	}
+}
+.userInfo-wrapper + .addMessage {
+	display: flex;
+	background-color: var(--main-bg-color);
+	border-radius: 10px;
+	padding: 10px 20px 10px 15px;
+	margin-top: 10px;
+	align-items: center;
+	justify-content: space-between;
+
+	.title {
+		color: var(--main-elements-color);
+		font-family: "Nunito", sans-serif;
+		font-size: 16px;
+	}
+
+	.write-message-btn {
+		background-color: var(--blue-btn-color);
+		border-radius: 8px;
+		padding: 7px 16px;
+		box-sizing: border-box;
+		height: 32px;
+
+		svg {
+			fill: #fff;
+		}
+	}
+}
+.noOneMessageTitle {
+	width: 100%;
+	padding: 10px 15px;
+	background-color: var(--main-bg-color);
+	border-radius: 10px;
+	color: var(--main-elements-color);
+	font-family: "Nunito", sans-serif;
+	font-weight: 500;
+	font-size: 15px;
+	text-align: center;
+	margin-top: 15px;
+	box-sizing: border-box;
+}
+.userMessagesList {
+	position: relative;
+}
+.moduleData_loader-wrapper {
+	margin-bottom: 10px;
+
+	.LoaderHorizontally {
+		align-items: center;
 	}
 }

@@ -1,0 +1,73 @@
+.PageChanger {
+	display: flex;
+	margin: 15px 0px;
+	justify-content: center;
+
+	.back-btn,
+	.next-btn {
+		height: 40px;
+		width: 40px;
+		border-radius: 50%;
+		opacity: 0.7;
+		position: relative;
+		background-color: var(--blue-btn-color);
+		transition: opacity 0.2s ease;
+
+		svg {
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			top: 0;
+			left: 0;
+			height: 19px;
+			margin: auto;
+			stroke: #fff;
+			path {
+				height: 100%;
+			}
+		}
+		&:not(:disabled):hover {
+			opacity: 1;
+		}
+		&:disabled {
+			cursor: default;
+			opacity: 0.5;
+		}
+	}
+	.back-btn svg {
+		padding-right: 4px;
+	}
+	.next-btn svg {
+		padding-left: 4px;
+	}
+
+	.pageIndexes {
+		display: flex;
+		align-items: center;
+		color: var(--main-elements-color);
+		margin: 0px 10px;
+
+		button {
+			display: block;
+			color: inherit;
+			border-radius: 50%;
+			text-align: center;
+			width: 25px;
+			height: 25px;
+			font-size: 16px;
+			font-family: "Nunito", sans-serif;
+			transition: background-color 0.3s ease-out;
+			&:not(:first-child) {
+				margin-left: 7px;
+			}
+			&:hover {
+				background-color: var(--second-bg-color);
+			}
+		}
+		.thisPage {
+			pointer-events: none;
+			cursor: default;
+			background-color: var(--second-bg-color);
+		}
+	}
+}

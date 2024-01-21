@@ -11,7 +11,7 @@
 .AddCommentForm input {
   margin-left: 10px;
   height: 30px;
-  border: 2px solid var(--alpha3);
+  border: none;
   border-radius: 15px;
   width: 100%;
   padding: 5px 10px;

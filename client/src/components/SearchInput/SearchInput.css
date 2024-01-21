@@ -181,6 +181,7 @@
 .searchElements-wrapper .hashtagElement .hashtagElement-icon {
   height: 35px;
   width: 35px;
+  border: none;
 }
 .searchElements-wrapper .userElement:hover,
 .searchElements-wrapper .hashtagElement:hover {

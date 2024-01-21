@@ -37,12 +37,13 @@ body.load {
 :root,
 [theme="light-theme"] {
 	--main-bg-color: #fff;
-	--body-bg-color: rgba(181, 180, 180, 0.552);
-	--alternative-bg-color: #fff;
+	--body-bg-color: #edeef0;
+	--alternative-bg-color: #f7f8fa;
 	--alternative-bg-color--hover: rgba(174, 183, 194, 0.12);
 	--second-bg-color: rgb(235, 235, 235);
 	--main-elements-color: rgb(0, 0, 0);
 	--alpha-main: rgba(0, 0, 0, 0.8);
+	--alpha9: rgba(0, 0, 0, 0.9);
 	--alpha8: rgba(0, 0, 0, 0.8);
 	--alpha7: rgba(0, 0, 0, 0.7);
 	--alpha6: rgba(0, 0, 0, 0.6);
@@ -72,6 +73,7 @@ body.load {
 	--second-bg-color: #424242;
 	--main-elements-color: rgb(225, 227, 230);
 	--alpha-main: rgba(255, 255, 255, 0.8);
+	--alpha9: rgba(255, 255, 255, 0.9);
 	--alpha8: rgba(255, 255, 255, 0.8);
 	--alpha7: rgba(255, 255, 255, 0.7);
 	--alpha6: rgba(255, 255, 255, 0.6);

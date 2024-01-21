@@ -18,6 +18,6 @@ router.get("/:id/friends", userController.getFriends)
 router.post("/subscribe", authMiddleware, userController.subscribe)
 router.post("/unsubscribe", authMiddleware, userController.unsubscribe)
 router.post("/logout", authMiddleware, userController.logout)
-router.get("/content/:id", userController.getUserMessages)
+router.post("/content/:id", userController.getUserMessages)
 
 module.exports = router

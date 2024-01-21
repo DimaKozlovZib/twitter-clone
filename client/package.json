@@ -44,6 +44,7 @@
     ]
   },
   "devDependencies": {
+    "autoprefixer": "^10.4.16",
     "server": "^1.0.37"
   }
 }

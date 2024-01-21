@@ -32,7 +32,6 @@
 .EditForm .UserAvatar {
   height: 150px;
   width: 100%;
-  border: none;
   position: relative;
 }
 .EditForm .UserAvatar::after {
@@ -93,6 +92,8 @@
 .EditForm_input h4 {
   margin-right: 10px;
   width: 125px;
+  line-height: 30px;
+  text-align: right;
   min-width: 125px;
   display: block;
   color: var(--main-elements-color);
@@ -121,6 +122,9 @@
 .EditForm .short-info {
   margin-top: 15px;
   justify-content: start;
+}
+.EditForm .short-info h4 {
+  line-height: normal;
 }
 @media (max-width: 800px) {
   .EditForm,

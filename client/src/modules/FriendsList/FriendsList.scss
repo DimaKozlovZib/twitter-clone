@@ -1,0 +1,39 @@
+.FriendsList {
+	margin-top: 10px;
+	background-color: var(--main-bg-color);
+	border-radius: 10px;
+	font-family: "Nunito", sans-serif;
+	padding: 15px 10px;
+	border: 1px solid var(--alpha2);
+
+	&-title {
+		font-size: 20px;
+		font-weight: 700;
+		color: var(--main-elements-color);
+		padding-left: 10px;
+	}
+
+	&-box {
+		margin-top: 10px;
+	}
+	.UserElement {
+		position: relative;
+		margin-top: 10px;
+		&:hover {
+			background-color: var(--alternative-bg-color);
+		}
+		&:not(&:last-child):after {
+			left: 0px;
+			right: 0;
+			margin: auto;
+			bottom: -6px;
+			position: absolute;
+			display: block;
+			width: 100%;
+			height: 1px;
+			border-radius: 1px;
+			content: "";
+			background-color: var(--alpha5);
+		}
+	}
+}

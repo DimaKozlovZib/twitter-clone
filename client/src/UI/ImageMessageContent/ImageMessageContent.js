@@ -25,14 +25,14 @@ const ImageMessageContent = ({ messageData }) => {
             switch (type) {
                 case 'image':
                     result.push((
-                        <MediaView index={i} src={src} mediaType='image'>
+                        <MediaView index={i} key={i} src={src} mediaType='image'>
                             <img className='image-item' src={src} loading='lazy' />
                         </MediaView>
                     ))
                     continue;
                 case 'video':
                     result.push((
-                        <div className='video-wrapper'>
+                        <div className='video-wrapper' key={i}>
                             <MediaView index={i} src={src} mediaType='video'>
                                 <video src={src} />
                             </MediaView>

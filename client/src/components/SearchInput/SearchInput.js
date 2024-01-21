@@ -7,7 +7,7 @@ import { getFirstConnectionUsers, getPossibleSearchData } from './API';
 const SearchInput = memo(() => {
     const params = useParams();
     const [dataLoad, setDataLoad] = useState(true);
-    const [inputValue, setInputValue] = useState(params?.hashtagName || '');
+    const [inputValue, setInputValue] = useState('');
     const [dataSearch, setDataSearch] = useState(null);
     const [possibleFriends, setPossibleFriends] = useState([]);
     const [Timer, setTimer] = useState(null);
@@ -165,7 +165,7 @@ const SearchInput = memo(() => {
                                 <h4>Хэштеги</h4>
                             </div>
                             <div className='searchElements'>
-                                {dataSearch?.hashtags?.rows.map(i => (
+                                {hashtags?.rows.map(i => (
                                     <button className='hashtagElement' key={i.id}
                                         onClick={onClick(i.name, `/twitter-clone/hashtag/${i.name}`)}>
                                         <div className='hashtagElement-icon'>

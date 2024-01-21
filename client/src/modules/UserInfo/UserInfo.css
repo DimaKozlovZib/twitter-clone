@@ -7,15 +7,28 @@
   margin-top: 15px;
 }
 
-.userInfo {
-  display: flex;
-  align-items: flex-start;
-  width: 100%;
+.userInfo-insideWrapper {
   background: var(--main-bg-color);
+  width: 100%;
   border-radius: 10px;
   padding: 20px 20px;
   box-sizing: border-box;
   position: relative;
+}
+.userInfo-insideWrapper .user-shortInfo {
+  margin-top: 5px;
+  color: var(--alpha8);
+  font-size: 14px;
+  font-weight: 500;
+  width: 95%;
+  word-break: break-all;
+  line-height: 19px;
+}
+
+.userInfo {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
 }
 .userInfo .buttonBlue {
   margin-left: auto;
@@ -51,11 +64,11 @@
 .userInfo .user-email {
   height: 15px;
   min-width: 200px;
-  margin-top: 5px;
+  margin-top: 1px;
   font-size: 16px;
   line-height: 15px;
   opacity: 0.8;
-  color: var(--main-elements-color);
+  color: var(--alpha7);
 }
 .userInfo .user-email,
 .userInfo .user-name {
@@ -78,7 +91,7 @@
     text-align: center;
   }
   .userInfo .user-name,
-  .userInfo .ButtonBlue {
+  .userInfo .buttonBlue {
     margin-top: 10px;
   }
   .userInfo .info-about-user {
@@ -96,4 +109,54 @@
 }
 .userInfo-wrapper .edit-cover:hover {
   background-color: var(--main-bg-color);
+}
+
+.userInfo-wrapper + .addMessage {
+  display: flex;
+  background-color: var(--main-bg-color);
+  border-radius: 10px;
+  padding: 10px 20px 10px 15px;
+  margin-top: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+.userInfo-wrapper + .addMessage .title {
+  color: var(--main-elements-color);
+  font-family: "Nunito", sans-serif;
+  font-size: 16px;
+}
+.userInfo-wrapper + .addMessage .write-message-btn {
+  background-color: var(--blue-btn-color);
+  border-radius: 8px;
+  padding: 7px 16px;
+  box-sizing: border-box;
+  height: 32px;
+}
+.userInfo-wrapper + .addMessage .write-message-btn svg {
+  fill: #fff;
+}
+
+.noOneMessageTitle {
+  width: 100%;
+  padding: 10px 15px;
+  background-color: var(--main-bg-color);
+  border-radius: 10px;
+  color: var(--main-elements-color);
+  font-family: "Nunito", sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  text-align: center;
+  margin-top: 15px;
+  box-sizing: border-box;
+}
+
+.userMessagesList {
+  position: relative;
+}
+
+.moduleData_loader-wrapper {
+  margin-bottom: 10px;
+}
+.moduleData_loader-wrapper .LoaderHorizontally {
+  align-items: center;
 }/*# sourceMappingURL=UserInfo.css.map */

@@ -1,5 +1,5 @@
 import React, { memo, useMemo } from 'react';
-import './SeeMoreSearchItems.css';
+//import './SeeMoreSearchItems.css';
 import { useNavigate } from 'react-router-dom';
 
 const SeeMoreSearchItems = memo(({ title, itemsCount, hasSeeMore, link }) => {

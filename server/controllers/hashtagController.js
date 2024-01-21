@@ -21,11 +21,65 @@ class hashtagRouter {
             if (!params.name) return res.status(400).json({ message: 'bad request' })
 
             const hashtag = await Hashtag.findOne({
+                raw: true,
                 where: { name: params.name },
                 attributes: ['id', 'name', 'countMessages']
             })
+
+            if (!hashtag) return res.status(404).json({ message: 'hashtag is not defined' })
+
             res.status(200).json(hashtag)
         } catch (error) {
+            console.log(error)
+            return res.status(500).json(error.message)
+        }
+    }
+    async getHashtagMessages(req, res) {
+        try {
+            const hashtagId = Number(req.params.id)
+            const { isAuth } = req.user;
+
+            if (!hashtagId) return res.status(400).json({ message: 'bad request' })
+
+            const query = req.query;
+            const Limit = +query.limit || 10;
+            const Page = +query.page || 0;
+            const indexFirstElement = Page * Limit
+            const includes = []
+            const viewedData = req.viewedData?.messages || [];
+
+            if (isAuth) {
+                includes.push({
+                    model: Likes,
+                    where: {
+                        userId: req.user.id
+                    },
+                    required: false
+                })
+            }
+
+            const messages = await messageHashtag.findAll({
+                limit: Limit, offset: indexFirstElement,
+                attributes: ['createdAt'],
+                where: { hashtagId },
+                include: [{
+                    model: Message,
+                    where: { id: { [Op.notIn]: viewedData } },
+                    required: true,
+                    attributes: ['text', 'id', 'likesNum', 'retweetCount', 'retweetId', 'createdAt', 'commentsCount', 'userId'],
+                    include: [
+                        user_IncludeObject,
+                        hashtag_IncludeObject,
+                        media_IncludeObject,
+                        retweetIncludeObject, ...includes
+                    ]
+                }],
+                order: [['createdAt', 'DESC']]
+            })
+
+            res.status(200).json(messages)
+        } catch (error) {
+            console.log(error)
             return res.status(500).json(error.message)
         }
     }
@@ -42,74 +96,11 @@ class hashtagRouter {
                 },
                 attributes: ['id', 'name']
             })
-            console.log(hashtagsToInput, hashtag)
 
             return res.status(200).json({ hashtagsToInput })
         } catch (error) {
             console.log(error)
             return res.status(500).json(error)
-        }
-    }
-    async getMessages(req, res) {
-        try {
-            const { isAuth } = req.user;
-            const params = req.params;
-
-            if (!params?.name) return res.status(400).json({ message: 'bad request' })
-
-            const query = req.query;
-
-            const Limit = +query.limit || 20;
-            const Page = +query.page || 1;
-            const indexFirstElement = (Page - 1) * Limit
-
-            const includes = []
-
-            if (isAuth) {
-                includes.push({
-                    model: Likes,
-                    where: {
-                        userId: req.user.id
-                    },
-                    required: false
-                })
-            }
-
-            const hashtag = await Hashtag.findAndCountAll({
-                where: { name: params.name },
-                attributes: ['id'],
-                include: [
-                    {
-                        model: Message,
-                        attributes: [],
-                        through: { attributes: [] },
-                    }
-                ],
-            })
-
-            if (!hashtag.rows[0]) return res.status(404).json({ message: 'hashtag is not defined' })
-
-            const messages = await messageHashtag.findAndCountAll({
-                limit: Limit, offset: indexFirstElement,
-                attributes: [],
-                where: { hashtagId: hashtag.rows[0].dataValues.id },
-                include: [{
-                    model: Message,
-                    required: true,
-                    attributes: ['text', 'id', 'likesNum', 'retweetCount', 'retweetId', 'createdAt', 'commentsCount'],
-                    include: [
-                        user_IncludeObject,
-                        hashtag_IncludeObject,
-                        media_IncludeObject,
-                        retweetIncludeObject, ...includes
-                    ]
-                }]
-            })
-
-            return res.status(200).json({ messages, hashtag })
-        } catch (error) {
-            console.log(error)
-            return res.status(500).json(error.message)
         }
     }
 }

@@ -4,15 +4,13 @@
 	justify-content: space-between;
 	min-height: 190px;
 	height: 100%;
-	width: 90%;
+	width: 80%;
 	max-width: 1000px;
 	gap: 15px;
 	margin-top: 15px;
 
 	& > * {
 		-moz-box-align: stretch;
-		-moz-box-direction: normal;
-		-moz-box-orient: vertical;
 		max-height: 100%;
 		display: flex;
 		flex: 1 1 0px;
@@ -38,6 +36,7 @@
 	}
 	img {
 		cursor: pointer;
+		-o-object-fit: cover;
 		object-fit: cover;
 		width: 100%;
 		height: 100%;
@@ -69,6 +68,26 @@
 		}
 		&:hover {
 			opacity: 1;
+		}
+	}
+
+	@media (max-width: 900px) {
+		& {
+			width: 87%;
+		}
+	}
+	@media (max-width: 640px) {
+		& {
+			width: 95%;
+		}
+	}
+	@media (max-width: 550px) {
+		& {
+			width: 100%;
+			gap: 7px;
+		}
+		& > * {
+			row-gap: 7px;
 		}
 	}
 }

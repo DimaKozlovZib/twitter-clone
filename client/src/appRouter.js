@@ -24,7 +24,7 @@ const AppRouter = () => {
             <Route path={myFriendsPath} element={<FriendPage />} />
             <Route path={searchPath} element={<SearchPage />} />
             <Route path={messagePath} element={<MessageIdPage />} />
-            <Route path={addMessagePath} element={<AddPostPage retweet={false} />} />
+            <Route path={addMessagePath} element={<AddPostPage />} />
             <Route path={addRetweetPath} element={<AddPostPage retweet />} />
             <Route path={'*'} element={<MessagesPage />} />
         </Routes>

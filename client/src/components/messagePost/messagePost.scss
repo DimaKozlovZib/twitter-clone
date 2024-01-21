@@ -28,57 +28,15 @@
 		display: none;
 		margin-right: 10px;
 	}
-}
-
-.hiddenMenu {
-	position: absolute;
-	right: -1px;
-	background: var(--main-bg-color);
-	box-shadow: 1px 0px 4px 4px rgba(0, 0, 0, 0.25);
-	border-radius: 6px;
-	padding: 5px 10px;
-	top: -1px;
-	display: none;
-
-	&.active {
-		display: block;
+	.user-info .user-name {
+		line-height: 35px;
+		font-size: 20px;
+	}
+	.TextMessageContent {
+		font-size: 18px;
 	}
 }
-[theme="dark-theme"] .hiddenMenu {
-	border: 1px solid var(--grey-color-1);
-	box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.25);
-	background: var(--second-bg-color);
-}
-.hiddenMenu-item {
-	cursor: pointer;
-	padding: 5px;
-	font-size: 15px;
-	display: flex;
-	border-radius: 5px;
 
-	h5 {
-		line-height: 16px;
-		font-family: "Nunito", sans-serif;
-		font-size: inherit;
-		font-weight: 600;
-		margin-left: 6px;
-	}
-	svg {
-		stroke: var(--main-elements-color);
-	}
-
-	&.delete {
-		opacity: 0.7;
-		h5,
-		svg {
-			stroke: rgb(199, 2, 2);
-			color: rgb(199, 2, 2);
-		}
-		&:hover {
-			opacity: 1;
-		}
-	}
-}
 @media (max-width: 800px) {
 	.user-image.computer {
 		display: none;

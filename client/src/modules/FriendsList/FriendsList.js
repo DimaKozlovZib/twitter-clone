@@ -1,31 +1,55 @@
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getUsersData } from './API';
 import UserElement from '../../components/UserElement/UserElement';
+import './FriendsList.css'
+import PageChanger from '../../components/PageChanger/PageChanger';
+import LoaderHorizontally from '../../UI/LoaderHorizontally/LoaderHorizontally';
 
-const FriendsList = () => {
+const FriendsList = memo(() => {
     const isAuth = useSelector(state => state.isAuth)
 
+    const [isLoadData, setIsLoadData] = useState(false);
     const [friends, setFriends] = useState([]);
-    const [page, setPage] = useState(1);
+    const [friendsCount, setFriendsCount] = useState(null);
+    const [page, setPage] = useState(0);
+    const limit = 10;
 
     useEffect(() => {
         const getData = async () => {
-            const res = await getUsersData(page)
+            setIsLoadData(false)
+            const res = await getUsersData(page, limit)
 
-            if (res) setFriends(res.data.rows)
+            if (res) {
+                setFriends(res.data.rows)
+                setFriendsCount(res.data.count)
+            }
+            setIsLoadData(true)
         }
         getData()
-    }, []);
+    }, [page]);
 
     return (
-        <div className='FriendsList'>
-            {
-                friends.length > 0 &&
-                friends.map(user => <UserElement user={user} />)
-            }
-        </div>
+        <>
+            <div className='FriendsList'>
+                <div className='FriendsList-title'>
+                    <h4>Ваши друзья</h4>
+                </div>
+                <div className='FriendsList-box'>
+                    {isLoadData ?
+                        (
+                            friends.length > 0 ?
+                                friends.map(user => <UserElement user={user} />) :
+                                <p>У вас нет друзей :(</p>
+                        ) :
+                        <LoaderHorizontally />
+                    }
+                </div>
+            </div>
+            {friendsCount > limit && <PageChanger page={page} setpage={setPage} limit={limit} count={friendsCount} />}
+        </>
+
     );
-}
+})
 
 export default FriendsList;

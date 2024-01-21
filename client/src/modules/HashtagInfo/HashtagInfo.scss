@@ -1,21 +1,63 @@
-.HashtagInfo {
+.HashtagInfo--wrapper {
+	padding-top: 55px;
+}
+.HashtagInfo-info {
 	padding: 10px 15px;
-	background-color: #fff;
+	background-color: var(--main-bg-color);
 	width: 100%;
 	box-sizing: border-box;
 	border-radius: 10px;
 	font-family: "Nunito", sans-serif;
 	display: flex;
+	position: relative;
+	flex-wrap: wrap;
 	align-items: center;
 	justify-content: space-between;
 
-	.Hashtag-name {
-		text-align: center;
-		font-size: 16px;
+	.hashtag-name {
+		display: flex;
+		align-items: center;
+		margin-right: 10px;
 
 		h2 {
-			font-weight: 600;
-			font-size: inherit;
+			font-size: 22px;
+			font-weight: 700;
+			color: var(--main-elements-color);
 		}
 	}
+	.hashtag-icon-wrapper {
+		height: 100px;
+		width: 100px;
+		margin-top: -60px;
+
+		svg {
+			stroke: var(--blue-btn-color);
+			height: 100%;
+			width: 100%;
+		}
+	}
+
+	.messages-count {
+		display: flex;
+		align-items: center;
+		margin-right: 10px;
+		margin-left: auto;
+
+		svg {
+			stroke: var(--blue-btn-color);
+			height: 20px;
+			width: 22px;
+		}
+		h5 {
+			margin-left: 5px;
+			font-size: 17px;
+			font-weight: 500;
+			color: var(--alpha8);
+		}
+	}
+}
+.hashtagList {
+	margin-top: 15px;
+	position: relative;
+	margin-bottom: 10px;
 }
