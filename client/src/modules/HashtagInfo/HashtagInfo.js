@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getHashtag, getMessages } from './API';
 import './HashtagInfo.css'
 import MessagePost from '../../components/messagePost/messagePost';
 import usePage from '../../hooks/usePage';
 import { useSelector } from 'react-redux';
 import LoaderHorizontally from '../../UI/LoaderHorizontally/LoaderHorizontally';
+import { NotFoundPath } from '../../routes';
 
 const HashtagInfo = () => {
     const { hashtagName } = useParams()
@@ -18,15 +19,14 @@ const HashtagInfo = () => {
 
     const viewedData = useSelector(state => state.viewedData);
     const [isMessagesLoading, setIsMessagesLoading] = useState(true);
+    const Navigate = useNavigate()
 
     //получение данных
-    useEffect(getData, [hashtagName]);
-
     const getData = async () => {
         if (hashtag?.name !== hashtagName) {
             const hashtagInfo = await getHashtag(hashtagName);
 
-            if (!hashtagInfo) return;
+            if (+hashtagInfo?.response?.status === 404) return Navigate(`/${NotFoundPath}`)
 
             setHashtag(hashtagInfo.data)
             //setInfoStatus('sucsses')
@@ -37,6 +37,8 @@ const HashtagInfo = () => {
             }
         }
     }
+
+    useEffect(() => { getData() }, [hashtagName]);
 
     useEffect(() => {
         if (messagesData[messagesData.length - 1]?.page !== page && page !== 0) {
@@ -73,7 +75,7 @@ const HashtagInfo = () => {
                                 <path d="M2.875 11L5.375 1M6.625 11L9.125 1M2.25 4.125H11M1 7.875H9.75" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                         </div>
-                        <h2>{hashtag.name}</h2>
+                        <h2>{hashtag ? hashtag.name : ''}</h2>
                     </div>
                     <div className='messages-count'>
                         <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">

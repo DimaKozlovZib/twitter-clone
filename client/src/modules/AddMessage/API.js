@@ -10,6 +10,7 @@ export const addMessages = async (formData) => {
         console.log(response)
         return response;
     } catch (error) {
+        console.log(error)
         return error;
     }
 }

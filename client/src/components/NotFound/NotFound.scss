@@ -1,0 +1,75 @@
+.NotFoundPage {
+	width: 100%;
+	padding: 50px 15px;
+	border-radius: 10px;
+	background: var(--main-bg-color);
+	box-sizing: border-box;
+	height: auto;
+	overflow: hidden;
+	height: 100%;
+}
+.container:has(.NotFoundPage) {
+	display: flex;
+	flex-direction: column;
+	padding-bottom: 10px;
+	height: 100%;
+}
+.code-wrapper {
+	font-family: Pacifico;
+	font-size: 200px;
+	line-height: 150px;
+	margin-left: 10px;
+
+	h2 {
+		color: var(--blue-btn-color);
+		display: inline;
+		line-height: 160px;
+		span {
+			color: var(--main-elements-color);
+		}
+	}
+}
+.title-wrapper {
+	margin-top: 20px;
+	margin-left: auto;
+	width: 50%;
+	max-width: 500px;
+	min-width: 150px;
+	font-family: "Nunito", sans-serif;
+	h3 {
+		font-size: 45px;
+		color: var(--main-elements-color);
+	}
+	p {
+		margin-left: 10px;
+		white-space: pre-line;
+		font-size: 16px;
+		color: var(--main-elements-color);
+		opacity: 0.9;
+	}
+}
+@media (max-width: 615px) {
+	.code-wrapper {
+		font-size: 150px;
+	}
+	.title-wrapper {
+		width: 60%;
+		margin-top: 5px;
+	}
+}
+@media (max-width: 500px) {
+	.code-wrapper {
+		font-size: 120px;
+	}
+	.title-wrapper {
+		width: 75%;
+	}
+}
+@media (max-width: 400px) {
+	.code-wrapper {
+		font-size: 100px;
+	}
+	.title-wrapper {
+		width: 75%;
+	}
+}

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import './MessageInfo.css';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { findOneMessage } from './API';
 import UserAvatar from '../../UI/UserAvatar/UserAvatar';
 import SlimBurgerMenu from '../../UI/SlimBurgerMenu/SlimBurgerMenu';
@@ -13,6 +13,7 @@ import InfoBlock from '../../UI/InfoBlock/InfoBlock';
 import RewiewsMessage from '../../UI/RewiewsMessage/RewiewsMessage';
 import TextMessageContent from '../../UI/TextMessageContent/TextMessageContent';
 import ImageMessageContent from '../../UI/ImageMessageContent/ImageMessageContent';
+import { NotFoundPath } from '../../routes';
 
 const MessageInfo = () => {
     const userId = useSelector(state => state.user.id)
@@ -36,6 +37,8 @@ const MessageInfo = () => {
     const menu = useRef();
     const [openModal] = useModal('DELETE_MESSAGE-MODAL', null, { setDelete: setDeleteSucces, id })
 
+    const Navigate = useNavigate()
+
     useEffect(() => {
         if (!newComment) return
 
@@ -51,6 +54,7 @@ const MessageInfo = () => {
     const getData = async () => {
         const response = await findOneMessage(params.id)
 
+        if (response?.status === 404) return Navigate(`/${NotFoundPath}`)
         if (response?.status === 200) {
             setInfoStatus('success')
             setMessage(response.data.message)

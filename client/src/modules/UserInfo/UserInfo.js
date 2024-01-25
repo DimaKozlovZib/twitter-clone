@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { Subscribe, Unsubscribe, getMessages, getUser } from './API'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import '../../styles/changeCover.css';
-import { addMessagePath, editPath } from '../../routes';
+import { NotFoundPath, addMessagePath, editPath } from '../../routes';
 import ButtonBlue from '../../UI/ButtonBlue/ButtonBlue';
 import MessagePost from '../../components/messagePost/messagePost';
 import usePage from '../../hooks/usePage';
@@ -31,6 +31,8 @@ const UserInfo = () => {
     const [succesDeleteId, setSuccesDeleteId] = useState(null);
     const limit = 10;
 
+    const Navigate = useNavigate()
+
     const [page, setPage, changePageElement, event, deleteEvent] =
         usePage(messagesArray, setMessagesArray, limit, succesDeleteId, setSuccesDeleteId)
 
@@ -43,6 +45,10 @@ const UserInfo = () => {
     const getData = async () => {
         if (isAuth !== null && user?.id != userId) {
             const userInfo = await getUser(userId, isAuth);
+
+            if (userInfo?.status === 404) return Navigate(`/${NotFoundPath}`)
+            if (userInfo?.status !== 200) return;
+
             setUser(userInfo.data.user)
             setCanEdit(userInfo.data.canEdit)
             setInfoStatus('sucsses')

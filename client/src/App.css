@@ -26,7 +26,9 @@ body {
 }
 
 main {
-	margin-top: 54px;
+	padding-top: 54px;
+	box-sizing: border-box;
+	height: 100vh;
 }
 .changePageElement {
 	position: absolute;

@@ -76,11 +76,11 @@ class messageRouter {
             if (retweetId) {
                 await message.setRetweet(retweetMessage);
 
-                if (retweetMessage.userId === id) return;
-
-                await retweetMessage.increment('retweetCount', {
-                    by: 1,
-                })
+                if (retweetMessage.userId !== id) {
+                    await retweetMessage.increment('retweetCount', {
+                        by: 1,
+                    })
+                };
             }
             //(создаем и) связываем хэштеги с твитом
             const allHashtags = hashtagsString.split(',')
@@ -103,7 +103,7 @@ class messageRouter {
                 });
             }
             //создаем изображения
-
+            console.log(media)
             if (filesLen > 0) {
                 media.forEach(async (file, index) => {
                     let filename, type;

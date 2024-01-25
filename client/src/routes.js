@@ -10,3 +10,4 @@ export const searchPath = 'twitter-clone/search/:model/:searchText';
 export const messagePath = 'twitter-clone/message/:id';
 export const addRetweetPath = 'twitter-clone/message/:id/retweet';
 export const addMessagePath = 'twitter-clone/message/add';
+export const NotFoundPath = 'twitter-clone/notFound'

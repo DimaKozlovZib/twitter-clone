@@ -68,7 +68,6 @@ const AddMessage = memo(({ isRetweet }) => {
             const value = contentState.getPlainText();
 
             if (value.trim().length === 0 || value.length > 200) return;
-
             //получаем хэштеги
             const hashtags = document.querySelectorAll(`.MessageAddInput .hashtag`)
 
