@@ -1,0 +1,21 @@
+.OnlyUsers {
+  background-color: var(--main-bg-color);
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding: 20px 15px;
+  font-family: "Nunito", sans-serif;
+  font-size: 16px;
+}
+.OnlyUsers-title {
+  font-weight: 500;
+  color: var(--main-elements-color);
+}
+.OnlyUsers-btns {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 15px;
+  font-weight: 700;
+}
+.OnlyUsers-btns .toRegistration {
+  margin-left: 10px;
+}/*# sourceMappingURL=OnlyUsers.css.map */

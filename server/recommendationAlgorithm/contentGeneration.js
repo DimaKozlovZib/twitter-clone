@@ -17,6 +17,8 @@ class contentGeneration {
     }
     async userGoodAppreciatedMessage() {
         try {
+            if (!this.userId) return [];
+
             //получаем сообщения, которые понравились пользователю (this.userId)
             const messageWithGoodGrade = await USER_MESSAGE.find({ grade: { $gt: 0 }, userId: this.userId })
                 .limit(80).select('messageId').exec()
@@ -48,6 +50,8 @@ class contentGeneration {
     }
     async getMessageFromSubscriber() {
         try {
+            if (!this.userId) return [];
+
             // возвращаем сообщения которые созданны не позже недели
             const maxTime = moment().subtract(this.maxTime, 'day').toDate();
             const messages = await Message.findAll({

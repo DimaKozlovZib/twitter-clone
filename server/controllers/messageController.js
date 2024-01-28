@@ -286,6 +286,15 @@ class messageRouter {
             const dataToSave = messages.slice(Limit);
             const dataToResponse = messages.slice(0, Limit)
             //получаем данные для клиента
+            const incl = []
+            if (isAuth) {
+                incl.push({
+                    model: Likes,
+                    where: { userId: id },
+                    required: false
+                })
+            }
+
             const objects = await Message.findAll({
                 where: { id: { [Op.or]: dataToResponse.map(i => i['messageId']) } },
                 attributes: ['text', 'id', 'likesNum', 'retweetCount', 'retweetId', 'createdAt', 'commentsCount'],
@@ -293,15 +302,12 @@ class messageRouter {
                     user_IncludeObject,
                     hashtag_IncludeObject,
                     media_IncludeObject,
-                    (isAuth && {
-                        model: Likes,
-                        where: { userId: id },
-                        required: false
-                    })
+                    retweetIncludeObject,
+                    ...incl
                 ]
             })
             res.status(200).json(objects)
-            //сохраняем массив в redis
+            //сохраняем массив в mongo
             if (dataToSave.length === 0) return;
             USER_RECOMMENDATION.setRecommendation(id, dataToSave)
         } catch (error) {

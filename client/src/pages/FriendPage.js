@@ -4,7 +4,7 @@ import FriendsList from '../modules/FriendsList/FriendsList';
 
 const FriendPage = () => {
     return (
-        <Layout>
+        <Layout isOnlyAuth>
             <FriendsList />
         </Layout>
     );

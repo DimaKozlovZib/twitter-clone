@@ -4,7 +4,7 @@ import Layout from './Layout';
 
 const EditPage = () => {
     return (
-        <Layout navPageName='edit'>
+        <Layout isOnlyAuth navPageName='edit'>
             <EditForm />
         </Layout>
     );

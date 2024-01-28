@@ -5,11 +5,9 @@ import { useSelector } from 'react-redux';
 import LogoIcon from "../../images/LogoIcon.png";
 import UserAvatar from '../../UI/UserAvatar/UserAvatar';
 import { addMessagePath, loginPath, messagesPath, myFriendsPath } from '../../routes';
-import useModal from '../../hooks/useModal';
 import AccountMenu from '../../components/AccountMenu/AccountMenu';
 import SearchInput from '../../components/SearchInput/SearchInput';
 import ButtonBlue from '../../UI/ButtonBlue/ButtonBlue';
-import AddPostPage from '../../pages/AddPostPage';
 
 const Header = memo(({ canClose }) => {
     const user = useSelector(state => state.user)

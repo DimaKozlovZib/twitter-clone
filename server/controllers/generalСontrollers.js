@@ -21,12 +21,12 @@ class generaleRouter {
                         limit, offset,
                         where: {
                             [Op.or]: [{ 'name': { [Op.iLike]: `%${searchString}%` } }, { 'shortInfo': { [Op.iLike]: `%${searchString}%` } }],
-                            id: { [Op.ne]: id }
+                            id: { [Op.ne]: id || null }
                         },
                         attributes: ['img', 'name', 'email', 'id', 'shortInfo'],
                         include: (isAuth && needFriend) ? {
                             model: Friends,
-                            where: { userId: req.user?.id, },
+                            where: id ? { userId: id, } : {},
                             required: false,
                             through: {
                                 attributes: []

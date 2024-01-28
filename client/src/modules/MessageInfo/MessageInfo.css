@@ -1,5 +1,5 @@
 .MessageInfo, .RetweetMessage {
-  padding: 10px;
+  padding: 10px 15px;
   border-radius: 10px;
   box-sizing: border-box;
   color: var(--main-elements-color);
@@ -47,6 +47,7 @@
   border: 2px solid var(--alpha3);
   margin-top: 10px;
   margin-bottom: 10px;
+  padding: 10px;
 }
 .RetweetMessage_user-information {
   display: flex;
