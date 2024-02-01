@@ -1,11 +1,8 @@
 import { $host, $authHost } from '.';
 
-export const getMessages = async (params) => {
+export const getMessages = (params) => {
     try {
-        const response = await $authHost.get('/message', { params: params })
-
-        console.log(response)
-        return response;
+        return $authHost.get('/message', { params: params })
     } catch (error) {
         console.error(error)
         return error

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { memo, useEffect, useRef, useState } from 'react';
 import UserAvatar from '../../UI/UserAvatar/UserAvatar';
 import "./messagePost.css";
 import SlimBurgerMenu from '../../UI/SlimBurgerMenu/SlimBurgerMenu';
@@ -10,7 +10,7 @@ import TextMessageContent from '../../UI/TextMessageContent/TextMessageContent';
 import ImageMessageContent from '../../UI/ImageMessageContent/ImageMessageContent';
 import MessageMenu from '../../UI/MessageMenu/MessageMenu';
 
-const MessagePost = ({ messageObject, setDelete, addViewedMessage }) => {
+const MessagePost = memo(({ messageObject, setDelete, addViewedMessage }) => {
     const { user, text, likesNum, id, likes, hashtags, retweet, retweetId, retweetCount, commentsCount, media } = messageObject;
     const { img, name, email } = user;
 
@@ -116,6 +116,6 @@ const MessagePost = ({ messageObject, setDelete, addViewedMessage }) => {
             </div>
         </div >
     );
-}
+})
 
 export default MessagePost;

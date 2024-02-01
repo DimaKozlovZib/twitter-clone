@@ -7,6 +7,7 @@ import AppRouter from './appRouter';
 import LoadModal from './components/LoadModal/LoadModal';
 import AddCover from './modules/AddCover/AddCover';
 import { getUser } from './store/asyncGetUser';
+import { setSavedDataAction } from './store/index';
 import DeleteMessage from './modules/DeleteMessage/DeleteMessage';
 import ChangeAvatar from './modules/ChangeAvatar/ChangeAvatar';
 import LogoutModal from './modules/LogoutModal/LogoutModal';
@@ -27,6 +28,9 @@ function App() {
     const appTheme = localStorage.getItem('appTheme');
     if (!appTheme || !['light', 'dark'].includes(appTheme)) {
       localStorage.setItem('appTheme', 'light');
+    }
+    return () => {
+      dispatch(setSavedDataAction({}))
     }
   }, []);
 
