@@ -1,17 +1,16 @@
 
 function removeDuplicates(arr) {
     const uniqueArr = [];
-    const seen = new Set();
+    const takenIds = []
 
     for (let index = 0; index < arr.length; index++) {
-        const { messageId, userId } = arr[index]['dataValues']
-        const key = `${messageId}-${userId}`
+        const element = arr[index];
+        if (takenIds.includes(element.messageId)) continue;
 
-        if (!seen.has(key)) {
-            uniqueArr.push(arr[index])
-            seen.add(key)
-        }
+        takenIds.push(element.messageId)
+        uniqueArr.push(element)
     }
+
     return uniqueArr;
 }
 module.exports = removeDuplicates

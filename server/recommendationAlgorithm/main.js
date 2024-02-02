@@ -1,10 +1,11 @@
 const contentGeneration = require("./contentGeneration");
+const removeDuplicates = require("./removeDuplicates");
 const shuffle = require("./shuffle");
 const varietyAuthors = require("./varietyAuthors");
 
-async function Recommendations(userId) {
+async function Recommendations(userId, viewedData) {
     try {
-        const content = new contentGeneration(userId)
+        const content = new contentGeneration(userId, viewedData)
         //получаем данные
         const goodAppreciated = await content.userGoodAppreciatedMessage();
         const fromSubscriber = await content.getMessageFromSubscriber();
@@ -12,12 +13,12 @@ async function Recommendations(userId) {
         //собираем в один массив
         const allData = [...goodAppreciated, ...fromSubscriber, ...popularMessages]
         // удаляем дубликаты
-        const removeDuplicates = Array.from(new Set(allData))
+        const noВuplicates = removeDuplicates(allData)
         //перемешиваем
-        const messagesAfterShuffle = shuffle(removeDuplicates)
+        const messagesAfterShuffle = shuffle(noВuplicates)
         //изменяем последовательность чтобы авторы не повторялись
-        const result = varietyAuthors(messagesAfterShuffle)
-        return result;
+        const result = messagesAfterShuffle// varietyAuthors(messagesAfterShuffle)
+        return result.map(i => i.messageId);
     } catch (error) {
         console.log(error)
         return error;

@@ -6,15 +6,10 @@ const useModal = (modalType, wrapperSelector, data) => {
     const isAuth = useSelector(state => state.isAuth);
 
     const setModal = (currentData) => {
-        if (isAuth) {
-            dispatch(setModalAction({ type: modalType, data: { ...data, ...currentData } }))
-            const classList = document.querySelector('body').classList;
+        dispatch(setModalAction({ type: modalType, data: { ...data, ...currentData } }))
+        const classList = document.querySelector('body').classList;
 
-            modalType && !classList.contains('modalActive') ? classList.add('modalActive') : classList.remove('modalActive')
-
-        } else {
-            console.error('error: user is not auth')
-        }
+        modalType && !classList.contains('modalActive') ? classList.add('modalActive') : classList.remove('modalActive')
     }
 
     const closeOnClickWrapper = (e) => {

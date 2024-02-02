@@ -1,9 +1,9 @@
 .profile-header {
 	font-family: "Nunito", sans-serif;
-	margin-top: 25px;
+	margin: 15px 0px;
 }
 .userMessagesList {
-	margin-top: 15px;
+	margin: 15px 0px;
 }
 
 .userInfo-insideWrapper {
@@ -84,7 +84,10 @@
 		}
 	}
 	.subscribe-already-button {
-		background: #7d8387;
+		background: var(--grey-color-2);
+		&:enabled:hover {
+			background: var(--alternative-bg-color--hover);
+		}
 	}
 
 	@media (max-width: 600px) {
@@ -132,15 +135,7 @@
 	}
 
 	.write-message-btn {
-		background-color: var(--blue-btn-color);
-		border-radius: 8px;
-		padding: 7px 16px;
-		box-sizing: border-box;
 		height: 32px;
-
-		svg {
-			fill: #fff;
-		}
 	}
 }
 .noOneMessageTitle {
@@ -160,8 +155,6 @@
 	position: relative;
 }
 .moduleData_loader-wrapper {
-	margin-bottom: 10px;
-
 	.LoaderHorizontally {
 		align-items: center;
 	}

@@ -2,16 +2,13 @@
 .AddMessage {
   background-color: var(--main-bg-color);
   padding: 20px 20px;
+  margin-top: 15px;
   border-radius: 10px;
 }
 .AddMessage .submit-btn {
-  background-color: #00aaec;
   border-radius: 13px;
-  padding: 7px 10px;
-  color: #ffffff;
   margin-top: 10px;
   margin-left: auto;
-  display: block;
 }
 .AddMessage .AddMessage-form {
   width: 100%;
@@ -58,5 +55,9 @@
   display: block;
 }
 .AddMessage-form .additionalСontent__item svg {
+  transition: fill 200ms linear;
   fill: var(--blue-btn-color);
+}
+.AddMessage-form .additionalСontent__item svg:hover {
+  fill: var(--blue-btn-color-hover);
 }/*# sourceMappingURL=AddMessage.css.map */

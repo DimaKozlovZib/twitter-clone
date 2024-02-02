@@ -30,11 +30,12 @@ const usePage = (messagesData, setMessagesData, limit, succesDeleteId, setSucces
     }
 
     const event = useCallback(() => {
-        if (!changePageElement.current) return
+        if (!changePageElement.current || messagesData.length === 0) return
 
         const callback = (entries, observer) => {
             entries.forEach(async (entry) => {
                 // Текст блока полностью видим на экране
+                console.log(entry)
                 if (entry.intersectionRatio !== 1 ||
                     !(messagesData[messagesData.length - 1]?.data?.length >= limit) ||
                     messagesData.length === 0) return;

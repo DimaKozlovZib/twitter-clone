@@ -275,12 +275,13 @@ class messageRouter {
             const params = req.query;
 
             const Limit = +params.limit || 20;
-            //смотрим есть ли сообщения в redis
-            let messages = await USER_RECOMMENDATION.getRecommendation(id)
+            const viewedData = JSON.parse(params.viewedDataJSON)
 
+            //смотрим есть ли сохраннёные сообщения в списке
+            let messages = await USER_RECOMMENDATION.getRecommendation(id)
             //если нет то вызываем алгоритм
-            if (!messages || messages.length < Limit) {
-                messages = await Recommendations(id)
+            if (!messages || messages?.length < Limit) {
+                messages = await Recommendations(id, viewedData)
             }
             // разделяем на два массив, для ответа и для сохранения в базу
             const dataToSave = messages.slice(Limit);
@@ -296,7 +297,7 @@ class messageRouter {
             }
 
             const objects = await Message.findAll({
-                where: { id: { [Op.or]: dataToResponse.map(i => i['messageId']) } },
+                where: { id: { [Op.in]: dataToResponse } },
                 attributes: ['text', 'id', 'likesNum', 'retweetCount', 'retweetId', 'createdAt', 'commentsCount'],
                 include: [
                     user_IncludeObject,
@@ -306,10 +307,10 @@ class messageRouter {
                     ...incl
                 ]
             })
+
             res.status(200).json(objects)
             //сохраняем массив в mongo
-            if (dataToSave.length === 0) return;
-            USER_RECOMMENDATION.setRecommendation(id, dataToSave)
+            USER_RECOMMENDATION.setRecommendation(id, dataToSave);
         } catch (error) {
             console.log(error)
             return res.status(500).json(error.message)

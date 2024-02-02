@@ -10,8 +10,9 @@ const deleteUnique = arr => arr
 const deleteDuplicates = arr => Array.from(new Set(arr))// Set хранит только уникальные значения
 
 class contentGeneration {
-    constructor(userId) {
-        this.userId = userId,
+    constructor(userId, viewedData) {
+        this.viewedData = viewedData,
+            this.userId = userId,
             this.maxTime = 30,
             this.maxShow = 5
     }
@@ -37,8 +38,9 @@ class contentGeneration {
             //максимальное время ,когда сообщение остается актуальным
             const maxTime = moment().subtract(this.maxTime, 'day').toDate();
             const resultMessages = await Message.findAll({
+                raw: true,
                 where: {
-                    id: { [Op.or]: messagesForResult },
+                    id: { [Op.or]: messagesForResult, [Op.notIn]: this.viewedData },
                     createdAt: { [Op.gt]: maxTime }
                 },
                 attributes: [['id', 'messageId'], 'userId']
@@ -55,8 +57,10 @@ class contentGeneration {
             // возвращаем сообщения которые созданны не позже недели
             const maxTime = moment().subtract(this.maxTime, 'day').toDate();
             const messages = await Message.findAll({
+                raw: true,
                 attributes: [['id', 'messageId'], 'userId'],
                 where: {
+                    id: { [Op.notIn]: this.viewedData },
                     createdAt: {
                         [Op.gt]: maxTime
                     }
@@ -122,25 +126,28 @@ class contentGeneration {
             //получаем сообщения с сортировкой по популярности на основании лайков, комментариев и ретвитов
             const maxTime = moment().subtract(this.maxTime, 'day').toDate();
             const messagesObjects = await Message.findAll({
+                raw: true,
                 attributes: [['id', 'messageId'], 'retweetCount', 'commentsCount', 'likesNum', 'userId',
                 [Sequelize.literal(`
                     (${commentsCount} * ${commentsFactor}) 
                     + (${retweetsCount} * ${retweetFactor}) 
                     + (${likesCount} * ${likesFactor})`), 'popularity']],
                 where: {
+                    id: { [Op.notIn]: this.viewedData },
                     createdAt: {
                         [Op.gt]: maxTime
-                    }
+                    },
+                    userId: { [Op.ne]: this.userId || null }
                 }
             });
 
             const messages = messagesObjects.map(i => {
                 return {
-                    userId: i['dataValues'].userId,
-                    messageId: i['dataValues'].messageId
+                    userId: i.userId,
+                    messageId: i.messageId
                 }
             })
-            //проверяем сколько раз пользователь видел найденные сообщения и фильтруем от трёх и больше раз
+            //проверяем сколько раз пользователь видел найденные сообщения и фильтруем
             const inappropriateMessages = await USER_MESSAGE.find({
                 messageId: { $in: messages.map(i => i.messageId) }, showCount: { $gte: this.maxShow }
             }).select('messageId').exec();

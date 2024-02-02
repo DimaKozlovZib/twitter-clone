@@ -10,6 +10,7 @@ import { getMessageContent } from '../../API/messagesApi';
 import LoaderHorizontally from '../../UI/LoaderHorizontally/LoaderHorizontally';
 import { EditorState } from 'draft-js';
 import { compositeDecorator } from '../../components/MessageAddInput/decorators';
+import ButtonBlue from '../../UI/ButtonBlue/ButtonBlue';
 
 const AddMessage = memo(({ isRetweet }) => {
     const isAuth = useSelector(state => state.isAuth)
@@ -127,9 +128,9 @@ const AddMessage = memo(({ isRetweet }) => {
                             </label>
                         </div>
                     </div>
-                    <button className='submit-btn' onClick={postMessage}>
+                    <ButtonBlue className='submit-btn' onClick={postMessage}>
                         Сохранить
-                    </button>
+                    </ButtonBlue>
                 </div>
             </form>
         </div>

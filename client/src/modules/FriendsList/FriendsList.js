@@ -40,7 +40,7 @@ const FriendsList = memo(() => {
                         (
                             friends.length > 0 ?
                                 friends.map(user => <UserElement user={user} />) :
-                                <p>У вас нет друзей :(</p>
+                                <p className='noOneFriend'>У вас нет друзей :(</p>
                         ) :
                         <LoaderHorizontally />
                     }

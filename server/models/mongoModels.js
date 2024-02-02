@@ -94,7 +94,7 @@ const user_recommendation = new Schema({
     statics: {
         async setRecommendation(userId, data) {
             try {
-                await model(U_R_Model).updateOne({ userId }, { messagesId: data })
+                await model(U_R_Model).updateOne({ userId }, { messagesId: data }, { upsert: true })
             } catch (error) {
                 console.log(error)
             }
@@ -102,9 +102,10 @@ const user_recommendation = new Schema({
         async getRecommendation(userId) {
             try {
                 const result = await model(U_R_Model).findOne({ userId })
-                return result?.data;
+                return result?.messagesId;
             } catch (error) {
                 console.log(error)
+                return error
             }
         },
     }

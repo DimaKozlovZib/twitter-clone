@@ -1,3 +1,8 @@
-.messagesList{
-    margin-top: 10px;
+.messagesList {
+	margin-top: 10px;
+	position: relative;
+	padding-bottom: 10px;
+}
+.messagesList .moduleData_loader-wrapper {
+	margin-top: 10px;
 }

@@ -202,7 +202,6 @@ class userRouter {
 
             const user = {
                 ...userObj.dataValues,
-                countMessages: messages?.count[0]?.count,
                 totalLikesNum: +messages.rows[0]?.total_likesNum
             }
 
