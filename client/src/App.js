@@ -14,6 +14,10 @@ import LogoutModal from './modules/LogoutModal/LogoutModal';
 import { loginPath, registrationPath } from './routes';
 import RetweetModal from './modules/RetweetModal/RetweetModal';
 import MediaSlider from './modules/MediaSlider/MediaSlider';
+import Helmet from "react-helmet"
+import logo57 from './images/logo57.png'
+import logo72 from './images/logo72.png'
+import { PROJECT_NAME } from './constans';
 
 function App() {
   const location = useLocation();
@@ -44,8 +48,22 @@ function App() {
     if (isAuth === null) dispatch(getUser(setIsLoaderModalActive))
   }, [location]);
 
+  const DOMAIN = 'localhost:3000'
+
   return (
     <>
+      <Helmet htmlAttributes={{ "lang": "ru", "amp": undefined }} // amp takes no value
+        base={{ "target": "_blank", "href": `http://${DOMAIN}/` }}
+        title={`${PROJECT_NAME}`}
+        meta={[
+          { "name": "description", "content": `${PROJECT_NAME} - cовременная социальная сеть для туристов (school project)` },
+          { "property": "og:type", "content": "article" }
+        ]}
+        link={[
+          { "rel": "icon", "type": "image/png", "href": `${logo57}` },
+          { "rel": "apple-touch-icon", "href": `${logo57}` },
+          { "rel": "apple-touch-icon", "sizes": "72x72", "href": `${logo72}` }
+        ]} />
       <LoadModal />
       {(modalType.type === 'ADD_COVER-MODAL') && <AddCover />}
       {(modalType.type === 'DELETE_MESSAGE-MODAL') && <DeleteMessage data={modalType.data} />}
