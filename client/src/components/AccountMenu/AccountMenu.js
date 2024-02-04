@@ -35,7 +35,7 @@ const AccountMenu = memo(({ isActive, setActiveMenu }) => {
     }
 
     return (
-        <div className={`AccountMenu ${isActive ? 'active' : ''}`} id='AccountMenu'>
+        <nav className={`AccountMenu ${isActive ? 'active' : ''}`} id='AccountMenu'>
             <div className='profile__wrapper'>
                 <button className='AccountMenu--profile' onClick={profile}>
                     <UserAvatar url={userImg} isNotLink />
@@ -85,7 +85,7 @@ const AccountMenu = memo(({ isActive, setActiveMenu }) => {
 
                 <h5>Выйти</h5>
             </button>
-        </div>
+        </nav>
     );
 })
 

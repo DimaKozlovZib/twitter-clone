@@ -1,10 +1,9 @@
-import React, { memo, useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
 import { useSelector } from 'react-redux';
-import LogoIcon from "../../images/LogoIcon.png";
 import UserAvatar from '../../UI/UserAvatar/UserAvatar';
-import { addMessagePath, loginPath, messagesPath, myFriendsPath } from '../../routes';
+import { addMessagePath, loginPath, messagesPath } from '../../routes';
 import AccountMenu from '../../components/AccountMenu/AccountMenu';
 import SearchInput from '../../components/SearchInput/SearchInput';
 import ButtonBlue from '../../UI/ButtonBlue/ButtonBlue';

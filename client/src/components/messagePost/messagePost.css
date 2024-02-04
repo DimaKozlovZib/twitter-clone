@@ -114,4 +114,9 @@
     height: 40px;
     width: 40px;
   }
+}
+@media (max-width: 600px) {
+  .messagePost {
+    padding: 10px 10px 10px 5px;
+  }
 }/*# sourceMappingURL=messagePost.css.map */

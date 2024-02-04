@@ -80,7 +80,7 @@ const UserInfo = memo(() => {
         setIsMessagesLoading(false)
     }
 
-    const { name, email, img, countMessages, totalLikesNum, coverImage, shortInfo } = user;
+    const { name, email, img, /*countMessages, totalLikesNum,*/ coverImage, shortInfo } = user;
 
     const onSubscribe = async () => {
         const res = await Subscribe(user.id)
@@ -110,7 +110,7 @@ const UserInfo = memo(() => {
     )
 
     const editBtnHTML = (
-        <ButtonBlue>
+        <ButtonBlue className=''>
             <Link to={`/${editPath}`}>Редактировать</Link>
         </ButtonBlue>
     )
@@ -161,7 +161,6 @@ const UserInfo = memo(() => {
                         {isAuth && (
                             canEdit ? editBtnHTML : friends !== null && (friends ? alreadySubscribeBtn : subscribeBtn)
                         )}
-
                     </div>
                     {Boolean(shortInfo) && (<h3 className={classGenerate('user-shortInfo')}>{shortInfo}</h3>)}
                 </div>

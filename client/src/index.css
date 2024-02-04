@@ -34,6 +34,10 @@ body.load {
 	}
 }
 
+:root {
+	--width-change-container-1: 900px;
+}
+
 :root,
 [theme="light-theme"] {
 	--main-bg-color: #fff;

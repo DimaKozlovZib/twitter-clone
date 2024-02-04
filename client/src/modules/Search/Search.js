@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { search } from './API';
 import SeeMoreSearchItems from '../../components/SeeMoreSearchItems/SeeMoreSearchItems';
 import UserElement from '../../components/UserElement/UserElement';
@@ -7,6 +7,7 @@ import HashtagElement from '../../components/HashtagElement/HashtagElement';
 import './Search.css'
 import PageChanger from '../../components/PageChanger/PageChanger';
 import LoaderHorizontally from '../../UI/LoaderHorizontally/LoaderHorizontally';
+import { NotFoundPath } from '../../routes';
 
 const Search = memo(() => {
     const params = useParams();
@@ -15,20 +16,22 @@ const Search = memo(() => {
 
     const [isLoadData, setIsLoadData] = useState(false);
     const [page, setPage] = useState(0);
-    const [searchData, setsearchData] = useState(null);
+    const [searchData, setSearchData] = useState({ users: {}, hashtags: {} });
 
+    const navigate = useNavigate()
 
     const dataGet = async (limit, pageindex, onlyModel = null) => {
         setIsLoadData(false)
         const res = await search(params.searchText, limit, pageindex, onlyModel)
 
         if (res) {
-            setsearchData(res.data)
+            setSearchData(res.data)
         }
         setIsLoadData(true)
     }
 
     useEffect(() => {
+        setSearchData({ users: {}, hashtags: {} })
         switch (params.model) {
             case 'user':
                 dataGet(commonRequestLimit, page, 'user')
@@ -36,9 +39,11 @@ const Search = memo(() => {
             case 'hashtag':
                 dataGet(commonRequestLimit, page, 'hashtag')
                 break;
-            default:
+            case 'all':
                 dataGet(smallRequestLimit, 0)
                 break;
+            default:
+                navigate(`/${NotFoundPath}`)
         }
     }, [params, page]);
 
@@ -51,7 +56,7 @@ const Search = memo(() => {
             <>
                 <div className='search-box'>
                     <SeeMoreSearchItems title={title} hasSeeMore={hasSeeMore}
-                        itemsCount={count} link={params.searchText} />
+                        itemsCount={count || 0} link={params.searchText} />
                     <div className='search-box__list'>
                         {isLoadData ?
                             (count > 0 ?
@@ -82,10 +87,14 @@ const Search = memo(() => {
                     {generateElements(...hashtagsArguments, true)}
                 </>
             )}
-            {params.model !== 'all' && (
+            {params.model === 'hashtag' && (
+                <>
+                    {generateElements(...hashtagsArguments, false)}
+                </>
+            )}
+            {params.model === 'user' && (
                 <>
                     {generateElements(...usersArguments, false)}
-                    {generateElements(...hashtagsArguments, false)}
                 </>
             )}
         </div>

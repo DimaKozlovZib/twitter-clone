@@ -83,7 +83,7 @@ const MessagePost = memo(({ messageObject, setDelete, addViewedMessage }) => {
     }
 
     return (
-        <div className='messagePost' ref={mesageElement}>
+        <article className='messagePost' ref={mesageElement}>
             <div className='user-image computer'>
                 <UserAvatar url={img} id={user.id}></UserAvatar>
             </div>
@@ -114,7 +114,7 @@ const MessagePost = memo(({ messageObject, setDelete, addViewedMessage }) => {
 
 
             </div>
-        </div >
+        </article >
     );
 })
 

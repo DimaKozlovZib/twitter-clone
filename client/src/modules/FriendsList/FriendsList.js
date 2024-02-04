@@ -1,5 +1,4 @@
 import React, { memo, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { getUsersData } from './API';
 import UserElement from '../../components/UserElement/UserElement';
 import './FriendsList.css'
@@ -7,8 +6,6 @@ import PageChanger from '../../components/PageChanger/PageChanger';
 import LoaderHorizontally from '../../UI/LoaderHorizontally/LoaderHorizontally';
 
 const FriendsList = memo(() => {
-    const isAuth = useSelector(state => state.isAuth)
-
     const [isLoadData, setIsLoadData] = useState(false);
     const [friends, setFriends] = useState([]);
     const [friendsCount, setFriendsCount] = useState(null);

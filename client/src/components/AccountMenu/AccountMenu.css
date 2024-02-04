@@ -92,4 +92,15 @@
 .AccountMenu .carefully svg {
   stroke: var(--carefully-color-1);
   fill: var(--carefully-color-1);
+}
+
+@media (max-width: 900px) {
+  .AccountMenu {
+    right: 10px;
+  }
+}
+@media (max-width: 600px) {
+  .AccountMenu {
+    right: 5px;
+  }
 }/*# sourceMappingURL=AccountMenu.css.map */

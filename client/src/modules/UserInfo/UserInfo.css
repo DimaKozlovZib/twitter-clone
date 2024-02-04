@@ -24,6 +24,11 @@
   word-break: break-all;
   line-height: 19px;
 }
+@media (max-width: 600px) {
+  .userInfo-insideWrapper .user-shortInfo {
+    margin-top: 10px;
+  }
+}
 
 .userInfo {
   display: flex;
@@ -95,7 +100,7 @@
   }
   .userInfo .user-name,
   .userInfo .buttonBlue {
-    margin-top: 10px;
+    margin-top: 15px;
   }
   .userInfo .info-about-user {
     margin-left: 0;
@@ -152,4 +157,8 @@
 
 .moduleData_loader-wrapper .LoaderHorizontally {
   align-items: center;
+}
+
+.addMessage + .moduleData_loader-wrapper {
+  margin-top: 10px;
 }/*# sourceMappingURL=UserInfo.css.map */

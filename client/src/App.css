@@ -45,3 +45,15 @@ main {
 	background-color: transparent;
 	margin: 10px 0px;
 }
+
+/*#container-change-media*/
+@media (max-width: 900px) {
+	.container {
+		padding: 0 10px;
+	}
+}
+@media (max-width: 600px) {
+	.container {
+		padding: 0 5px;
+	}
+}

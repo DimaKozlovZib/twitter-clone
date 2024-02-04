@@ -23,6 +23,11 @@
 		word-break: break-all;
 		line-height: 19px;
 	}
+	@media (max-width: 600px) {
+		.user-shortInfo {
+			margin-top: 10px;
+		}
+	}
 }
 
 .userInfo {
@@ -101,7 +106,7 @@
 		}
 		.user-name,
 		.buttonBlue {
-			margin-top: 10px;
+			margin-top: 15px;
 		}
 		.info-about-user {
 			margin-left: 0;
@@ -158,4 +163,8 @@
 	.LoaderHorizontally {
 		align-items: center;
 	}
+}
+
+.addMessage + .moduleData_loader-wrapper {
+	margin-top: 10px;
 }

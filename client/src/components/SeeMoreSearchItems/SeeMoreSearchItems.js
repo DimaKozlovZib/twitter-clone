@@ -1,8 +1,8 @@
-import React, { memo, useMemo } from 'react';
+import React, { useMemo } from 'react';
 //import './SeeMoreSearchItems.css';
 import { useNavigate } from 'react-router-dom';
 
-const SeeMoreSearchItems = memo(({ title, itemsCount, hasSeeMore, link }) => {
+const SeeMoreSearchItems = ({ title, itemsCount, hasSeeMore, link }) => {
     const navigate = useNavigate();
     const smallRequestLimit = 3;
     const rusTitle = useMemo(() => {
@@ -39,6 +39,6 @@ const SeeMoreSearchItems = memo(({ title, itemsCount, hasSeeMore, link }) => {
 
         </button>
     );
-})
+}
 
 export default SeeMoreSearchItems;

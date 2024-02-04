@@ -98,3 +98,15 @@
 		fill: var(--carefully-color-1);
 	}
 }
+
+//#container-change-media
+@media (max-width: 900px) {
+	.AccountMenu {
+		right: 10px;
+	}
+}
+@media (max-width: 600px) {
+	.AccountMenu {
+		right: 5px;
+	}
+}

@@ -262,7 +262,8 @@ class userRouter {
 
             const filename = uuid.v4() + ".jpg";
             file.mv(path.resolve(__dirname, '..', 'static', filename))
-            const newCover = await Media.create({ url: filename, userId: id })
+
+            const newCover = await Media.create({ url: filename, userId: id, type: 'image' })
 
             await User.update({ coverImage: newCover.url }, { where: { id: id } })
 
@@ -296,7 +297,7 @@ class userRouter {
 
             const filename = uuid.v4() + ".jpg";
             file.mv(path.resolve(__dirname, '..', 'static-avatars', filename))
-            const newAvatar = await Media.create({ url: filename, userId: id })
+            const newAvatar = await Media.create({ url: filename, userId: id, type: 'image' })
 
             await User.update({ img: filename }, { where: { id } })
 

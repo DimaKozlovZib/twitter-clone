@@ -53,8 +53,8 @@ class generaleRouter {
                 } catch (error) { return {} }
             }
 
-            const users = onlyModel && onlyModel !== 'user' ? null : await searchUsers()
-            const hashtags = onlyModel && onlyModel !== 'hashtag' ? null : await searchHashtags()
+            const users = onlyModel && onlyModel !== 'user' ? {} : await searchUsers()
+            const hashtags = onlyModel && onlyModel !== 'hashtag' ? {} : await searchHashtags()
 
             return res.status(200).json({
                 users, hashtags
