@@ -3,7 +3,7 @@ import './ImageMessageContent.css'
 import '../../styles/photoView.css';
 import { MediaProvider } from '../../components/MediaProvider/MediaProvider';
 import MediaView from '../MediaView/MediaView';
-import { maxVisibleMedia } from '../../constans';
+import { DOMAIN, maxVisibleMedia } from '../../constans';
 
 const ImageMessageContent = ({ messageData }) => {
     const { media } = messageData
@@ -20,7 +20,7 @@ const ImageMessageContent = ({ messageData }) => {
             const type = sortedMedia[i].type
 
             if (!url) return;
-            const src = `http://localhost:5000/${url}`
+            const src = `${DOMAIN}/${url}`
 
             switch (type) {
                 case 'image':

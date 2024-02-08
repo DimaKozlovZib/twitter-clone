@@ -17,7 +17,7 @@ import MediaSlider from './modules/MediaSlider/MediaSlider';
 import Helmet from "react-helmet"
 import logo57 from './images/logo57.png'
 import logo72 from './images/logo72.png'
-import { PROJECT_NAME } from './constans';
+import { DOMAIN, PROJECT_NAME } from './constans';
 
 function App() {
   const location = useLocation();
@@ -48,12 +48,10 @@ function App() {
     if (isAuth === null) dispatch(getUser(setIsLoaderModalActive))
   }, [location]);
 
-  const DOMAIN = 'localhost:3000'
-
   return (
     <>
       <Helmet htmlAttributes={{ "lang": "ru", "amp": undefined }} // amp takes no value
-        base={{ "target": "_blank", "href": `http://${DOMAIN}/` }}
+        base={{ "target": "_blank", "href": DOMAIN }}
         title={`${PROJECT_NAME}`}
         meta={[
           { "name": "description", "content": `${PROJECT_NAME} - cовременная социальная сеть для туристов (school project)` },

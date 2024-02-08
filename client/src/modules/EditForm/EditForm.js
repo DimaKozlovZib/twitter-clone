@@ -7,6 +7,7 @@ import useModal from '../../hooks/useModal';
 import { editInfo } from './API';
 import SuccesMessage from '../../UI/SuccesMessage/SuccesMessage';
 import { setUserAction } from '../../store';
+import { DOMAIN } from '../../constans';
 
 const EditForm = () => {
     const user = useSelector(state => state.user);
@@ -86,7 +87,7 @@ const EditForm = () => {
     return (
         <div className="EditForm">
             <div className='profile-cover'
-                style={{ 'backgroundImage': `url(http://localhost:5000/${user.coverImage})` }}>
+                style={{ 'backgroundImage': `url(${DOMAIN}/${user.coverImage})` }}>
                 <button className='edit-cover' onClick={openCoverModal}>
                     <span className='edit-cover__icon'>
                         <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
