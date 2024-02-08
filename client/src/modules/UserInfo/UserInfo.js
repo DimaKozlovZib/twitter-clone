@@ -150,7 +150,7 @@ const UserInfo = memo(() => {
 
             <div className='userInfo-wrapper profile-header'>
                 <div className={classGenerate('profile-cover')}
-                    style={{ 'backgroundImage': `url(http://localhost:5000/${canEdit && userAuthCover ? userAuthCover : coverImage})` }}>
+                    style={{ 'backgroundImage': `url(${DOMAIN}/${canEdit && userAuthCover ? userAuthCover : coverImage})` }}>
                     {!canEdit || changeCoverBtn}
                 </div>
                 <div className='userInfo-insideWrapper'>
