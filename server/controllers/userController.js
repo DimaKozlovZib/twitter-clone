@@ -25,6 +25,8 @@ const generateJwt = (payload) => {
     }
 }
 
+const pathToDist = ['..', '..', 'var', 'www']
+
 class userRouter {
     async registration(req, res, next) {
         try {
@@ -49,7 +51,6 @@ class userRouter {
 
                 const imageIndex = Math.floor(Math.random() * (files.length - 1))
                 return files[imageIndex]
-
             }
             const userCoverPath = getImage()
 
@@ -255,13 +256,13 @@ class userRouter {
 
             const oldCover = await Media.findOne({ where: { userId: id } })
             if (oldCover) {
-                const oldCoverPath = path.resolve(__dirname, '..', 'static', oldCover.url)
+                const oldCoverPath = path.resolve(__dirname, ...process.env.PATH_TO_DIST.split('/'), 'static', oldCover.url)
                 fs.unlink(oldCoverPath, console.log)
                 await Media.destroy({ where: { id: oldCover.id } })
             }
 
             const filename = uuid.v4() + ".jpg";
-            file.mv(path.resolve(__dirname, '..', 'static', filename))
+            file.mv(path.resolve(__dirname, ...process.env.PATH_TO_DIST.split('/'), 'static', filename))
 
             const newCover = await Media.create({ url: filename, userId: id, type: 'image' })
 
@@ -289,14 +290,14 @@ class userRouter {
             const oldAvatar = user?.img
 
             if (oldAvatar) {
-                const oldAvatarPath = path.resolve(__dirname, '..', 'static-avatars', oldAvatar)
+                const oldAvatarPath = path.resolve(__dirname, ...process.env.PATH_TO_DIST.split('/'), 'static-avatars', oldAvatar)
                 fs.unlink(oldAvatarPath, console.log)
                 await Media.destroy({ where: { userId: id, url: oldAvatar } })
             }
 
 
             const filename = uuid.v4() + ".jpg";
-            file.mv(path.resolve(__dirname, '..', 'static-avatars', filename))
+            file.mv(path.resolve(__dirname, ...process.env.PATH_TO_DIST.split('/'), 'static-avatars', filename))
             const newAvatar = await Media.create({ url: filename, userId: id, type: 'image' })
 
             await User.update({ img: filename }, { where: { id } })

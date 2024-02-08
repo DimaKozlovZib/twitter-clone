@@ -103,7 +103,6 @@ class messageRouter {
                 });
             }
             //создаем изображения
-            console.log(media)
             if (filesLen > 0) {
                 media.forEach(async (file, index) => {
                     let filename, type;
@@ -118,8 +117,8 @@ class messageRouter {
                             filename = 'messageImage' + uuid.v4() + ".jpg";
                             break;
                     }
-                    file.mv(path.resolve(__dirname, '..', 'static', filename))
-                    console.log(index)
+                    file.mv(path.resolve(__dirname, ...process.env.PATH_TO_DIST.split('/'), 'static', filename))
+
                     await Media.create({ url: filename, messageId: message.id, type, indexInMessage: index })
                 })
             }
