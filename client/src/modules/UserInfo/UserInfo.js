@@ -11,7 +11,7 @@ import ButtonBlue from '../../UI/ButtonBlue/ButtonBlue';
 import MessagePost from '../../components/messagePost/messagePost';
 import usePage from '../../hooks/usePage';
 import LoaderHorizontally from '../../UI/LoaderHorizontally/LoaderHorizontally'
-import { PROJECT_NAME } from '../../constans';
+import { DOMAIN, PROJECT_NAME } from '../../constans';
 import { Helmet } from 'react-helmet';
 
 const UserInfo = memo(() => {
