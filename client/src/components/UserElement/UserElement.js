@@ -4,7 +4,7 @@ import UserAvatar from '../../UI/UserAvatar/UserAvatar';
 import { useSelector } from 'react-redux';
 import './UserElement.css'
 import { Subscribe, Unsubscribe } from './API';
-import { NavigatePath } from '../../routes';
+import { NavigatePath, userInfoPath } from '../../routes';
 
 const UserElement = ({ user, subscribeBtn = false }) => {
     const [subscribedUser, setSubscribedUser] = useState(null);

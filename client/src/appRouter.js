@@ -17,17 +17,17 @@ import OnlyUsersPage from "./pages/OnlyUsersPage";
 const AppRouter = () => {
     return (
         <Routes >
-            <Route path={userInfoPath} element={<UserPage />} />
-            <Route path={hashtagPath} element={<HashtagPage />} />
+            <Route path={userInfoPath()} element={<UserPage />} />
+            <Route path={hashtagPath()} element={<HashtagPage />} />
             <Route path={messagesPath} element={<MessagesPage />} />
             <Route path={registrationPath} element={<RegistrationPage />} />
             <Route path={loginPath} element={<LoginPage />} />
             <Route path={editPath} element={<EditPage />} />
             <Route path={myFriendsPath} element={<FriendPage />} />
-            <Route path={searchPath} element={<SearchPage />} />
-            <Route path={messagePath} element={<MessageIdPage />} />
+            <Route path={searchPath()} element={<SearchPage />} />
+            <Route path={messagePath()} element={<MessageIdPage />} />
             <Route path={addMessagePath} element={<AddPostPage />} />
-            <Route path={addRetweetPath} element={<AddPostPage retweet />} />
+            <Route path={addRetweetPath()} element={<AddPostPage retweet />} />
             <Route path={NotFoundPath} element={<NotFoundPage />} />
             <Route path={onlyAuthPath} element={<OnlyUsersPage />} />
             <Route path={'*'} element={<NotFoundPage />} />
