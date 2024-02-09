@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { Subscribe, Unsubscribe, getMessages, getUser } from './API'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import '../../styles/changeCover.css';
-import { NotFoundPath, addMessagePath, editPath } from '../../routes';
+import { NavigatePath, NotFoundPath, addMessagePath, editPath } from '../../routes';
 import ButtonBlue from '../../UI/ButtonBlue/ButtonBlue';
 import MessagePost from '../../components/messagePost/messagePost';
 import usePage from '../../hooks/usePage';
@@ -48,7 +48,7 @@ const UserInfo = memo(() => {
         if (isAuth !== null && user?.id != userId) {
             const userInfo = await getUser(userId, isAuth);
 
-            if (userInfo?.status === 404) return Navigate(`/${NotFoundPath}`)
+            if (userInfo?.status === 404) return Navigate(NavigatePath(NotFoundPath))
             if (userInfo?.status !== 200) return;
 
             setUser(userInfo.data.user)
@@ -113,7 +113,7 @@ const UserInfo = memo(() => {
 
     const editBtnHTML = (
         <ButtonBlue className=''>
-            <Link to={`/${editPath}`}>Редактировать</Link>
+            <Link to={NavigatePath(editPath)}>Редактировать</Link>
         </ButtonBlue>
     )
 
@@ -133,7 +133,7 @@ const UserInfo = memo(() => {
     //{classGenerate()}
 
     const goToAddMessagePage = () => {
-        if (isAuth) return History(`/${addMessagePath}`)
+        if (isAuth) return History(NavigatePath(addMessagePath))
     }
 
     const noOneMessage = (messagesArray[0]?.data?.length === 0) &&

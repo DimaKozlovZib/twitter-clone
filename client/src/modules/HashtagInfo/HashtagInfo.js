@@ -6,7 +6,7 @@ import MessagePost from '../../components/messagePost/messagePost';
 import usePage from '../../hooks/usePage';
 import { useSelector } from 'react-redux';
 import LoaderHorizontally from '../../UI/LoaderHorizontally/LoaderHorizontally';
-import { NotFoundPath } from '../../routes';
+import { NavigatePath, NotFoundPath } from '../../routes';
 
 const HashtagInfo = () => {
     const { hashtagName } = useParams()
@@ -26,7 +26,7 @@ const HashtagInfo = () => {
         if (hashtag?.name !== hashtagName) {
             const hashtagInfo = await getHashtag(hashtagName);
 
-            if (+hashtagInfo?.response?.status === 404) return Navigate(`/${NotFoundPath}`)
+            if (+hashtagInfo?.response?.status === 404) return Navigate(NavigatePath(NotFoundPath))
 
             setHashtag(hashtagInfo.data)
             //setInfoStatus('sucsses')

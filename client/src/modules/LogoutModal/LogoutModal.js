@@ -5,7 +5,7 @@ import useModal from '../../hooks/useModal';
 import './LogoutModal.css';
 import { setAuthAction, setModalAction, setUserAction } from '../../store';
 import { logout } from './API';
-import { loginPath } from '../../routes';
+import { NavigatePath, loginPath } from '../../routes';
 import { useNavigate } from 'react-router-dom';
 
 const LogoutModal = () => {
@@ -18,10 +18,12 @@ const LogoutModal = () => {
         try {
             if (!isAuth) return;
             await logout()
+
             localStorage.removeItem('accessToken')
+
             dispatch(setUserAction({}))
             dispatch(setAuthAction(null))
-            navigate(`/${loginPath}`)
+            navigate(NavigatePath(loginPath))
             dispatch(setModalAction({ type: '', data: {} }))
         } catch (error) {
             console.error(error)

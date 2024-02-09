@@ -7,7 +7,7 @@ import HashtagElement from '../../components/HashtagElement/HashtagElement';
 import './Search.css'
 import PageChanger from '../../components/PageChanger/PageChanger';
 import LoaderHorizontally from '../../UI/LoaderHorizontally/LoaderHorizontally';
-import { NotFoundPath } from '../../routes';
+import { NavigatePath, NotFoundPath } from '../../routes';
 
 const Search = memo(() => {
     const params = useParams();
@@ -43,7 +43,7 @@ const Search = memo(() => {
                 dataGet(smallRequestLimit, 0)
                 break;
             default:
-                navigate(`/${NotFoundPath}`)
+                navigate(NavigatePath(NotFoundPath))
         }
     }, [params, page]);
 

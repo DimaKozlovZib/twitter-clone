@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Header from '../modules/Header/Header';
 import { useSelector } from 'react-redux';
-import { onlyAuthPath } from '../routes';
+import { NavigatePath, onlyAuthPath } from '../routes';
 import { useNavigate } from 'react-router-dom';
 
 const Layout = ({ canClose, isOnlyAuth, children }) => {
@@ -10,7 +10,7 @@ const Layout = ({ canClose, isOnlyAuth, children }) => {
 
     useEffect(() => {
         if (isOnlyAuth && isAuth === false) {
-            Navigate(`/${onlyAuthPath}`)
+            Navigate(NavigatePath(onlyAuthPath))
         }
     }, []);
 

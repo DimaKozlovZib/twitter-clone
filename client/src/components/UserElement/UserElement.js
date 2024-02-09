@@ -4,6 +4,7 @@ import UserAvatar from '../../UI/UserAvatar/UserAvatar';
 import { useSelector } from 'react-redux';
 import './UserElement.css'
 import { Subscribe, Unsubscribe } from './API';
+import { NavigatePath } from '../../routes';
 
 const UserElement = ({ user, subscribeBtn = false }) => {
     const [subscribedUser, setSubscribedUser] = useState(null);
@@ -37,7 +38,7 @@ const UserElement = ({ user, subscribeBtn = false }) => {
 
     return (
         <div className='UserElement'>
-            <Link to={`/twitter-clone/user/${id}`}>
+            <Link to={NavigatePath(userInfoPath(id))}>
                 <UserAvatar isNotLink url={img} />
                 <div className='UserElement__info'>
                     <div className='info__name'>

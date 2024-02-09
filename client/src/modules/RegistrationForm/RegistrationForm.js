@@ -1,8 +1,5 @@
 import React, { useState } from "react";
 import FormInput from "../../components/FormInput/FormInput";
-import nameFormInput from "../../images/nameFormImg.svg";
-import emailFormInput from "../../images/emailFormImg.svg";
-import passwordFormInput from "../../images/passwordFormImg.svg";
 import {
 	validationsEmail,
 	validationsName,
@@ -11,7 +8,7 @@ import {
 import { registration } from "./API";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { loginPath, messagesPath } from "../../routes";
+import { NavigatePath, loginPath, messagesPath } from "../../routes";
 import { setAuthAction, setUserAction } from "../../store";
 import ButtonBlue from "../../UI/ButtonBlue/ButtonBlue";
 
@@ -58,7 +55,7 @@ const RegistrationForm = () => {
 				);
 				dispatch(setUserAction(result.data.user));
 				dispatch(setAuthAction(true))
-				History(`/${messagesPath}`);
+				History(NavigatePath(messagesPath));
 			} else {
 				setErrorFromServer(
 					result?.message
@@ -142,7 +139,7 @@ const RegistrationForm = () => {
 						<ButtonBlue>Зарегистрироваться</ButtonBlue>
 					</div>
 					<div className="login">
-						Уже есть аккаунт? <Link to={`/${loginPath}`}>Войти.</Link>
+						Уже есть аккаунт? <Link to={NavigatePath(loginPath)}>Войти.</Link>
 					</div>
 				</form>
 			</div>

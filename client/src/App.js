@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { BrowserRouter, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import './App.css';
 import './styles/Modal.css';
 import AppRouter from './appRouter';

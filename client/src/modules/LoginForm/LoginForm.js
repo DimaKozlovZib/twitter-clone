@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 import FormInput from "../../components/FormInput/FormInput";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import emailFormInput from "../../images/emailFormImg.svg";
-import passwordFormInput from "../../images/passwordFormImg.svg";
 import { validationsEmail, validationsPassword } from './validations';
 import { login } from './API';
-import { messagesPath, registrationPath } from '../../routes';
+import { NavigatePath, messagesPath, registrationPath } from '../../routes';
 import { setAuthAction, setUserAction } from '../../store';
 import ButtonBlue from '../../UI/ButtonBlue/ButtonBlue.js';
 
@@ -67,7 +65,7 @@ const LoginForm = () => {
 
 			dispatch(setUserAction(result.data.user));
 			dispatch(setAuthAction(true))
-			History(`/${messagesPath}`);
+			History(NavigatePath(messagesPath));
 		} else {
 			setErrorFromServer(result.data?.message);
 		}
@@ -99,7 +97,7 @@ const LoginForm = () => {
 						<ButtonBlue>Войти</ButtonBlue>
 					</div>
 					<div className="registration">
-						Нет аккаунта? <Link to={`/${registrationPath}`}>Создать</Link>
+						Нет аккаунта? <Link to={NavigatePath(registrationPath)}>Создать</Link>
 					</div>
 				</form>
 			</div>

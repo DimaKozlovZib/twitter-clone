@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setDataAction } from '../../store';
 import { useEffect } from 'react';
+import { NavigatePath, addRetweetPath, messagePath } from '../../routes';
 
 const RewiewsMessage = ({ data }) => {
     const { commentsCount, retweetCount, likes, likesNum, messageData } = data;
@@ -45,11 +46,11 @@ const RewiewsMessage = ({ data }) => {
         if (!isAuth) return;
 
         dispatch(setDataAction(messageData))
-        navigate(`/twitter-clone/message/${id}/retweet`)
+        navigate(NavigatePath(addRetweetPath(id)))
     }
 
     const openMessageComments = () => {
-        navigate(`/twitter-clone/message/${id}`)
+        navigate(NavigatePath(messagePath(id)))
     }
 
     return (

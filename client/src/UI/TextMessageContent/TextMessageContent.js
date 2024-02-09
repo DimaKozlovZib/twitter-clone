@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { NavigatePath, hashtagPath } from '../../routes';
 
 const TextMessageContent = ({ hashtags, originalText }) => {
     const hashtagsNames = hashtags.map(i => i.name)
@@ -18,9 +19,11 @@ const TextMessageContent = ({ hashtags, originalText }) => {
             }
 
             const hashtagWord = originalText.slice(indexStart, indexEnd)
+            const hashtagName = arr[0].slice(1)
+
             result.push(
-                hashtagsNames.includes(arr[0].slice(1)) ?
-                    (<Link className='hashtag' to={`/twitter-clone/hashtag/${arr[0].slice(1)}`}>{hashtagWord}</Link>) :
+                hashtagsNames.includes(hashtagName) ?
+                    (<Link className='hashtag' to={NavigatePath(hashtagPath(hashtagName))}>{hashtagWord}</Link>) :
                     (<p className='text'>{hashtagWord}</p>)
             )
 

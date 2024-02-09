@@ -1,13 +1,14 @@
 import React from 'react';
 import './HashtagElement.css';
 import { useNavigate } from 'react-router-dom';
+import { hashtagPath } from '../../routes';
 
 const HashtagElement = ({ hashtag }) => {
     const { name, countMessages } = hashtag
     const navigate = useNavigate()
 
     const openPage = () => {
-        navigate(`/twitter-clone/hashtag/${name}`)
+        navigate(hashtagPath(name))
     }
 
     return (

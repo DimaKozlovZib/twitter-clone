@@ -2,14 +2,14 @@ import React from 'react';
 import ButtonBlue from '../../UI/ButtonBlue/ButtonBlue';
 import './OnlyUsers.css'
 import { useNavigate } from 'react-router-dom';
-import { loginPath, registrationPath } from '../../routes';
+import { NavigatePath, loginPath, registrationPath } from '../../routes';
 
 const OnlyUsers = () => {
     const History = useNavigate()
 
-    const loginEvent = () => History(`/${loginPath}`)
+    const loginEvent = () => History(NavigatePath(loginPath))
 
-    const registrationEvent = () => History(`/${registrationPath}`)
+    const registrationEvent = () => History(NavigatePath(registrationPath))
 
     return (
         <div className='OnlyUsers'>

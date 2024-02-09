@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import './UserAvatar.css';
 import nullAvatar from '../../images/nullAvatar.jpg';
 import { REACT_STATIC_URL } from '../../API/constants';
+import { NavigatePath, userInfoPath } from '../../routes';
 
 
 const UserAvatar = memo(({ url, id, isNotLink, ...events }) => {
@@ -24,7 +25,7 @@ const UserAvatar = memo(({ url, id, isNotLink, ...events }) => {
     return (
         isNotLink ?
             Avatar
-            : <Link to={`/twitter-clone/user/${id}`}>{Avatar}</Link >
+            : <Link to={NavigatePath(userInfoPath(id))}>{Avatar}</Link >
     );
 })
 

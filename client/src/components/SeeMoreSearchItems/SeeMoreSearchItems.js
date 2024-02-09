@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 //import './SeeMoreSearchItems.css';
 import { useNavigate } from 'react-router-dom';
+import { NavigatePath, searchPath } from '../../routes';
 
 const SeeMoreSearchItems = ({ title, itemsCount, hasSeeMore, link }) => {
     const navigate = useNavigate();
@@ -18,7 +19,7 @@ const SeeMoreSearchItems = ({ title, itemsCount, hasSeeMore, link }) => {
 
     const openBasicPage = () => {
         const modal = title.toLowerCase()
-        navigate(`/twitter-clone/search/${modal}/${link}`)
+        navigate(NavigatePath(searchPath(modal, link)))
     }
 
     return (

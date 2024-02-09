@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import './AccountMenu.css'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { myFriendsPath } from '../../routes';
+import { NavigatePath, myFriendsPath, userInfoPath } from '../../routes';
 import { setModalAction, setThemeAction } from '../../store';
 import UserAvatar from '../../UI/UserAvatar/UserAvatar';
 
@@ -14,13 +14,9 @@ const AccountMenu = memo(({ isActive, setActiveMenu }) => {
     const userName = useSelector(state => state.user?.name)
     const theme = useSelector(state => state.theme)
 
-    const profile = () => {
-        navigate(`/twitter-clone/user/${id}`)
-    }
+    const profile = () => navigate(userInfoPath(id))
 
-    const openFriendsPage = () => {
-        navigate(`/${myFriendsPath}`)
-    }
+    const openFriendsPage = () => navigate(NavigatePath(myFriendsPath))
 
     const logout = (e) => {
         const payload = { type: "LOGOUT-MODAL", data: {} }

@@ -13,7 +13,7 @@ import InfoBlock from '../../UI/InfoBlock/InfoBlock';
 import RewiewsMessage from '../../UI/RewiewsMessage/RewiewsMessage';
 import TextMessageContent from '../../UI/TextMessageContent/TextMessageContent';
 import ImageMessageContent from '../../UI/ImageMessageContent/ImageMessageContent';
-import { NotFoundPath } from '../../routes';
+import { NavigatePath, NotFoundPath } from '../../routes';
 
 const MessageInfo = () => {
     const userId = useSelector(state => state.user.id)
@@ -54,7 +54,7 @@ const MessageInfo = () => {
     const getData = async () => {
         const response = await findOneMessage(params.id)
 
-        if (response?.status === 404) return Navigate(`/${NotFoundPath}`)
+        if (response?.status === 404) return Navigate(NavigatePath(NotFoundPath))
         if (response?.status === 200) {
             setInfoStatus('success')
             setMessage(response.data.message)
