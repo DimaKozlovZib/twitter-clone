@@ -9,6 +9,9 @@ server/static/*.jpg
 server/static/*.mp4
 server/static-avatars/*.jpg
 
+client/constans.js
+client/routes.js
+
 .env
 # testing
 /coverage

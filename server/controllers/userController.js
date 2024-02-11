@@ -42,7 +42,7 @@ class userRouter {
             const hashPassword = await bcrypt.hash(password, 6)
 
             // random cover image
-            const dirpath = path.join(__dirname, '..', 'static-cover');
+            const dirpath = path.join(__dirname, ...process.env.PATH_TO_DIST.split('/'), 'static-cover');
 
             const files = fs.readdirSync(dirpath)
 

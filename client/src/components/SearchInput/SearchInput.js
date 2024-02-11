@@ -84,7 +84,7 @@ const SearchInput = memo(() => {
         if ((inputValue !== params.searchText || params.model !== 'all') && inputValue !== '') {
             setInputIsActive(false)
             inputRef.current.blur()
-            return navigate(NavigatePath(searchPath(inputValue)))
+            return navigate(NavigatePath(searchPath(params.model, inputValue)))
         }
     }
 
