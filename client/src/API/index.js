@@ -1,5 +1,5 @@
 import axios from "axios";
-import { REACT_APP_API_URL } from "./constants";
+import { REACT_APP_API_URL } from "./constans";
 
 const $host = axios.create({
     withCredentials: true,

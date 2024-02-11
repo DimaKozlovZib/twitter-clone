@@ -11,6 +11,7 @@ server/static-avatars/*.jpg
 
 client/src/API/constans.js
 client/src/routes.js
+client/src/constans.js
 
 .env
 # testing
