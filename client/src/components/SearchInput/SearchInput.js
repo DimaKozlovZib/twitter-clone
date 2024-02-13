@@ -40,7 +40,6 @@ const SearchInput = memo(() => {
             setDataLoad(false)//выключаем крутилку
 
         } else {
-
             if (dataSearch.searchString === inputValue) {
                 setInputIsActive(true)
             }

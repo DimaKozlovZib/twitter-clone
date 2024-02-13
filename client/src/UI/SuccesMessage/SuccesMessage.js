@@ -1,5 +1,4 @@
 import React from 'react';
-import succes from '../../images/succes.svg';
 import './SuccesMessage.css';
 
 const SuccesMessage = ({ children }) => {

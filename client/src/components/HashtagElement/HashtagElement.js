@@ -1,14 +1,14 @@
 import React from 'react';
 import './HashtagElement.css';
 import { useNavigate } from 'react-router-dom';
-import { hashtagPath } from '../../routes';
+import { NavigatePath, hashtagPath } from '../../routes';
 
 const HashtagElement = ({ hashtag }) => {
     const { name, countMessages } = hashtag
     const navigate = useNavigate()
 
     const openPage = () => {
-        navigate(hashtagPath(name))
+        navigate(NavigatePath(hashtagPath(name)))
     }
 
     return (

@@ -11,9 +11,7 @@ const AddCommentForm = ({ setNewComment, messageId }) => {
     const [value, setValue] = useState('');
     const maxLength = 200;
 
-    const onChange = (e) => {
-        setValue(e.target.value)
-    }
+    const onChange = (e) => setValue(e.target.value)
 
     const onSubmit = async (e) => {
         e.preventDefault();

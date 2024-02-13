@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import upload from '../../images/upload.svg'
 
 const UploadFile = ({ file, setFile, firstHtml, secondHtml }) => {
-
     const [inputFocus, setInputFocus] = useState(false);
-    console.log(file, setFile, firstHtml, secondHtml)
 
     const commonUploadContainer = (
         <div className='upload-container'>

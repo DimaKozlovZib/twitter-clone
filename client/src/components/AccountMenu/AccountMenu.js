@@ -14,7 +14,7 @@ const AccountMenu = memo(({ isActive, setActiveMenu }) => {
     const userName = useSelector(state => state.user?.name)
     const theme = useSelector(state => state.theme)
 
-    const profile = () => navigate(userInfoPath(id))
+    const profile = () => navigate(NavigatePath(userInfoPath(id)))
 
     const openFriendsPage = () => navigate(NavigatePath(myFriendsPath))
 

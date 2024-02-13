@@ -25,8 +25,6 @@ const generateJwt = (payload) => {
     }
 }
 
-const pathToDist = ['..', '..', 'var', 'www']
-
 class userRouter {
     async registration(req, res, next) {
         try {
@@ -63,7 +61,7 @@ class userRouter {
 
             return res.status(200).json({ user, accessToken })
         } catch (error) {
-            return res.status(500).json(error.message)
+            return next(ApiError.internal(error.message))
         }
 
     }
@@ -87,7 +85,7 @@ class userRouter {
 
             return res.status(200).json({ accessToken, user })
         } catch (error) {
-            return res.status(500).json(error.message)
+            return next(ApiError.internal(error.message))
         }
     }
 
@@ -111,11 +109,11 @@ class userRouter {
 
             return res.status(200).json({ accessToken, user })
         } catch (error) {
-            return res.status(500).json(error.message)
+            return next(ApiError.internal(error.message))
         }
     }
 
-    async auth(req, res) {
+    async auth(req, res, next) {
         try {
             const { refreshToken } = req.cookies;
 
@@ -142,7 +140,7 @@ class userRouter {
         }
     }
 
-    async getFriends(req, res) {
+    async getFriends(req, res, next) {
         try {
             const { id } = req.user;
             const params = req.query;
@@ -166,11 +164,11 @@ class userRouter {
             return res.status(200).json(friends)
 
         } catch (error) {
-            return res.status(500).json(error.message)
+            return next(ApiError.internal(error.message))
         }
     }
 
-    async getUser(req, res) {
+    async getUser(req, res, next) {
         try {
             const { id } = req.params;
             const { isAuth } = req.user;
@@ -212,11 +210,11 @@ class userRouter {
             return res.status(200).json({ user, canEdit: false })
         } catch (error) {
             console.log(error)
-            return res.status(500).json(error.message)
+            return next(ApiError.internal(error.message))
         }
     }
 
-    async getUserMessages(req, res) {
+    async getUserMessages(req, res, next) {
         try {
             const { id } = req.params;
             const query = req.query;
@@ -241,11 +239,11 @@ class userRouter {
             return res.status(200).json(messages)
         } catch (error) {
             console.log(error)
-            return res.status(500).json(error.message)
+            return next(ApiError.internal(error.message))
         }
     }
 
-    async setCover(req, res) {
+    async setCover(req, res, next) {
         try {
             const { id } = req.user;
             const file = req.files.file;
@@ -272,12 +270,12 @@ class userRouter {
 
         } catch (error) {
             console.log(error)
-            return res.status(500).json(error)
+            return next(ApiError.internal(error.message))
         }
 
     }
 
-    async setAvatar(req, res) {
+    async setAvatar(req, res, next) {
         try {
             const { email, id } = req.user;
             const file = req.files?.file;
@@ -306,12 +304,12 @@ class userRouter {
 
         } catch (error) {
             console.log(error)
-            return res.status(500).json(error)
+            return next(ApiError.internal(error.message))
         }
 
     }
 
-    async changeInfo(req, res) {
+    async changeInfo(req, res, next) {
         try {
             const { email, id } = req.user;
             const data = req.body;
@@ -342,11 +340,11 @@ class userRouter {
 
             return res.status(200).json({ user: newUserData })
         } catch (error) {
-            return res.status(500).json(error.message)
+            return next(ApiError.internal(error.message))
         }
     }
 
-    async subscribe(req, res) {
+    async subscribe(req, res, next) {
         try {
             const userId = req.body?.userId;
             const { email, id } = req.user;
@@ -363,11 +361,11 @@ class userRouter {
 
             return res.status(200).json({ message: 'succes' })
         } catch (error) {
-            return res.status(500).json(error.message)
+            return next(ApiError.internal(error.message))
         }
     }
 
-    async unsubscribe(req, res) {
+    async unsubscribe(req, res, next) {
         try {
             const userId = req.body?.userId;
             const { email, id } = req.user;
@@ -384,19 +382,19 @@ class userRouter {
 
             return res.status(200).json({ message: 'succes' })
         } catch (error) {
-            return res.status(500).json(error.message)
+            return next(ApiError.internal(error.message))
         }
     }
 
-    async logout(req, res) {
+    async logout(req, res, next) {
         try {
             res.clearCookie('refreshToken')
             return res.status(200).json({ message: 'succes' })
         } catch (error) {
-            return res.status(500).json(error.message)
+            return next(ApiError.internal(error.message))
         }
     }
-    async getFirstConnectionUsers(req, res) {
+    async getFirstConnectionUsers(req, res, next) {
         try {
             const user = req.user;
 
@@ -469,7 +467,6 @@ class userRouter {
                             }
                         }]
                     }],
-
                 })
 
                 result.push({ user, mutualFriends })
@@ -478,7 +475,7 @@ class userRouter {
             return res.status(200).json({ users: result })
         } catch (error) {
             console.log(error)
-            return res.status(500).json(error.message)
+            return next(ApiError.internal(error.message))
         }
     }
 }

@@ -7,6 +7,7 @@
   height: auto;
   overflow: hidden;
   height: 100%;
+  margin-top: 10px;
 }
 
 .container:has(.NotFoundPage) {

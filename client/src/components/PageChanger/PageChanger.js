@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './PageChanger.css'
 
 const PageChanger = ({ page, setpage, limit, count }) => {
-    const [lastPageIndex, setLastPageIndex] = useState(Math.floor(count / limit));
+    const lastPageIndex = Math.floor(count / limit);
 
     const createChangePageBtns = () => {
         const backBtns = [],

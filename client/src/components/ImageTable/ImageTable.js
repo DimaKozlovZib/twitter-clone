@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 import './ImageTable.css'
 import Image from '../../UI/Image/Image';
 import Video from '../../UI/Video/Video';
 
-const ImageTable = ({ customOrderedFiles, deleteImage }) => {
+const ImageTable = memo(({ customOrderedFiles, deleteImage }) => {
     const len = customOrderedFiles.length;
 
     const getMediaForClient = (startIndex) => {
@@ -12,7 +12,7 @@ const ImageTable = ({ customOrderedFiles, deleteImage }) => {
         for (let i = startIndex; i < len; i += 2) {
             const file = customOrderedFiles[i]
 
-            if (!file) return;
+            if (!file) continue;
             //type: 'image/*' or 'video/mp4'
 
             if (file.type.split('/')[0] === 'video') {
@@ -25,17 +25,20 @@ const ImageTable = ({ customOrderedFiles, deleteImage }) => {
         return result
     }
 
+
+    const mediaColums = useMemo(() => [0, 1].map(getMediaForClient), [customOrderedFiles])
+
     return (
         <>
             {
                 len !== 0 &&
                 <div className='image-list'>
                     <div className='colum-1'>
-                        {getMediaForClient(0)}
+                        {mediaColums[0]}
                     </div>
                     {len > 1 &&
                         <div className='colum-2'>
-                            {getMediaForClient(1)}
+                            {mediaColums[1]}
                         </div>
                     }
                 </div>
@@ -43,6 +46,6 @@ const ImageTable = ({ customOrderedFiles, deleteImage }) => {
         </>
 
     );
-}
+})
 
 export default ImageTable;

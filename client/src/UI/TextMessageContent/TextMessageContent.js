@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { NavigatePath, hashtagPath } from '../../routes';
 
@@ -6,7 +6,7 @@ const TextMessageContent = ({ hashtags, originalText }) => {
     const hashtagsNames = hashtags.map(i => i.name)
     const HASHTAG_REGEX = /(^|\B)(#(?![0-9_]+\b)([a-zA-Z0-9_]{2,18}))(\b|\r)/g;
 
-    const jsxGenerate = () => {
+    const text = useMemo(() => {
         const result = []
         let arr;
         let lastIndex = 0;
@@ -34,9 +34,7 @@ const TextMessageContent = ({ hashtags, originalText }) => {
         }
 
         return result;
-    }
-
-    const [text, setText] = useState(jsxGenerate());
+    }, [originalText])
 
     return (
         <div className='TextMessageContent'>
