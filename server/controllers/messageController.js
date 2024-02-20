@@ -125,8 +125,7 @@ class messageRouter {
 
             return res.status(200).json({ message })
         } catch (error) {
-            console.log(error)
-            return res.status(500).json(error.message)
+            return next(ApiError.internal(error.message))
         }
     }
     async addComment(req, res, next) {
@@ -134,7 +133,7 @@ class messageRouter {
             const { text, messageId } = req.body;
             const { id } = req.user;
 
-            if (!text || !messageId) return res.status(400).json({ message: 'bad request' });
+            if (!text || !messageId) return next(ApiError.badRequest());
 
             const message = await Message.findOne({ where: { id: messageId } })
 
@@ -153,16 +152,15 @@ class messageRouter {
 
             message.increment('commentsCount', { by: 1 })
         } catch (error) {
-            console.log(error)
-            return res.status(500).json(error.message)
+            return next(ApiError.internal(error.message))
         }
     }
-    async getMessageInfo(req, res) {
+    async getMessageInfo(req, res, next) {
         try {
             const data = req.body;
             const { id, isAuth } = req.user
 
-            if (!data?.messageId) return res.status(400).json({ message: 'bad request' })
+            if (!data?.messageId) return next(ApiError.badRequest())
             const { messageId } = data;
 
             const include = isAuth ?
@@ -173,7 +171,7 @@ class messageRouter {
                     },
                     required: false
                 }] : []
-            console.log(isAuth)
+
             const message = await Message.findOne({
                 where: {
                     id: messageId
@@ -197,23 +195,23 @@ class messageRouter {
                 ]
             })
 
-            if (!message) return res.status(404).json('message is not defined')
+            if (!message) return next(ApiError.notFound('message is not defined'));
 
             return res.status(200).json({ message, comments })
         } catch (error) {
             console.log(error)
-            return res.status(500).json(error)
+            return next(ApiError.internal(error.message))
         }
     }
-    async deleteMessage(req, res) {
+    async deleteMessage(req, res, next) {
         try {
-            if (!req.params.id) return res.status(400).json({ message: 'bad request' })
+            if (!req.params.id) return next(ApiError.badRequest())
             const { id } = req.params;
             const userId = req.user.id;
             const message = await Message.findOne({
                 where: { id, userId }
             })
-            if (!message) return res.status(404).json({ message: 'message not found' })
+            if (!message) return next(ApiError.notFound('message not found'))
             const result = message.destroy()
 
             res.status(200).json(result)
@@ -225,16 +223,15 @@ class messageRouter {
 
             retweetMessage.decrement('retweetCount', { by: 1 })
         } catch (error) {
-            return res.status(500).json(error.message)
+            return next(ApiError.internal(error.message))
         }
-
     }
-    async getMessageContent(req, res) {
+    async getMessageContent(req, res, next) {
         try {
             const data = req.body;
             const { id, isAuth } = req.user
 
-            if (!data?.messageId) return res.status(400).json({ message: 'bad request' })
+            if (!data?.messageId) return next(ApiError.badRequest())
             const { messageId } = data;
             const includes = []
 
@@ -265,10 +262,10 @@ class messageRouter {
 
             return res.status(200).json({ message })
         } catch (error) {
-            return res.status(500).json(error)
+            return next(ApiError.internal(error.message))
         }
     }
-    async getMessages(req, res) {
+    async getMessages(req, res, next) {
         try {
             const { isAuth, id } = req.user;
             const params = req.query;
@@ -311,8 +308,7 @@ class messageRouter {
             //сохраняем массив в mongo
             USER_RECOMMENDATION.setRecommendation(id, dataToSave);
         } catch (error) {
-            console.log(error)
-            return res.status(500).json(error.message)
+            return next(ApiError.internal(error.message))
         }
 
     }
@@ -321,7 +317,7 @@ class messageRouter {
             const { mesId } = req.body.params;
             const { id } = req.user;
 
-            if (!id && !mesId) return res.status(400).json({ message: 'bad request' })
+            if (!id && !mesId) return next(ApiError.badRequest())
 
             const userLike = await Likes.findOne({ where: { userId: id, messageId: mesId } })
 
@@ -351,8 +347,7 @@ class messageRouter {
                 interactionMessage.setLike(id, mesId, false)
             }
         } catch (error) {
-            console.log(error)
-            return res.status(500).json(error.message)
+            return next(ApiError.internal(error.message))
         }
     }
 }

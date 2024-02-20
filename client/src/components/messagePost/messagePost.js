@@ -100,7 +100,7 @@ const MessagePost = memo(({ messageObject, setDelete, addViewedMessage }) => {
                     </div>
                     {(userId === user.id) && <>
                         <SlimBurgerMenu onClickFunc={changeMenuStatus} />
-                        <MessageMenu isVisible={hiddenMenu} ref={menu} clickEvents={clickEvents} />
+                        <MessageMenu isVisible={hiddenMenu} menu={menu} clickEvents={clickEvents} />
                     </>}
                 </div>
 

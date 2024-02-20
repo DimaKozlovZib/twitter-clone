@@ -1,7 +1,7 @@
 import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
-import { ADD_USER, SET_AVATAR, SET_COVER, SET_DATA, SET_ISAUTH, SET_MODALE, SET_THEME, SET_VIEWED_DATA, SET_SAVED_DATA } from './constans';
+import { ADD_USER, SET_AVATAR, SET_COVER, SET_DATA, SET_ISAUTH, SET_MODALE, SET_THEME, SET_VIEWED_DATA, SET_SAVED_DATA, CLEAR_ALL } from './constans';
 
 const defaultState = {
     user: {},
@@ -32,8 +32,10 @@ const reducer = (state = defaultState, action) => {
             return { ...state, data: action.payload }
         case SET_VIEWED_DATA:
             return { ...state, viewedData: action.payload }
-            case SET_SAVED_DATA:
-                return { ...state, savedData: action.payload }
+        case SET_SAVED_DATA:
+            return { ...state, savedData: action.payload }
+        case CLEAR_ALL:
+            return { ...defaultState, isAuth: false };
         default:
             return state;
     }
@@ -48,6 +50,7 @@ export const setAuthAction = (payload) => ({ type: SET_ISAUTH, payload });
 export const setDataAction = (payload) => ({ type: SET_DATA, payload });
 export const setViewedDataAction = (payload) => ({ type: SET_VIEWED_DATA, payload });
 export const setSavedDataAction = (payload) => ({ type: SET_SAVED_DATA, payload });
+export const setClearStore = () => ({ type: CLEAR_ALL });
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)))
 

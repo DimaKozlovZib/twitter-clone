@@ -2,12 +2,7 @@ import { $authHost, $host } from "../../API";
 
 export const getUser = async (userId, isAuth) => {
     try {
-        const requestHost = isAuth ? $authHost : $host;
-        const response = await requestHost.get(`/user/${userId}`, {
-            validateStatus: function (status) {
-                return status < 500; // Resolve only if the status code is less than 500
-            }
-        })
+        const response = await $authHost.get(`/user/${userId}`, {})
         console.log(response)
         return response;
     } catch (error) {

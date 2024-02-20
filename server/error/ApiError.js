@@ -4,13 +4,13 @@ class ApiError extends Error {
         this.status = status
         this.message = message
     }
-    static badRequest(message) {
+    static badRequest(message = 'bad request') {
         return new ApiError(400, message)
     }
     static notFound(message) {
-        return new ApiError(400, message)
+        return new ApiError(404, message)
     }
-    static notAuth(message) {
+    static notAuth(message = 'user is not auth') {
         return new ApiError(401, message)
     }
     static internal(message) {

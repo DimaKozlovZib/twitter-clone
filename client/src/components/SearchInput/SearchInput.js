@@ -80,10 +80,13 @@ const SearchInput = memo(() => {
 
     const onSubmit = (e) => {
         e.preventDefault()
+        //если нет изменений в модели или в строке то не пускаем дальше
         if ((inputValue !== params.searchText || params.model !== 'all') && inputValue !== '') {
+            //отключаем фокус
             setInputIsActive(false)
             inputRef.current.blur()
-            return navigate(NavigatePath(searchPath(params.model, inputValue)))
+            //если в пути нет модели то ищем по всем
+            return navigate(NavigatePath(searchPath(params.model || 'all', inputValue)))
         }
     }
 
@@ -93,7 +96,7 @@ const SearchInput = memo(() => {
             if (!uniqueValue) return;
 
             setInputIsActive(false)
-            return navigate(path)
+            return navigate(NavigatePath(path))
         }
     }
 
@@ -106,7 +109,7 @@ const SearchInput = memo(() => {
                 </div>
                 <div className='searchElements'>
                     {users.map(({ user, mutualFriends }) => (
-                        <button className='userElement' onClick={onClick(user.id, NavigatePath(userInfoPath(user.id)))} key={user.id}>
+                        <button className='userElement' onClick={onClick(user.id, userInfoPath(user.id))} key={user.id}>
                             <div className='userElement-avatar'>
                                 <UserAvatar isNotLink url={user.img} />
                             </div>
@@ -148,7 +151,7 @@ const SearchInput = memo(() => {
                             <div className='searchElements'>
                                 {users?.rows.map(i => (
                                     <button className='userElement' key={i.id}
-                                        onClick={onClick(i.id, NavigatePath(userInfoPath(i.id)))}>
+                                        onClick={onClick(i.id, userInfoPath(i.id))}>
                                         <div className='userElement-avatar'>
                                             <UserAvatar isNotLink url={i.img} />
                                         </div>
@@ -171,7 +174,7 @@ const SearchInput = memo(() => {
                             <div className='searchElements'>
                                 {hashtags?.rows.map(i => (
                                     <button className='hashtagElement' key={i.id}
-                                        onClick={onClick(i.name, NavigatePath(hashtagPath(i.name)))}>
+                                        onClick={onClick(i.name, hashtagPath(i.name))}>
                                         <div className='hashtagElement-icon'>
                                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M2.875 11L5.375 1M6.625 11L9.125 1M2.25 4.125H11M1 7.875H9.75" strokeLinecap="round" strokeLinejoin="round" />

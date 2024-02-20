@@ -1,5 +1,6 @@
 .HashtagInfo--wrapper {
-  padding-top: 55px;
+  padding-top: 45px;
+  margin-top: 15px;
 }
 
 .HashtagInfo-info {
@@ -21,7 +22,7 @@
   margin-right: 10px;
 }
 .HashtagInfo-info .hashtag-name h2 {
-  font-size: 22px;
+  font-size: 32px;
   font-weight: 700;
   color: var(--main-elements-color);
 }

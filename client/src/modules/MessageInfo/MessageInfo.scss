@@ -3,6 +3,7 @@
 .MessageInfo {
 	@extend %MessageElement;
 	background-color: var(--main-bg-color);
+	margin-top: 15px;
 	.user-box {
 		margin-left: 10px;
 	}

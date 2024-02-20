@@ -11,8 +11,9 @@ import ButtonBlue from '../../UI/ButtonBlue/ButtonBlue';
 import MessagePost from '../../components/messagePost/messagePost';
 import usePage from '../../hooks/usePage';
 import LoaderHorizontally from '../../UI/LoaderHorizontally/LoaderHorizontally'
-import { DOMAIN, PROJECT_NAME } from '../../constans';
-import { Helmet } from 'react-helmet';
+import { PROJECT_NAME } from '../../constans';
+import { Helmet } from 'react-helmet-async'
+import { STATIC_COVER_URL } from '../../API/constans';
 
 const UserInfo = memo(() => {
     const { userId } = useParams();
@@ -48,8 +49,7 @@ const UserInfo = memo(() => {
         if (isAuth !== null && user?.id != userId) {
             const userInfo = await getUser(userId, isAuth);
 
-            if (userInfo?.status === 404) return Navigate(NavigatePath(NotFoundPath))
-            if (userInfo?.status !== 200) return;
+            //if (!userInfo) return Navigate(NavigatePath(NotFoundPath))
 
             setUser(userInfo.data.user)
             setCanEdit(userInfo.data.canEdit)
@@ -143,14 +143,16 @@ const UserInfo = memo(() => {
             <div className='noOneMessageTitle'><h4>У пользователя ещё нет сообщений.</h4></div>
         ))
 
-
     return (
         <>
-            {canEdit && <Helmet title={`Профиль | ${PROJECT_NAME} | Школьный проект КДМ`} />}
+            {canEdit &&
+                <Helmet>
+                    <title>{`Профиль | ${PROJECT_NAME} | Школьный проект КДМ`}</title>
+                </Helmet>}
 
             <div className='userInfo-wrapper profile-header'>
                 <div className={classGenerate('profile-cover')}
-                    style={{ 'backgroundImage': `url(${DOMAIN}/${canEdit && userAuthCover ? userAuthCover : coverImage})` }}>
+                    style={{ 'backgroundImage': `url(${STATIC_COVER_URL(canEdit && userAuthCover ? userAuthCover : coverImage)})` }}>
                     {!canEdit || changeCoverBtn}
                 </div>
                 <div className='userInfo-insideWrapper'>

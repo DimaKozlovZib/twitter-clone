@@ -28,6 +28,7 @@
 .EditForm {
   width: 100%;
   padding-bottom: 10px;
+  margin-top: 15px;
 }
 .EditForm .UserAvatar {
   height: 150px;
@@ -73,6 +74,15 @@
   opacity: 1;
   z-index: 4;
 }
+.EditForm .openModalBtn svg {
+  height: 34px;
+  width: 39px;
+  transition: height 100ms linear, width 100ms linear;
+}
+.EditForm .openModalBtn:hover svg {
+  height: 38.3px;
+  width: 44px;
+}
 .EditForm-changeInfo {
   flex: 1 1 auto;
 }
@@ -87,7 +97,7 @@
 .EditForm_input {
   flex: 1 1 auto;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 .EditForm_input h4 {
   margin-right: 10px;
@@ -101,23 +111,23 @@
 .EditForm_input input {
   max-width: 350px;
   flex: 1 1 auto;
-  padding: 5px 10px;
-  box-sizing: border-box;
-  border-radius: 5px;
-  border: 2px solid #757575;
-  background-color: #f4f4f4;
   min-width: 200px;
   color-scheme: dark;
 }
 .EditForm_input .short-info_input {
   width: 100%;
-  border: 2px solid #757575;
-  background-color: #f4f4f4;
-  padding: 5px 10px;
-  box-sizing: border-box;
-  border-radius: 5px;
   resize: none;
   height: 100px;
+}
+.EditForm_input input,
+.EditForm_input .short-info_input {
+  font-weight: 500;
+  font-family: "Nunito", sans-serif;
+  border-radius: 5px;
+  padding: 5px 10px;
+  box-sizing: border-box;
+  border: 2px solid #757575;
+  background-color: #f4f4f4;
 }
 .EditForm .short-info {
   margin-top: 15px;
@@ -155,6 +165,7 @@
     margin-top: 5px;
   }
   .EditForm_input h4 {
+    text-align: left;
     width: 100%;
   }
 }

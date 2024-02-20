@@ -7,3 +7,4 @@ export const SET_THEME = 'SET_THEME';
 export const SET_DATA = 'SET_DATA';
 export const SET_VIEWED_DATA = 'SET_VIEWED_DATA'
 export const SET_SAVED_DATA = 'SET_SAVED_DATA';
+export const CLEAR_ALL = 'CLEAR_ALL'

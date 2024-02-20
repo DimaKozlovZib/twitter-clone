@@ -21,10 +21,14 @@ const usePage = (messagesData, setMessagesData, limit, succesDeleteId, setSucces
     const deleteEvent = () => {
         if (succesDeleteId) {
             const [id, page] = succesDeleteId;
-            setMessagesData(
-                messagesData.filter(item => item.page === page)
-                    .data.filter(mes => mes.id !== id)
-            )
+
+            const data = [...messagesData]
+            data[page] = {
+                data: messagesData.find(item => item.page === page)?.data?.filter(mes => mes.id !== id),
+                page
+            }
+
+            setMessagesData(data)
             setSuccesDeleteId(null)
         }
     }
@@ -35,7 +39,6 @@ const usePage = (messagesData, setMessagesData, limit, succesDeleteId, setSucces
         const callback = (entries, observer) => {
             entries.forEach(async (entry) => {
                 // Текст блока полностью видим на экране
-                console.log(entry)
                 if (entry.intersectionRatio !== 1 ||
                     !(messagesData[messagesData.length - 1]?.data?.length >= limit) ||
                     messagesData.length === 0) return;

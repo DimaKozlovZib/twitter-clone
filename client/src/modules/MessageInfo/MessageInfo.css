@@ -67,6 +67,7 @@
 
 .MessageInfo {
   background-color: var(--main-bg-color);
+  margin-top: 15px;
 }
 .MessageInfo .user-box {
   margin-left: 10px;

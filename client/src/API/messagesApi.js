@@ -1,4 +1,4 @@
-import { $host, $authHost } from '.';
+import { $authHost } from '.';
 
 export const getMessages = (params) => {
     try {

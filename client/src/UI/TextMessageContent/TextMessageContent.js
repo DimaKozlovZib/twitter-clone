@@ -15,7 +15,7 @@ const TextMessageContent = ({ hashtags, originalText }) => {
             const indexStart = arr.index;
             const indexEnd = indexStart + arr[0].length;
             if (lastIndex < indexStart) {
-                result.push((<p className='text'>{originalText.slice(lastIndex, indexStart)}</p>))
+                result.push((<p className='text' key={result.length++}>{originalText.slice(lastIndex, indexStart)}</p>))
             }
 
             const hashtagWord = originalText.slice(indexStart, indexEnd)
@@ -23,14 +23,17 @@ const TextMessageContent = ({ hashtags, originalText }) => {
 
             result.push(
                 hashtagsNames.includes(hashtagName) ?
-                    (<Link className='hashtag' to={NavigatePath(hashtagPath(hashtagName))}>{hashtagWord}</Link>) :
-                    (<p className='text'>{hashtagWord}</p>)
+                    (<Link className='hashtag' key={result.length++}
+                        to={NavigatePath(hashtagPath(hashtagName))}>{hashtagWord}</Link>) :
+
+                    (<p className='text' key={result.length++} >{hashtagWord}</p>)
             )
 
             lastIndex = indexEnd;
         }
         if (lastIndex !== originalText.length) {
-            result.push((<p className='text'>{originalText.slice(lastIndex)}</p>))
+            const txt = originalText.slice(lastIndex)
+            result.push((<p className='text' key={result.length++}>{txt}</p>))
         }
 
         return result;

@@ -1,6 +1,11 @@
-import { $authHost } from "./index";
+import { $authHost } from ".";
 
 export const login = async () => {
-    const response = await $authHost.post('/user/autoLogin', {})
-    return response;
+    try {
+        const response = await $authHost.post('/user/autoLogin', {});
+        return response
+    } catch (error) {
+        console.log(error)
+        return error
+    }
 }

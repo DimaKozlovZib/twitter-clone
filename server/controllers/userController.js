@@ -97,11 +97,12 @@ class userRouter {
 
             const user = await User.findOne({ where: { email } });
 
-            if (!user) return res.status(401).json({ message: 'не авторизован' });
+            if (!user) return next(ApiError.notAuth());
 
             let comparePassword = bcrypt.compareSync(password, user.password);
+
             if (!comparePassword) {
-                return res.status(400).json({ message: 'Указан неверный пароль' })
+                return next(ApiError.badRequest('Incorrect password specified'));
             }
 
             const { accessToken, refreshToken } = generateJwt({ id: user.id, email })
@@ -117,26 +118,20 @@ class userRouter {
         try {
             const { refreshToken } = req.cookies;
 
-            if (!refreshToken) {
-                return res.status(401).json({ message: 'не авторизован' })
-            }
+            if (!refreshToken) return next(ApiError.notAuth());
 
             const { id, email } = jwt.verify(refreshToken, process.env.SECRET_REFRESH_KEY)
             const user = await User.findOne({ where: { id } })
 
-            if (!user) {
-                return next(ApiError.badRequest("Пользователь не найден."))
-            }
+            if (!user) return next(ApiError.badRequest("User is not found"))
 
             const { newRefreshToken, accessToken } = generateJwt({ id, email })
 
             res.cookie('refreshToken', newRefreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
 
             return res.status(200).json({ accessToken, newRefreshToken })
-
         } catch (error) {
-            console.log(error)
-            return res.status(401).json({ message: 'не авторизован' })
+            return next(ApiError.notAuth());
         }
     }
 
@@ -173,7 +168,7 @@ class userRouter {
             const { id } = req.params;
             const { isAuth } = req.user;
 
-            if (!Number(id) || !id) return res.status(400).json({ message: 'bad request' })
+            if (!Number(id) || !id) return next(ApiError.badRequest())
 
             const userObj = await User.findOne({
                 where: { id },
@@ -188,7 +183,7 @@ class userRouter {
                 } : []
             })
 
-            if (!userObj) return res.status(404).json({ message: 'user is not found' })
+            if (!userObj) return next(ApiError.notFound('User is not found'));
 
             const messages = await Message.findAndCountAll({
                 where: { userId: id },
@@ -204,7 +199,7 @@ class userRouter {
                 totalLikesNum: +messages.rows[0]?.total_likesNum
             }
 
-            if (isAuth && req.user.id === +id) {
+            if (req.user.id === +id) {
                 return res.status(200).json({ user, canEdit: true })
             }
             return res.status(200).json({ user, canEdit: false })
@@ -219,14 +214,14 @@ class userRouter {
             const { id } = req.params;
             const query = req.query;
 
-            if (!id || !Number(id)) return res.status(400).json('error: bad request')
+            if (!id || !Number(id)) return next(ApiError.badRequest())
 
             const viewedData = req.viewedData?.messages || [];
 
             const Limit = +query?.limit || 20;
             const Offset = (+query?.page || 0) * Limit;
 
-            if (Limit <= 0 || Offset < 0) return res.status(400).json('error: bad request')
+            if (Limit <= 0 || Offset < 0) return next(ApiError.badRequest())
 
             const messages = await Message.findAll({
                 offset: Offset, limit: Limit,
@@ -303,7 +298,7 @@ class userRouter {
             return res.status(200).json({ message: 'success', url: filename })
 
         } catch (error) {
-            console.log(error)
+            console.log(error.message)
             return next(ApiError.internal(error.message))
         }
 
@@ -316,7 +311,7 @@ class userRouter {
 
             const user = await User.findOne({ where: { id, email } });
 
-            if (!user) return res.status(401).json({ message: 'не авторизован' });
+            if (!user) return next(ApiError.badRequest());
 
             if (Object.keys(data).length === 0) return res.status(400).json({ message: 'bad request' });
 
@@ -324,7 +319,7 @@ class userRouter {
 
             for (const item in data) {
                 if (!['shortInfo', 'age', 'name'].includes(item)) {
-                    return res.status(400).json({ message: `you cant change ${item}` });
+                    return next(ApiError.badRequest(`you cant change ${item}`));
                 }
 
                 if (data[item] !== user.dataValues[item]) {
@@ -332,7 +327,7 @@ class userRouter {
                 }
             }
 
-            if (Object.keys(allNewData).length === 0) return res.status(400).json({ message: 'you not give new data' });
+            if (Object.keys(allNewData).length === 0) return next(ApiError.badRequest('you not give new data'));
 
             await User.update({ ...allNewData }, { where: { id: id } })
 
@@ -349,11 +344,11 @@ class userRouter {
             const userId = req.body?.userId;
             const { email, id } = req.user;
 
-            if (!userId || !Number(userId)) return res.status(400).json({ message: 'bad request' })
+            if (!userId || !Number(userId)) return next(ApiError.badRequest());
 
             const newFutureFriend = await User.findOne({ where: { id: userId } })
 
-            if (!newFutureFriend) return res.status(404).json({ message: 'user not found' })
+            if (!newFutureFriend) return next(ApiError.notFound('User is not found'));
 
             const [userFriends] = await Friends.findOrCreate({ where: { userId: id } });
 
@@ -370,11 +365,11 @@ class userRouter {
             const userId = req.body?.userId;
             const { email, id } = req.user;
 
-            if (!userId || !Number(userId)) return res.status(400).json({ message: 'bad request' })
+            if (!userId || !Number(userId)) return next(ApiError.badRequest());
 
             const oldFriend = await User.findOne({ where: { id: userId } })
 
-            if (!oldFriend) return res.status(404).json({ message: 'user not found' })
+            if (!oldFriend) return next(ApiError.notFound('User is not found'));
 
             const userFriends = await Friends.findOne({ where: { userId: id } });
 
@@ -474,7 +469,7 @@ class userRouter {
 
             return res.status(200).json({ users: result })
         } catch (error) {
-            console.log(error)
+            console.log(error.message)
             return next(ApiError.internal(error.message))
         }
     }

@@ -1,24 +1,23 @@
-const { Hashtag, Message, messageHashtag, Likes, User, Media } = require('../models/models');
+const { Hashtag, Message, messageHashtag, Likes } = require('../models/models');
 const { Op } = require("sequelize");
-const { Sequelize } = require('../db');
 const { retweetIncludeObject, media_IncludeObject, hashtag_IncludeObject, user_IncludeObject } = require('../includeObjects');
+const ApiError = require('../error/ApiError');
 
 class hashtagRouter {
-    async addHashtag(req, res) {
+    async addHashtag(req, res, next) {
         try {
             const { hashtagName } = req.body
-            console.log(hashtagName)
             const hashtag = await Hashtag.create({ name: hashtagName })
             return res.status(200).json(hashtag)
         } catch (error) {
-            return res.status(500).json(error)
+            return next(ApiError.internal(error.message))
         }
     }
-    async getHashtag(req, res) {
+    async getHashtag(req, res, next) {
         try {
             const params = req.params
 
-            if (!params.name) return res.status(400).json({ message: 'bad request' })
+            if (!params.name) return next(ApiError.badRequest());
 
             const hashtag = await Hashtag.findOne({
                 raw: true,
@@ -26,26 +25,26 @@ class hashtagRouter {
                 attributes: ['id', 'name', 'countMessages']
             })
 
-            if (!hashtag) return res.status(404).json({ message: 'hashtag is not defined' })
+            if (!hashtag) return next(ApiError.notFound('Hashtag is not found'));
 
             res.status(200).json(hashtag)
         } catch (error) {
-            console.log(error)
-            return res.status(500).json(error.message)
+            console.log(error.message)
+            return next(ApiError.internal(error.message))
         }
     }
-    async getHashtagMessages(req, res) {
+    async getHashtagMessages(req, res, next) {
         try {
             const hashtagId = Number(req.params.id)
             const { isAuth } = req.user;
 
-            if (!hashtagId) return res.status(400).json({ message: 'bad request' })
+            if (!hashtagId) return next(ApiError.badRequest());
 
             const query = req.query;
             const Limit = +query.limit || 10;
             const Page = +query.page || 0;
-            const indexFirstElement = Page * Limit
-            const includes = []
+            const indexFirstElement = Page * Limit;
+            const includes = [];
             const viewedData = req.viewedData?.messages || [];
 
             if (isAuth) {
@@ -79,11 +78,11 @@ class hashtagRouter {
 
             res.status(200).json(messages)
         } catch (error) {
-            console.log(error)
-            return res.status(500).json(error.message)
+            console.log(error.message)
+            return next(ApiError.internal(error.message))
         }
     }
-    async getHashtagsForInput(req, res) {
+    async getHashtagsForInput(req, res, next) {
         try {
             const { hashtag } = req.query;
 
@@ -99,8 +98,8 @@ class hashtagRouter {
 
             return res.status(200).json({ hashtagsToInput })
         } catch (error) {
-            console.log(error)
-            return res.status(500).json(error)
+            console.log(error.message)
+            return next(ApiError.internal(error.message))
         }
     }
 }
