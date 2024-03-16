@@ -50,13 +50,26 @@
 		}
 		.subscribe {
 			stroke: var(--blue-btn-color);
-			&:hover {
-				stroke: var(--blue-btn-color-hover);
-			}
 		}
 		.unsubscribe {
 			stroke: var(--alpha3);
 			&:hover {
+				stroke: var(--alpha5);
+			}
+		}
+		@media (hover: "hover") {
+			.subscribe:hover {
+				stroke: var(--blue-btn-color-hover);
+			}
+			.unsubscribe:hover {
+				stroke: var(--alpha5);
+			}
+		}
+		@media (hover: "none") {
+			.subscribe:active {
+				stroke: var(--blue-btn-color-hover);
+			}
+			.unsubscribe:active {
 				stroke: var(--alpha5);
 			}
 		}

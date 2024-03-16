@@ -53,9 +53,18 @@
 			width: 39px;
 			transition: height 100ms linear, width 100ms linear;
 		}
-		&:hover svg {
-			height: 38.3px;
-			width: 44px;
+
+		@media (hover: "hover") {
+			&:hover svg {
+				height: 38.3px;
+				width: 44px;
+			}
+		}
+		@media (hover: "none") {
+			&:active svg {
+				height: 38.3px;
+				width: 44px;
+			}
 		}
 	}
 
@@ -181,8 +190,15 @@
 		margin-top: 25px;
 		&.active {
 			background-color: var(--blue-btn-color);
-			&:hover {
-				background-color: var(--blue-btn-color-hover);
+			@media (hover: "hover") {
+				&:hover {
+					background-color: var(--blue-btn-color-hover);
+				}
+			}
+			@media (hover: "none") {
+				&:active {
+					background-color: var(--blue-btn-color-hover);
+				}
 			}
 		}
 	}

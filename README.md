@@ -1,70 +1,110 @@
-# Getting Started with Create React App
+# Twitter-clone
+#### Этот проект был создан в рамках школьного проекта в 10 классе, он представляет из себя "мини" социальную сеть
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### *Было реализованно:* 
++ Добавление постов
++ Просмотр индивидуальной ленты постов
++ Индивидуальный профиль пользователя с просмотром его постов
++ Фильтрация постов по "*хештегам*"
++ Подписка на других пользователей (в проекте так сложилось , что это называется "*Друзьями*")
++ Поиск пользователей и хэштегов по подстроке 
++ Просмотр медиа-файлов в самописном слайдере
++ Смена цветовой-темы на темную и светлую
++ Кастомизация профиля
++ Комментирование постов
++ Добавление "*ретвитов*" (вторичная публикация постов со ссылкой на источник)
++ Реакции пользователя на посты ("*лайки*")
 
-## Available Scripts
+### *Установка:*
+1. **Склонируйте репозиторий:**
+   
+   ```
+   git clone https://github.com/DimaKozlovZib/twitter-clone.git
+   ```
+   
+2. **Установите необходимые зависимости:**
+   
+   ```
+   cd ./client
+   npm install
+   ```
+   выполнять из корневого каталога
+   ```
+   cd ./server
+   npm install
+   ```
+3. **Конфигурация:**
+    Вам потребуется настроить файлы с константами в соответствии с вашими потребностями.
 
-In the project directory, you can run:
+    (Как пример)
 
-### `npm start`
+    **client/src/constans.js**
+    ```javascript
+    export const maxVisibleMedia = 4;
+    export const maxAddMediaCount = 6;
+    export const PROJECT_NAME = 'dreamscape';
+    export const DOMAIN = 'http://localhost:3000/'
+    ```
+    **client/src/API/constans.js**
+    ```javascript
+    const httpUrl = (path = '') => 'http://localhost:5000' + (path.length ? '/' : '') + path
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+    export const REACT_APP_API_URL = httpUrl('api')
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+    export const REACT_STATIC_URL = httpUrl()//'static'
+    export const STATIC_AVATARS_URL = httpUrl()//'static-avatars'
 
-### `npm test`
+    const coverPath = ''//'static-cover'
+    export const STATIC_COVER_URL = (fileName) =>
+    (/static-header-image/.test(fileName) ? httpUrl(coverPath) : REACT_STATIC_URL) + '/' + fileName
+    ```
+    Значения в коментариях нужны для деплоя на облачный сервер
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    **server/.env**
+    ```
+    PORT=5000
+    DB_NAME=your_db_name
+    DB_USER=db_user
+    DB_PASSWORD=your_password
+    DB_HOST=localhost
+    DB_PORT=5432
+    SECRET_ACCESS_KEY=any_key
+    SECRET_REFRESH_KEY=any_key
+    CLIENT_URL=http://localhost:3000
+    MONGO_URL=mongo_addres
+    PATH_TO_DIST=..
+    ```
 
-### `npm run build`
+4. **Запустите приложение:**
+   
+   из client
+   ```
+   npm start
+   ```
+   из server
+   ```
+   npm run dev
+   ```
+### *Обзор:*
++ Страница добавления поста
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  ![](./ImagesForReview/addMessagePage.png)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
++ Страница пользователя
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  ![](./ImagesForReview/userPage.png)
 
-### `npm run eject`
++ Страница хэштега
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+  ![](./ImagesForReview/hashtagPage.png)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
++ Страница комментирования поста
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+  ![](./ImagesForReview/commentPage.png)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
++ Страница поиска
 
-## Learn More
+  ![](./ImagesForReview/searchPage.png)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Автор:
+Проект выполнил учащийся 10М класса (на момент написания 2024г) Козлов Дмитрий в **одиночку**

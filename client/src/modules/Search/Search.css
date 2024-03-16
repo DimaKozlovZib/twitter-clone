@@ -23,9 +23,17 @@
   position: relative;
   margin-top: 11px;
 }
-.search-box .UserElement:hover,
-.search-box .HashtagElement:hover {
-  background-color: var(--alternative-bg-color);
+@media (hover: hover) {
+  .search-box .UserElement:hover,
+  .search-box .HashtagElement:hover {
+    background-color: var(--alternative-bg-color);
+  }
+}
+@media (hover: none) {
+  .search-box .UserElement:active,
+  .search-box .HashtagElement:active {
+    background-color: var(--alternative-bg-color);
+  }
 }
 .search-box .UserElement:not(.search-box .UserElement:last-child,
 .search-box .HashtagElement:last-child):after,

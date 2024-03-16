@@ -4,6 +4,7 @@
 	@extend %MessageElement;
 	background-color: var(--main-bg-color);
 	margin-top: 15px;
+	position: relative;
 	.user-box {
 		margin-left: 10px;
 	}
@@ -13,12 +14,11 @@
 		font-family: "Nunito", sans-serif;
 		.user-name {
 			font-weight: 600;
-			font-size: 17px;
+			font-size: 20px;
 			height: 20px;
 			min-width: 200px;
 		}
 		.user-email {
-			margin-top: 3px;
 			margin-left: 0px;
 			font-size: 15px;
 			height: 17px;
@@ -59,4 +59,10 @@
 		width: 100%;
 		box-sizing: border-box;
 	}
+	.hiddenMenu {
+		margin-right: 15px;
+	}
+}
+.comment-list {
+	padding-bottom: 15px;
 }

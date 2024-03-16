@@ -24,8 +24,15 @@
   transition: 0.5s background ease;
   overflow: hidden;
 }
-.HelperHashtagInput-item:hover {
-  background-color: var(--alternative-bg-color--hover);
+@media (hover: hover) {
+  .HelperHashtagInput-item:hover {
+    background-color: var(--alternative-bg-color--hover);
+  }
+}
+@media (hover: none) {
+  .HelperHashtagInput-item:active {
+    background-color: var(--alternative-bg-color--hover);
+  }
 }
 .HelperHashtagInput-item .text {
   margin-left: 5px;

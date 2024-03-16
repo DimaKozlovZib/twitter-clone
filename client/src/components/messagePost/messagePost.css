@@ -1,5 +1,5 @@
 .messagePost, .RetweetMessage {
-  padding: 10px 15px;
+  padding: var(--basic-padding-vertically) var(--basic-padding-horizontally);
   border-radius: 10px;
   box-sizing: border-box;
   color: var(--main-elements-color);
@@ -104,6 +104,9 @@
   .user-image.computer {
     display: none;
   }
+  .messagePost .message-contant {
+    margin-left: 5px;
+  }
   .messagePost {
     display: block;
   }
@@ -113,10 +116,5 @@
   .messagePost .UserAvatar {
     height: 40px;
     width: 40px;
-  }
-}
-@media (max-width: 600px) {
-  .messagePost {
-    padding: 10px 10px 10px 5px;
   }
 }/*# sourceMappingURL=messagePost.css.map */

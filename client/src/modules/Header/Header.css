@@ -30,8 +30,15 @@
 .header .login {
   box-sizing: border-box;
 }
-.header .login:enabled:hover {
-  background-color: var(--blue-btn-color-hover);
+@media (hover: hover) {
+  .header .login:enabled:hover {
+    background-color: var(--blue-btn-color-hover);
+  }
+}
+@media (hover: none) {
+  .header .login:enabled:active {
+    background-color: var(--blue-btn-color-hover);
+  }
 }
 
 .navItem-wrapper {

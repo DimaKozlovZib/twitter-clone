@@ -15,7 +15,7 @@ const User = sequelize.define('user', {
 const basicMessageSheme = {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     userId: { type: DataTypes.INTEGER, allowNull: false },
-    text: { type: DataTypes.STRING, allowNull: false },
+    text: { type: DataTypes.TEXT, allowNull: false },
 }
 
 const Message = sequelize.define('message', {

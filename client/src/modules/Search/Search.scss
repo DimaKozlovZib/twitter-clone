@@ -24,8 +24,15 @@
 	.HashtagElement {
 		position: relative;
 		margin-top: 11px;
-		&:hover {
-			background-color: var(--alternative-bg-color);
+		@media (hover: "hover") {
+			&:hover {
+				background-color: var(--alternative-bg-color);
+			}
+		}
+		@media (hover: "none") {
+			&:active {
+				background-color: var(--alternative-bg-color);
+			}
 		}
 		&:not(&:last-child):after {
 			left: 0px;

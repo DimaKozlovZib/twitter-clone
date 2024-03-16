@@ -9,8 +9,15 @@
 	color: var(--main-elements-color);
 	transition: background 200ms linear;
 	background-color: var(--cancel-btn);
-	&:enabled:hover {
-		background-color: var(--cancel-btn-hover);
+	@media (hover: "hover") {
+		&:enabled:hover {
+			background-color: var(--cancel-btn-hover);
+		}
+	}
+	@media (hover: "none") {
+		&:enabled:active {
+			background-color: var(--cancel-btn-hover);
+		}
 	}
 }
 
@@ -22,10 +29,20 @@
 	@extend %commonButton;
 	background-color: var(--blue-btn-color);
 	color: #fff;
+	&:disabled {
+		background-color: var(--cancel-btn);
+	}
 	svg {
 		fill: #fff;
 	}
-	&:enabled:hover {
-		background-color: var(--blue-btn-color-hover);
+	@media (hover: "hover") {
+		&:enabled:hover {
+			background-color: var(--blue-btn-color-hover);
+		}
+	}
+	@media (hover: "none") {
+		&:enabled:active {
+			background-color: var(--blue-btn-color-hover);
+		}
 	}
 }

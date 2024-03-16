@@ -69,6 +69,16 @@
 .image-list .delete:hover {
   opacity: 1;
 }
+@media (hover: hover) {
+  .image-list .delete:hover {
+    opacity: 1;
+  }
+}
+@media (hover: none) {
+  .image-list .delete:active {
+    opacity: 1;
+  }
+}
 @media (max-width: 900px) {
   .image-list {
     width: 87%;

@@ -51,12 +51,25 @@
 .UserElement .subscribe-btn .subscribe {
   stroke: var(--blue-btn-color);
 }
-.UserElement .subscribe-btn .subscribe:hover {
-  stroke: var(--blue-btn-color-hover);
-}
 .UserElement .subscribe-btn .unsubscribe {
   stroke: var(--alpha3);
 }
 .UserElement .subscribe-btn .unsubscribe:hover {
   stroke: var(--alpha5);
+}
+@media (hover: hover) {
+  .UserElement .subscribe-btn .subscribe:hover {
+    stroke: var(--blue-btn-color-hover);
+  }
+  .UserElement .subscribe-btn .unsubscribe:hover {
+    stroke: var(--alpha5);
+  }
+}
+@media (hover: none) {
+  .UserElement .subscribe-btn .subscribe:active {
+    stroke: var(--blue-btn-color-hover);
+  }
+  .UserElement .subscribe-btn .unsubscribe:active {
+    stroke: var(--alpha5);
+  }
 }/*# sourceMappingURL=UserElement.css.map */

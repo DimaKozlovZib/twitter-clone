@@ -8,6 +8,8 @@
 	z-index: 100;
 	display: flex;
 	align-items: center;
+	padding: 0px 10px;
+	box-sizing: border-box;
 }
 .modal {
 	font-family: "Nunito", sans-serif;
@@ -36,6 +38,23 @@
 .modal-contant {
 	padding: 15px 15px;
 }
+
+@media (max-width: 950px) {
+	.modal {
+		width: 75%;
+	}
+}
+@media (max-width: 770px) {
+	.modal {
+		width: 85%;
+	}
+}
+@media (max-width: 600px) {
+	.modal {
+		width: 100%;
+	}
+}
+
 @media (max-width: 650px) {
 	.modal-header {
 		padding: 15px 10px;

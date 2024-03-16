@@ -1,6 +1,6 @@
 .AddMessage {
 	background-color: var(--main-bg-color);
-	padding: 20px 20px;
+	padding: var(--basic-padding-horizontally-wide);
 	margin-top: 15px;
 	border-radius: 10px;
 	.submit-btn {
@@ -55,13 +55,20 @@
 				cursor: pointer;
 				width: 100%;
 				display: block;
+				@media (hover: "hover") {
+					&:hover svg {
+						fill: var(--blue-btn-color-hover);
+					}
+				}
+				@media (hover: "none") {
+					&:active svg {
+						fill: var(--blue-btn-color-hover);
+					}
+				}
 			}
 			svg {
 				transition: fill 200ms linear;
 				fill: var(--blue-btn-color);
-				&:hover {
-					fill: var(--blue-btn-color-hover);
-				}
 			}
 		}
 	}

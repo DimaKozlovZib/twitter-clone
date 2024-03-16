@@ -11,7 +11,7 @@
   background: var(--main-bg-color);
   width: 100%;
   border-radius: 10px;
-  padding: 20px 20px;
+  padding: var(--basic-padding-horizontally-wide) var(--basic-padding-horizontally-wide);
   box-sizing: border-box;
   position: relative;
 }
@@ -107,23 +107,31 @@
   }
 }
 
-.profile-cover:hover .edit-cover {
-  opacity: 1;
+@media (hover: hover) {
+  .profile-cover .edit-cover {
+    opacity: 0;
+    transition: opacity 0.5s linear;
+  }
+  .profile-cover .edit-cover:hover {
+    background-color: var(--main-bg-color);
+  }
+  .profile-cover:hover .edit-cover {
+    opacity: 1;
+  }
 }
-
-.userInfo-wrapper .edit-cover {
-  transition: opacity 0.5s linear;
-  opacity: 0;
+@media (hover: none) {
+  .edit-cover {
+    opacity: 1;
+  }
+  .edit-cover:active {
+    background-color: var(--main-bg-color);
+  }
 }
-.userInfo-wrapper .edit-cover:hover {
-  background-color: var(--main-bg-color);
-}
-
 .userInfo-wrapper + .addMessage {
   display: flex;
   background-color: var(--main-bg-color);
   border-radius: 10px;
-  padding: 10px 20px 10px 15px;
+  padding: var(--basic-padding-vertically) var(--basic-padding-horizontally-wide);
   margin-top: 10px;
   align-items: center;
   justify-content: space-between;

@@ -16,7 +16,8 @@
 	position: absolute;
 	right: 0;
 	top: 0;
-	margin: 15px 15px 0px 0px;
+	margin: var(--basic-padding-horizontally) var(--basic-padding-horizontally)
+		0px 0px;
 	padding: 6px 12px;
 	border-radius: 5px;
 	display: flex;
@@ -35,6 +36,13 @@
 	height: 18px;
 }
 
-.edit-cover:hover {
-	background-color: var(--main-bg-color);
+@media (hover: "hover") {
+	.edit-cover:hover {
+		background-color: var(--main-bg-color);
+	}
+}
+@media (hover: "none") {
+	.edit-cover:active {
+		background-color: var(--main-bg-color);
+	}
 }

@@ -74,7 +74,14 @@ $maxVisibleMediaInColum: $maxVisibleMedia / 2 + 1;
 	transition: opacity linear 0.2s;
 	margin-top: 5px;
 
-	&:hover {
-		opacity: 1;
+	@media (hover: "hover") {
+		&:hover {
+			opacity: 1;
+		}
+	}
+	@media (hover: "none") {
+		&:active {
+			opacity: 1;
+		}
 	}
 }

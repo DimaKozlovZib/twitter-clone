@@ -75,8 +75,15 @@
 			transition: opacity 0.2s linear;
 		}
 	}
-	.control-btn:not(.disabled) .arrow-wrapper:hover svg {
-		opacity: 1;
+	@media (hover: "hover") {
+		.control-btn:not(.disabled) .arrow-wrapper:hover svg {
+			opacity: 1;
+		}
+	}
+	@media (hover: "none") {
+		.control-btn:not(.disabled) .arrow-wrapper:active svg {
+			opacity: 1;
+		}
 	}
 
 	.tool-bar-menu {
@@ -97,6 +104,16 @@
 			opacity: 0.7;
 			&:hover {
 				opacity: 1;
+			}
+			@media (hover: "hover") {
+				&:hover {
+					opacity: 1;
+				}
+			}
+			@media (hover: "none") {
+				&:active {
+					opacity: 1;
+				}
 			}
 		}
 	}

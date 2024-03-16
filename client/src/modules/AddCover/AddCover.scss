@@ -13,10 +13,19 @@
 	width: 0;
 }
 
-#file-input:focus + .upload,
-.upload:hover {
-	border-style: solid;
-	background: rgba(0, 0, 0, 0.4);
+@media (hover: "hover") {
+	#file-input:focus + .upload,
+	.upload:hover {
+		border-style: solid;
+		background: rgba(0, 0, 0, 0.4);
+	}
+}
+@media (hover: "none") {
+	#file-input:focus + .upload,
+	.upload:active {
+		border-style: solid;
+		background: rgba(0, 0, 0, 0.4);
+	}
 }
 
 .upload {

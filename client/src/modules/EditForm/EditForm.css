@@ -10,19 +10,36 @@
   transition: background 200ms linear;
   background-color: var(--cancel-btn);
 }
-.EditForm-btn:enabled:hover, .buttonBlue:enabled:hover, .commonButton:enabled:hover {
-  background-color: var(--cancel-btn-hover);
+@media (hover: hover) {
+  .EditForm-btn:enabled:hover, .buttonBlue:enabled:hover, .commonButton:enabled:hover {
+    background-color: var(--cancel-btn-hover);
+  }
+}
+@media (hover: none) {
+  .EditForm-btn:enabled:active, .buttonBlue:enabled:active, .commonButton:enabled:active {
+    background-color: var(--cancel-btn-hover);
+  }
 }
 
 .buttonBlue {
   background-color: var(--blue-btn-color);
   color: #fff;
 }
+.buttonBlue:disabled {
+  background-color: var(--cancel-btn);
+}
 .buttonBlue svg {
   fill: #fff;
 }
-.buttonBlue:enabled:hover {
-  background-color: var(--blue-btn-color-hover);
+@media (hover: hover) {
+  .buttonBlue:enabled:hover {
+    background-color: var(--blue-btn-color-hover);
+  }
+}
+@media (hover: none) {
+  .buttonBlue:enabled:active {
+    background-color: var(--blue-btn-color-hover);
+  }
 }
 
 .EditForm {
@@ -79,9 +96,17 @@
   width: 39px;
   transition: height 100ms linear, width 100ms linear;
 }
-.EditForm .openModalBtn:hover svg {
-  height: 38.3px;
-  width: 44px;
+@media (hover: hover) {
+  .EditForm .openModalBtn:hover svg {
+    height: 38.3px;
+    width: 44px;
+  }
+}
+@media (hover: none) {
+  .EditForm .openModalBtn:active svg {
+    height: 38.3px;
+    width: 44px;
+  }
 }
 .EditForm-changeInfo {
   flex: 1 1 auto;
@@ -197,8 +222,15 @@
 .EditForm-btn.active {
   background-color: var(--blue-btn-color);
 }
-.EditForm-btn.active:hover {
-  background-color: var(--blue-btn-color-hover);
+@media (hover: hover) {
+  .EditForm-btn.active:hover {
+    background-color: var(--blue-btn-color-hover);
+  }
+}
+@media (hover: none) {
+  .EditForm-btn.active:active {
+    background-color: var(--blue-btn-color-hover);
+  }
 }
 @media (max-width: 800px) {
   .EditForm-content {

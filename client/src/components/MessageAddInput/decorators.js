@@ -26,7 +26,7 @@ const ExcessCharsSpan = memo((props) =>
 
 function highlightExcessChars(contentBlock, callback, contentState) {
     const blockText = contentBlock.getText();
-    const excessChars = blockText.slice(140); // Получаем символы с индекса 140 и далее
+    const excessChars = blockText.slice(500); // Получаем символы с индекса 500 и далее
 
     if (excessChars.length > 0) {
         const startIndex = blockText.lastIndexOf(excessChars);

@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { addMessages } from './API';
 import './AddMessage.css';
@@ -62,13 +62,19 @@ const AddMessage = memo(({ isRetweet }) => {
         setCustomOrderedFiles(arrFiles)
     }
 
+    const disabled = useMemo(() => {
+        const contentState = editorState.getCurrentContent();
+        const value = contentState.getPlainText();
+        return value.trim().length === 0 || value.length > 500
+    }, [editorState])
+
     const postMessage = async e => {
         e.preventDefault();
         try {
             const contentState = editorState.getCurrentContent();
             const value = contentState.getPlainText();
 
-            if (value.trim().length === 0 || value.length > 200) return;
+            if (value.trim().length === 0 || value.length > 500) return;
             //получаем хэштеги
             const hashtags = document.querySelectorAll(`.MessageAddInput .hashtag`)
 
@@ -128,7 +134,7 @@ const AddMessage = memo(({ isRetweet }) => {
                             </label>
                         </div>
                     </div>
-                    <ButtonBlue className='submit-btn' onClick={postMessage}>
+                    <ButtonBlue className='submit-btn' onClick={postMessage} disabled={disabled}>
                         Сохранить
                     </ButtonBlue>
                 </div>

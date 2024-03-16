@@ -13,3 +13,13 @@
 .logout-item.main:hover {
 	background: var(--carefully-color-1);
 }
+@media (hover: "hover") {
+	.logout-item.main:hover {
+		background: var(--carefully-color-1);
+	}
+}
+@media (hover: "none") {
+	.logout-item.main:active {
+		background: var(--carefully-color-1);
+	}
+}

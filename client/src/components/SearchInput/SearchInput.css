@@ -33,8 +33,15 @@
 .SearchComponent-btn svg {
   fill: var(--main-elements-color);
 }
-.SearchComponent-btn:hover {
-  opacity: 0.9;
+@media (hover: hover) {
+  .SearchComponent-btn:hover {
+    opacity: 0.9;
+  }
+}
+@media (hover: none) {
+  .SearchComponent-btn:active {
+    opacity: 0.9;
+  }
 }
 
 .searchOfModel {
@@ -84,8 +91,15 @@
   opacity: 0.7;
   transition: opacity 0.5s linear;
 }
-.searchOfModel-item:hover {
-  opacity: 1;
+@media (hover: hover) {
+  .searchOfModel-item:hover {
+    opacity: 1;
+  }
+}
+@media (hover: none) {
+  .searchOfModel-item:active {
+    opacity: 1;
+  }
 }
 .searchOfModel .loader-wrapper {
   height: 40px;
@@ -183,9 +197,17 @@
   width: 35px;
   border: none;
 }
-.searchElements-wrapper .userElement:hover,
-.searchElements-wrapper .hashtagElement:hover {
-  background: var(--alternative-bg-color--hover);
+@media (hover: hover) {
+  .searchElements-wrapper .userElement:hover,
+  .searchElements-wrapper .hashtagElement:hover {
+    background: var(--alternative-bg-color--hover);
+  }
+}
+@media (hover: none) {
+  .searchElements-wrapper .userElement:active,
+  .searchElements-wrapper .hashtagElement:active {
+    background: var(--alternative-bg-color--hover);
+  }
 }
 .searchElements-wrapper .hashtagElement-icon {
   border-radius: 50%;

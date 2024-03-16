@@ -23,8 +23,16 @@
 		cursor: pointer;
 		transition: 0.5s background ease;
 		overflow: hidden;
-		&:hover {
-			background-color: var(--alternative-bg-color--hover);
+
+		@media (hover: "hover") {
+			&:hover {
+				background-color: var(--alternative-bg-color--hover);
+			}
+		}
+		@media (hover: "none") {
+			&:active {
+				background-color: var(--alternative-bg-color--hover);
+			}
 		}
 
 		.text {

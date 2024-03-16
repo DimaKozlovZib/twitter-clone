@@ -1,5 +1,5 @@
 .AccountMenu {
-	background: var(--alternative-bg-color);
+	background: var(--main-bg-color);
 	position: absolute;
 	border-radius: 0px 0px 10px 10px;
 	min-width: 250px;
@@ -30,8 +30,15 @@
 		align-items: center;
 		box-sizing: border-box;
 		transition: background 0.2s linear;
-		&:hover {
-			background: var(--alpha2);
+		@media (hover: "hover") {
+			&:hover {
+				background: var(--alpha2);
+			}
+		}
+		@media (hover: "none") {
+			&:active {
+				background: var(--alpha2);
+			}
 		}
 		.profile__avartar {
 			height: 30px;
@@ -69,20 +76,27 @@
 		&:not(:first-child) {
 			margin-top: 2px;
 		}
-		&:hover {
-			background-color: var(--alternative-bg-color-hover);
-
-			h5 {
-				opacity: 1;
+		@media (hover: "hover") {
+			&:hover {
+				background-color: var(--alternative-bg-color-hover);
+				h5 {
+					opacity: 1;
+				}
 			}
 		}
-
+		@media (hover: "none") {
+			&:active {
+				background-color: var(--alternative-bg-color-hover);
+				h5 {
+					opacity: 1;
+				}
+			}
+		}
 		h5 {
 			opacity: 0.8;
 			font-size: 14px;
 			margin-left: 15px;
 		}
-
 		svg {
 			display: block;
 			height: 20px;

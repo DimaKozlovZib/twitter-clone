@@ -71,6 +71,13 @@
   transition: opacity linear 0.2s;
   margin-top: 5px;
 }
-.ImageMessageContent .seeAllBtn:hover {
-  opacity: 1;
+@media (hover: hover) {
+  .ImageMessageContent .seeAllBtn:hover {
+    opacity: 1;
+  }
+}
+@media (hover: none) {
+  .ImageMessageContent .seeAllBtn:active {
+    opacity: 1;
+  }
 }/*# sourceMappingURL=ImageMessageContent.css.map */

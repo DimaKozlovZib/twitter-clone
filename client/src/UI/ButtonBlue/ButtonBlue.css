@@ -10,17 +10,34 @@
   transition: background 200ms linear;
   background-color: var(--cancel-btn);
 }
-.buttonBlue:enabled:hover, .commonButton:enabled:hover {
-  background-color: var(--cancel-btn-hover);
+@media (hover: hover) {
+  .buttonBlue:enabled:hover, .commonButton:enabled:hover {
+    background-color: var(--cancel-btn-hover);
+  }
+}
+@media (hover: none) {
+  .buttonBlue:enabled:active, .commonButton:enabled:active {
+    background-color: var(--cancel-btn-hover);
+  }
 }
 
 .buttonBlue {
   background-color: var(--blue-btn-color);
   color: #fff;
 }
+.buttonBlue:disabled {
+  background-color: var(--cancel-btn);
+}
 .buttonBlue svg {
   fill: #fff;
 }
-.buttonBlue:enabled:hover {
-  background-color: var(--blue-btn-color-hover);
+@media (hover: hover) {
+  .buttonBlue:enabled:hover {
+    background-color: var(--blue-btn-color-hover);
+  }
+}
+@media (hover: none) {
+  .buttonBlue:enabled:active {
+    background-color: var(--blue-btn-color-hover);
+  }
 }/*# sourceMappingURL=ButtonBlue.css.map */

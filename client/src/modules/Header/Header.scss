@@ -29,8 +29,15 @@
 	}
 	.login {
 		box-sizing: border-box;
-		&:enabled:hover {
-			background-color: var(--blue-btn-color-hover);
+		@media (hover: "hover") {
+			&:enabled:hover {
+				background-color: var(--blue-btn-color-hover);
+			}
+		}
+		@media (hover: "none") {
+			&:enabled:active {
+				background-color: var(--blue-btn-color-hover);
+			}
 		}
 	}
 }

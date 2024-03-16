@@ -41,6 +41,9 @@
 	.user-image.computer {
 		display: none;
 	}
+	.messagePost .message-contant {
+		margin-left: 5px;
+	}
 	.messagePost {
 		display: block;
 		.user-image.mobile {
@@ -50,10 +53,5 @@
 			height: 40px;
 			width: 40px;
 		}
-	}
-}
-@media (max-width: 600px) {
-	.messagePost {
-		padding: 10px 10px 10px 5px;
 	}
 }

@@ -10,19 +10,36 @@
   transition: background 200ms linear;
   background-color: var(--cancel-btn);
 }
-.upload-btn-container .upload-btn:enabled:hover, .buttonBlue:enabled:hover, .commonButton:enabled:hover {
-  background-color: var(--cancel-btn-hover);
+@media (hover: hover) {
+  .upload-btn-container .upload-btn:enabled:hover, .buttonBlue:enabled:hover, .commonButton:enabled:hover {
+    background-color: var(--cancel-btn-hover);
+  }
+}
+@media (hover: none) {
+  .upload-btn-container .upload-btn:enabled:active, .buttonBlue:enabled:active, .commonButton:enabled:active {
+    background-color: var(--cancel-btn-hover);
+  }
 }
 
 .buttonBlue {
   background-color: var(--blue-btn-color);
   color: #fff;
 }
+.buttonBlue:disabled {
+  background-color: var(--cancel-btn);
+}
 .buttonBlue svg {
   fill: #fff;
 }
-.buttonBlue:enabled:hover {
-  background-color: var(--blue-btn-color-hover);
+@media (hover: hover) {
+  .buttonBlue:enabled:hover {
+    background-color: var(--blue-btn-color-hover);
+  }
+}
+@media (hover: none) {
+  .buttonBlue:enabled:active {
+    background-color: var(--blue-btn-color-hover);
+  }
 }
 
 .AddCover,
@@ -39,12 +56,20 @@
   width: 0;
 }
 
-#file-input:focus + .upload,
-.upload:hover {
-  border-style: solid;
-  background: rgba(0, 0, 0, 0.4);
+@media (hover: hover) {
+  #file-input:focus + .upload,
+  .upload:hover {
+    border-style: solid;
+    background: rgba(0, 0, 0, 0.4);
+  }
 }
-
+@media (hover: none) {
+  #file-input:focus + .upload,
+  .upload:active {
+    border-style: solid;
+    background: rgba(0, 0, 0, 0.4);
+  }
+}
 .upload {
   transition: all 0.3s linear;
   cursor: pointer;

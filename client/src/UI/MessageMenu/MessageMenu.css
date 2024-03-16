@@ -38,8 +38,15 @@
 .hiddenMenu-item.delete h5 {
   color: var(--main-elements-color);
 }
-.hiddenMenu-item.delete:hover {
-  opacity: 1;
+@media (hover: hover) {
+  .hiddenMenu-item.delete:hover {
+    opacity: 1;
+  }
+}
+@media (hover: none) {
+  .hiddenMenu-item.delete:active {
+    opacity: 1;
+  }
 }
 
 @keyframes open {

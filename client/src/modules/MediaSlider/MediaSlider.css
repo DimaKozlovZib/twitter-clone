@@ -74,8 +74,15 @@
   opacity: 0.4;
   transition: opacity 0.2s linear;
 }
-.MediaSlider__wrapper .control-btn:not(.disabled) .arrow-wrapper:hover svg {
-  opacity: 1;
+@media (hover: hover) {
+  .MediaSlider__wrapper .control-btn:not(.disabled) .arrow-wrapper:hover svg {
+    opacity: 1;
+  }
+}
+@media (hover: none) {
+  .MediaSlider__wrapper .control-btn:not(.disabled) .arrow-wrapper:active svg {
+    opacity: 1;
+  }
 }
 .MediaSlider__wrapper .tool-bar-menu {
   width: 100%;
@@ -96,6 +103,16 @@
 }
 .MediaSlider__wrapper .tool-bar-menu .close-modal:hover {
   opacity: 1;
+}
+@media (hover: hover) {
+  .MediaSlider__wrapper .tool-bar-menu .close-modal:hover {
+    opacity: 1;
+  }
+}
+@media (hover: none) {
+  .MediaSlider__wrapper .tool-bar-menu .close-modal:active {
+    opacity: 1;
+  }
 }
 .MediaSlider__wrapper .element-index {
   font-family: "Nunito", sans-serif;

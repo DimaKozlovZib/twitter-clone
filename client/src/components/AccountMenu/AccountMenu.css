@@ -1,5 +1,5 @@
 .AccountMenu {
-  background: var(--alternative-bg-color);
+  background: var(--main-bg-color);
   position: absolute;
   border-radius: 0px 0px 10px 10px;
   min-width: 250px;
@@ -30,8 +30,15 @@
   box-sizing: border-box;
   transition: background 0.2s linear;
 }
-.AccountMenu--profile:hover {
-  background: var(--alpha2);
+@media (hover: hover) {
+  .AccountMenu--profile:hover {
+    background: var(--alpha2);
+  }
+}
+@media (hover: none) {
+  .AccountMenu--profile:active {
+    background: var(--alpha2);
+  }
 }
 .AccountMenu--profile .profile__avartar {
   height: 30px;
@@ -69,11 +76,21 @@
 .AccountMenu--item:not(:first-child) {
   margin-top: 2px;
 }
-.AccountMenu--item:hover {
-  background-color: var(--alternative-bg-color-hover);
+@media (hover: hover) {
+  .AccountMenu--item:hover {
+    background-color: var(--alternative-bg-color-hover);
+  }
+  .AccountMenu--item:hover h5 {
+    opacity: 1;
+  }
 }
-.AccountMenu--item:hover h5 {
-  opacity: 1;
+@media (hover: none) {
+  .AccountMenu--item:active {
+    background-color: var(--alternative-bg-color-hover);
+  }
+  .AccountMenu--item:active h5 {
+    opacity: 1;
+  }
 }
 .AccountMenu--item h5 {
   opacity: 0.8;

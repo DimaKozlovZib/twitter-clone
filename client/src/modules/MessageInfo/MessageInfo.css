@@ -1,5 +1,5 @@
 .MessageInfo, .RetweetMessage {
-  padding: 10px 15px;
+  padding: var(--basic-padding-vertically) var(--basic-padding-horizontally);
   border-radius: 10px;
   box-sizing: border-box;
   color: var(--main-elements-color);
@@ -39,8 +39,15 @@
 .MessageInfo .TextMessageContent .hashtag, .RetweetMessage .TextMessageContent .hashtag {
   color: #00aaec;
 }
-.MessageInfo .TextMessageContent .hashtag:hover, .RetweetMessage .TextMessageContent .hashtag:hover {
-  text-decoration: underline;
+@media (hover: hover) {
+  .MessageInfo .TextMessageContent .hashtag:hover, .RetweetMessage .TextMessageContent .hashtag:hover {
+    text-decoration: underline;
+  }
+}
+@media (hover: none) {
+  .MessageInfo .TextMessageContent .hashtag:active, .RetweetMessage .TextMessageContent .hashtag:active {
+    text-decoration: underline;
+  }
 }
 
 .RetweetMessage {
@@ -68,6 +75,7 @@
 .MessageInfo {
   background-color: var(--main-bg-color);
   margin-top: 15px;
+  position: relative;
 }
 .MessageInfo .user-box {
   margin-left: 10px;
@@ -79,12 +87,11 @@
 }
 .MessageInfo > .user-info .user-name {
   font-weight: 600;
-  font-size: 17px;
+  font-size: 20px;
   height: 20px;
   min-width: 200px;
 }
 .MessageInfo > .user-info .user-email {
-  margin-top: 3px;
   margin-left: 0px;
   font-size: 15px;
   height: 17px;
@@ -121,4 +128,11 @@
   min-height: 20px;
   width: 100%;
   box-sizing: border-box;
+}
+.MessageInfo .hiddenMenu {
+  margin-right: 15px;
+}
+
+.comment-list {
+  padding-bottom: 15px;
 }/*# sourceMappingURL=MessageInfo.css.map */

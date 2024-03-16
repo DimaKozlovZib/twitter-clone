@@ -1,5 +1,5 @@
 %MessageElement {
-	padding: 10px 15px;
+	padding: var(--basic-padding-vertically) var(--basic-padding-horizontally);
 	border-radius: 10px;
 	box-sizing: border-box;
 	color: var(--main-elements-color);
@@ -36,8 +36,15 @@
 		}
 		.hashtag {
 			color: #00aaec;
-			&:hover {
-				text-decoration: underline;
+			@media (hover: "hover") {
+				&:hover {
+					text-decoration: underline;
+				}
+			}
+			@media (hover: "none") {
+				&:active {
+					text-decoration: underline;
+				}
 			}
 		}
 	}

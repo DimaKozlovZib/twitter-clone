@@ -1,7 +1,7 @@
 @charset "UTF-8";
 .AddMessage {
   background-color: var(--main-bg-color);
-  padding: 20px 20px;
+  padding: var(--basic-padding-horizontally-wide);
   margin-top: 15px;
   border-radius: 10px;
 }
@@ -54,10 +54,17 @@
   width: 100%;
   display: block;
 }
+@media (hover: hover) {
+  .AddMessage-form .additionalСontent__item label:hover svg {
+    fill: var(--blue-btn-color-hover);
+  }
+}
+@media (hover: none) {
+  .AddMessage-form .additionalСontent__item label:active svg {
+    fill: var(--blue-btn-color-hover);
+  }
+}
 .AddMessage-form .additionalСontent__item svg {
   transition: fill 200ms linear;
   fill: var(--blue-btn-color);
-}
-.AddMessage-form .additionalСontent__item svg:hover {
-  fill: var(--blue-btn-color-hover);
 }/*# sourceMappingURL=AddMessage.css.map */

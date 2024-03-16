@@ -19,8 +19,15 @@
   position: relative;
   margin-top: 10px;
 }
-.FriendsList .UserElement:hover {
-  background-color: var(--alternative-bg-color);
+@media (hover: hover) {
+  .FriendsList .UserElement:hover {
+    background-color: var(--alternative-bg-color);
+  }
+}
+@media (hover: none) {
+  .FriendsList .UserElement:active {
+    background-color: var(--alternative-bg-color);
+  }
 }
 .FriendsList .UserElement:not(.FriendsList .UserElement:last-child):after {
   left: 0px;

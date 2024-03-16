@@ -62,7 +62,15 @@
 .LoginForm .registration a {
 	color: var(--blue-btn-color);
 }
-.RegistrationForm .login a:hover,
-.LoginForm .registration a:hover {
-	color: var(--blue-btn-color-hover);
+@media (hover: "hover") {
+	.RegistrationForm .login a:hover,
+	.LoginForm .registration a:hover {
+		color: var(--blue-btn-color-hover);
+	}
+}
+@media (hover: "none") {
+	.RegistrationForm .login a:active,
+	.LoginForm .registration a:active {
+		color: var(--blue-btn-color-hover);
+	}
 }

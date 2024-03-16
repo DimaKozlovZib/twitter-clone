@@ -28,9 +28,17 @@
 .PageChanger .next-btn svg path {
   height: 100%;
 }
-.PageChanger .back-btn:not(:disabled):hover,
-.PageChanger .next-btn:not(:disabled):hover {
-  opacity: 1;
+@media (hover: hover) {
+  .PageChanger .back-btn:not(:disabled):hover,
+  .PageChanger .next-btn:not(:disabled):hover {
+    opacity: 1;
+  }
+}
+@media (hover: none) {
+  .PageChanger .back-btn:not(:disabled):active,
+  .PageChanger .next-btn:not(:disabled):active {
+    opacity: 1;
+  }
 }
 .PageChanger .back-btn:disabled,
 .PageChanger .next-btn:disabled {

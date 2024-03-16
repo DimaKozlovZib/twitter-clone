@@ -26,8 +26,15 @@
 				height: 100%;
 			}
 		}
-		&:not(:disabled):hover {
-			opacity: 1;
+		@media (hover: "hover") {
+			&:not(:disabled):hover {
+				opacity: 1;
+			}
+		}
+		@media (hover: "none") {
+			&:not(:disabled):active {
+				opacity: 1;
+			}
 		}
 		&:disabled {
 			cursor: default;
