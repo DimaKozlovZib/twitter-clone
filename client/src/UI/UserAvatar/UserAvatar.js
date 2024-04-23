@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import './UserAvatar.css';
 import nullAvatar from '../../images/nullAvatar.jpg';
-import { REACT_STATIC_URL } from '../../API/constans';
+import { REACT_STATIC_URL } from '../../constans';
 import { NavigatePath, userInfoPath } from '../../routes';
 
 

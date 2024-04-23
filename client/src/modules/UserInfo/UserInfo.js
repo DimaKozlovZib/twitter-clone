@@ -13,7 +13,7 @@ import usePage from '../../hooks/usePage';
 import LoaderHorizontally from '../../UI/LoaderHorizontally/LoaderHorizontally'
 import { PROJECT_NAME } from '../../constans';
 import { Helmet } from 'react-helmet-async'
-import { STATIC_COVER_URL } from '../../API/constans';
+import { STATIC_COVER_URL } from '../../constans';
 
 const UserInfo = memo(() => {
     const { userId } = useParams();

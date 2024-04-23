@@ -4,7 +4,7 @@ import '../../styles/photoView.css';
 import { MediaProvider } from '../../components/MediaProvider/MediaProvider';
 import MediaView from '../MediaView/MediaView';
 import { maxVisibleMedia } from '../../constans';
-import { REACT_STATIC_URL } from '../../API/constans';
+import { REACT_STATIC_URL } from '../../constans';
 
 const ImageMessageContent = ({ messageData }) => {
     const { media } = messageData

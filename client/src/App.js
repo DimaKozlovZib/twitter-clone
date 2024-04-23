@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './App.css';
 import './styles/Modal.css';
 import AppRouter from './appRouter';
@@ -11,7 +11,7 @@ import { setClearStore, setSavedDataAction } from './store/index';
 import DeleteMessage from './modules/DeleteMessage/DeleteMessage';
 import ChangeAvatar from './modules/ChangeAvatar/ChangeAvatar';
 import LogoutModal from './modules/LogoutModal/LogoutModal';
-import { loginPath, registrationPath } from './routes';
+import { loginPath, NavigatePath, registrationPath } from './routes';
 import RetweetModal from './modules/RetweetModal/RetweetModal';
 import MediaSlider from './modules/MediaSlider/MediaSlider';
 import { Helmet } from 'react-helmet-async'
@@ -26,6 +26,7 @@ function App() {
   const isAuth = useSelector(state => state.isAuth)
   const modalType = useSelector(state => state.openModule);
   const theme = useSelector(state => state.theme);
+  const navigate = useNavigate()
 
   const [isLoaderModalActive, setIsLoaderModalActive] = useState(true);
 
@@ -52,6 +53,8 @@ function App() {
         }
       })
 
+    if (isAuth === null) dispatch(getUser(setIsLoaderModalActive))
+
     return () => {
       dispatch(setSavedDataAction({}))
     }
@@ -63,9 +66,11 @@ function App() {
   }, [theme]);
 
   useEffect(() => {
-    if ([registrationPath, loginPath].includes(location.pathname)) return;
-    if (isAuth === null) dispatch(getUser(setIsLoaderModalActive))
-  }, [location]);
+    console.log(location.pathname)
+    if (isAuth !== false) return;
+    if ([registrationPath, loginPath].includes(location.pathname.slice(1))) return;
+    navigate(NavigatePath(registrationPath))
+  }, [location?.pathname, isAuth]);
 
   return (
     <>

@@ -58,7 +58,7 @@ const RegistrationForm = () => {
 				History(NavigatePath(messagesPath));
 			} else {
 				setErrorFromServer(
-					result?.message
+					result.response?.data?.message
 				);
 			}
 		}

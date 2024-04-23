@@ -4,7 +4,7 @@ const fileUpload = require('express-fileupload')
 const cors = require('cors')
 const app = express()
 const sequelize = require('./db')
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 3000
 //const models = require("./models/models")
 //const analiticModels = require("./models/mongoModels")
 const router = require("./routes/index")
@@ -29,7 +29,7 @@ app.use(errorHandler)
 
 const start = async () => {
     try {
-        await mongoose.connect(process.env.MONGO_URL)
+        await mongoose.connect(`mongodb://root:password@app-mongo:27017/?authSource=admin`)
             .then(() => console.log("MongoDB succes connect"))
 
         await sequelize.authenticate()

@@ -1,0 +1,70 @@
+version: '3.1'
+services:
+  api:
+    build: ./server
+    ports:
+      - "3000:3000"
+    develop:
+      watch:
+        - path: ./server
+          target: /app
+          action: sync
+    depends_on:
+      - python
+      - db
+      - mongo
+    container_name: app-api
+  python:
+    build: ./server/python
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./python/app:/app
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: twitter-clone-db
+      POSTGRES_USER: twitter-clone-db
+      POSTGRES_PASSWORD: twitter-clone-db
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U twitter-clone-db -d twitter-clone-db" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    container_name: app-mongo
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: password
+      ME_CONFIG_MONGODB_URL: mongodb://root:password@mongo:27017/
+      ME_CONFIG_BASICAUTH: false
+  client:
+    build: 
+      context: ./client
+      dockerfile: ./Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8089:80"
+    stdin_open: true
+    tty: true
+    develop:
+      watch:
+        - path: ./client/package.json
+          action: rebuild
+        - path: ./client/src
+          target: /app
+          action: sync

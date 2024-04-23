@@ -29,8 +29,9 @@ class MessageList extends Component {
 
         const viewedDataJSON = JSON.stringify(viewedData);
         getMessages({ limit: this.limit, viewedDataJSON }).then((res) => {
+            if (!res) return;
             this.setState(prevState => ({
-                messagesArray: [...prevState.messagesArray, { data: res.data, page }],
+                messagesArray: [...prevState.messagesArray, { data: res?.data, page }],
                 isLoading: false,
             }));
         });

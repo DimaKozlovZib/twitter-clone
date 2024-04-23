@@ -7,7 +7,7 @@ import useModal from '../../hooks/useModal';
 import { editInfo } from './API';
 import SuccesMessage from '../../UI/SuccesMessage/SuccesMessage';
 import { setUserAction } from '../../store';
-import { STATIC_COVER_URL } from '../../API/constans';
+import { STATIC_COVER_URL } from '../../constans';
 
 const EditForm = () => {
     const user = useSelector(state => state.user);

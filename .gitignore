@@ -12,6 +12,7 @@ server/index.js
 
 client/src/API/constans.js
 client/src/constans.js
+client/build
 
 .env
 # testing

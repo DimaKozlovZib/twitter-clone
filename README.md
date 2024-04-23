@@ -63,9 +63,9 @@
     **server/.env**
     ```
     PORT=5000
-    DB_NAME=your_db_name
-    DB_USER=db_user
-    DB_PASSWORD=your_password
+    POSTGRESDB=your_db_name
+    POSTGRESUSER=db_user
+    POSTGRESPASSWORD=your_password
     DB_HOST=localhost
     DB_PORT=5432
     SECRET_ACCESS_KEY=any_key
