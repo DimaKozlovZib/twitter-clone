@@ -4,11 +4,6 @@ services:
     build: ./server
     ports:
       - "3000:3000"
-    develop:
-      watch:
-        - path: ./server
-          target: /app
-          action: sync
     depends_on:
       - python
       - db
@@ -51,7 +46,7 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: password
       ME_CONFIG_MONGODB_URL: mongodb://root:password@mongo:27017/
-      ME_CONFIG_BASICAUTH: false
+      ME_CONFIG_BASICAUTH: null
   client:
     build: 
       context: ./client
@@ -61,10 +56,3 @@ services:
       - "8089:80"
     stdin_open: true
     tty: true
-    develop:
-      watch:
-        - path: ./client/package.json
-          action: rebuild
-        - path: ./client/src
-          target: /app
-          action: sync
