@@ -26,6 +26,7 @@ server/static-cover
 
 # production
 /build
+/ssl
 
 # misc
 .DS_Store

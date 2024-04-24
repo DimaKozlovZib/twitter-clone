@@ -13,7 +13,9 @@ FROM nginx:alpine
 
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/build /usr/share/nginx/html
+COPY nginx/ssl/nginx.crt /etc/nginx/ssl/nginx.crt
+COPY nginx/ssl/nginx.key /etc/nginx/ssl/nginx.key
 
-EXPOSE 80
+EXPOSE 80 443
 
 CMD ["nginx", "-g", "daemon off;"]

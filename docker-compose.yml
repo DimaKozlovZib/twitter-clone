@@ -54,5 +54,6 @@ services:
     restart: unless-stopped
     ports:
       - "8089:80"
+      - "443:443"
     stdin_open: true
     tty: true
