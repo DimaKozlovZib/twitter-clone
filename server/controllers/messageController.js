@@ -48,21 +48,7 @@ class messageRouter {
             const { id } = req.user;
             const retweetId = Number(req.body?.retweetId);
 
-            const f = req.files?.file
-            const media = f && !f.length ? [f] : f;
-            const filesLen = media?.length
-
             if (!text) return res.status(400).json({ message: 'no text', text: 0 });
-
-            // проверяем изображения на типы
-
-            const mediaFileCondition = media?.filter(file => {
-                return !file || !"image/jpeg,image/png,image/gif,image/webp,video/mp4".split(',').includes(file.mimetype)
-            }).length !== 0
-
-            if (mediaFileCondition && f) {
-                return res.status(415).json({ message: 'не передан файл или файл не правильного типа' })
-            }
 
             //проверка на ретвит
             const retweetMessage = retweetId ? await Message.findOne({ where: { id: retweetId } }) : null
@@ -102,30 +88,36 @@ class messageRouter {
                     }
                 });
             }
-            //создаем изображения
-            if (filesLen > 0) {
-                media.forEach(async (file, index) => {
-                    let filename, type;
-
-                    switch (file.mimetype.split('/')[0]) {
-                        case 'video':
-                            type = 'video';
-                            filename = 'messageVideo' + uuid.v4() + ".mp4";
-                            break;
-                        case 'image':
-                            type = 'image';
-                            filename = 'messageImage' + uuid.v4() + ".jpg";
-                            break;
-                    }
-                    file.mv(path.resolve(__dirname, ...process.env.PATH_TO_DIST.split('/'), 'static', filename))
-
-                    await Media.create({ url: filename, messageId: message.id, type, indexInMessage: index })
-                })
-            }
-
             return res.status(200).json({ message })
         } catch (error) {
             console.log(error)
+            return next(ApiError.internal(error.message))
+        }
+    }
+    async createMedia(req, res) {
+        try {
+            const { messageId } = req.params;
+            const { index } = req.query
+            const { file } = req;
+
+            if (!file) {
+                return res.status(400).json({ message: 'No file provided' });
+            }
+
+            const filePath = path.resolve(__dirname, '..', ...process.env.PATH_TO_DIST.split('/'), 'static', file.originalname);
+            fs.copyFileSync(file.path, filePath);
+            fs.unlinkSync(file.path);
+
+            const media = await Media.create({
+                url: file.originalname,
+                messageId,
+                type: 'image',
+                indexInMessage: index,
+            });
+
+            res.status(200).json(media);
+        } catch (error) {
+            console.error(error);
             return next(ApiError.internal(error.message))
         }
     }

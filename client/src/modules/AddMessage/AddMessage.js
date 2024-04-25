@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { addMessages } from './API';
+import { addMediaRequest, addMessages } from './API';
 import './AddMessage.css';
 import MessageAddInput from '../../components/MessageAddInput/MessageAddInput';
 import ImageTable from '../../components/ImageTable/ImageTable';
@@ -86,19 +86,19 @@ const AddMessage = memo(({ isRetweet }) => {
             }
             const hashtagsInText = Array.from(new Set(hashtagNames))
 
-            //передаем данные в форму
-            const formData = new FormData()
-            for (let index = 0; index < customOrderedFiles.length; index++) {
-                const element = customOrderedFiles[index];
-                formData.append('file', element)
-            }
-            formData.append('text', value)
-            formData.append('hashtagsString', hashtagsInText)
-            formData.append('retweetId', messageRetweetData?.id || null)
             //запрос
-            const response = await addMessages(formData)
+            const response = await addMessages(value, hashtagsInText, messageRetweetData?.id || null)
 
             if (response) {
+                //передаем данные в форму
+                for (let index = 0; index < customOrderedFiles.length; index++) {
+                    const formData = new FormData()
+                    const element = customOrderedFiles[index];
+                    formData.append('file', element)
+
+                    await addMediaRequest(formData, index, response?.data.id)
+                }
+
                 setEditorState(() => EditorState.createEmpty(compositeDecorator))
                 setCustomOrderedFiles([])
                 setMessageRetweetData(null)
