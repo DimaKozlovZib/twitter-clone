@@ -84,7 +84,7 @@ const AddMessage = memo(({ isRetweet }) => {
                 const element = hashtags[index];
                 hashtagNames.push(element.textContent)
             }
-            const hashtagsInText = Array.from(new Set(hashtagNames))
+            const hashtagsInText = Array.from(new Set(hashtagNames)).join(',')
 
             //запрос
             const response = await addMessages(value, hashtagsInText, messageRetweetData?.id || null)
