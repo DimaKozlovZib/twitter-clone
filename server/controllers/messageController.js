@@ -96,9 +96,10 @@ class messageRouter {
     }
     async createMedia(req, res) {
         try {
-            const { messageId } = req.params;
+            const { id } = req.params;
             const { index } = req.query
             const file = req.files.file;
+            console.log(req)
 
             if (!file) {
                 return res.status(400).json({ message: 'No file provided' });
@@ -120,12 +121,12 @@ class messageRouter {
 
             const media = await Media.create({
                 url: file.originalname,
-                messageId,
+                messageId: id,
                 type,
                 indexInMessage: index,
             });
 
-            res.status(200).json(media);
+            return res.status(200).json(media);
         } catch (error) {
             console.error(error);
             return next(ApiError.internal(error.message))
