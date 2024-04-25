@@ -22,7 +22,7 @@ client/build
 
 .vscode
 
-
+server/static-images
 # production
 /build
 /ssl
