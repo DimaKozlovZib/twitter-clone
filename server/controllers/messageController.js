@@ -98,7 +98,7 @@ class messageRouter {
         try {
             const { messageId } = req.params;
             const { index } = req.query
-            const { file } = req;
+            const file = req.files.file;
 
             if (!file) {
                 return res.status(400).json({ message: 'No file provided' });
