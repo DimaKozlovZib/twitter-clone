@@ -96,7 +96,7 @@ const AddMessage = memo(({ isRetweet }) => {
                     const element = customOrderedFiles[index];
                     formData.append('file', element)
 
-                    await addMediaRequest(formData, index, response?.data?.message.id)
+                    await addMediaRequest(formData, index, response?.data?.message?.id)
                 }
 
                 setEditorState(() => EditorState.createEmpty(compositeDecorator))
