@@ -120,7 +120,7 @@ class messageRouter {
             file.mv(path.resolve(__dirname, ...process.env.PATH_TO_DIST.split('/'), 'static', filename))
 
             const media = await Media.create({
-                url: file.originalname,
+                url: filename,
                 messageId: id,
                 type,
                 indexInMessage: index,
