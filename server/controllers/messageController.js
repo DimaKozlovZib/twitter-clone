@@ -104,14 +104,24 @@ class messageRouter {
                 return res.status(400).json({ message: 'No file provided' });
             }
 
-            const filePath = path.resolve(__dirname, '..', ...process.env.PATH_TO_DIST.split('/'), 'static', file.originalname);
-            fs.copyFileSync(file.path, filePath);
-            fs.unlinkSync(file.path);
+            let filename, type;
+
+            switch (file.mimetype.split('/')[0]) {
+                case 'video':
+                    type = 'video';
+                    filename = 'messageVideo' + uuid.v4() + ".mp4";
+                    break;
+                case 'image':
+                    type = 'image';
+                    filename = 'messageImage' + uuid.v4() + ".jpg";
+                    break;
+            }
+            file.mv(path.resolve(__dirname, ...process.env.PATH_TO_DIST.split('/'), 'static', filename))
 
             const media = await Media.create({
                 url: file.originalname,
                 messageId,
-                type: 'image',
+                type,
                 indexInMessage: index,
             });
 
