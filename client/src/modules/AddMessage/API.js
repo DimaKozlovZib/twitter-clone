@@ -15,7 +15,7 @@ export const addMessages = async (text, hashtagsString, retweetId) => {
 
 export const addMediaRequest = async (formData, index, messageId) => {
     try {
-        const response = await $authHost.post(`/${messageId}/addMedia?index=${index}`, formData, {
+        const response = await $authHost.post(`/message/${messageId}/addMedia?index=${index}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             }
