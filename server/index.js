@@ -19,9 +19,9 @@ app.use(cors({
 }))
 app.use(express.json())
 app.use(cookieParser())
-app.use(express.static(path.resolve(__dirname, "static-images")))
-app.use(express.static(path.resolve(__dirname, "static-cover")))
-app.use(express.static(path.resolve(__dirname, "static-avatars")))
+app.use(express.static(path.resolve(__dirname, 'static-images', "static")))
+app.use(express.static(path.resolve(__dirname, 'static-images', "static-cover")))
+app.use(express.static(path.resolve(__dirname, 'static-images', "static-avatars")))
 app.use(fileUpload())
 app.use('/api', router)
 

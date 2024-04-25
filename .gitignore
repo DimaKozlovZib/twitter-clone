@@ -8,7 +8,10 @@ client/node_modules
 server/static/*.jpg
 server/static/*.mp4
 server/static-avatars/*.jpg
-server/index.js
+
+server/static-images/static/*.jpg
+server/static-images/static/*.mp4
+server/static-images/static-avatars/*.jpg
 
 client/src/API/constans.js
 client/src/constans.js
@@ -22,7 +25,6 @@ client/build
 
 .vscode
 
-server/static-images
 # production
 /build
 /ssl
