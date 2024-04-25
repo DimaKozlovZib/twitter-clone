@@ -94,7 +94,7 @@ class messageRouter {
             return next(ApiError.internal(error.message))
         }
     }
-    async createMedia(req, res) {
+    async createMedia(req, res, next) {
         try {
             const { id } = req.params;
             const { index } = req.query
