@@ -56,6 +56,8 @@ services:
     volumes:
       - static-volume:/static-images
     restart: unless-stopped
+    depends_on:
+      - api
     ports:
       - "80:80"
       - "443:443"
