@@ -27,7 +27,7 @@ client/build
 
 # production
 /build
-/ssl
+client/nginx/ssl
 
 # misc
 .DS_Store

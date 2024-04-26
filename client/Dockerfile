@@ -1,9 +1,9 @@
-FROM node:alpine as build
+FROM node:lts as build
 
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm ci
+RUN npm install -g npm@10.6.0 & npm install
 
 COPY . .
 
