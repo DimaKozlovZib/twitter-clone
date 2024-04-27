@@ -5,7 +5,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - static-volume: /static-images
+      - static-volume:/static-images
     depends_on:
       - python
       - db
@@ -54,7 +54,7 @@ services:
       context: ./client
       dockerfile: ./Dockerfile
     volumes:
-      - static-volume: /usr/share/nginx
+      - static-volume:/static-volume
     restart: unless-stopped
     depends_on:
       - api
