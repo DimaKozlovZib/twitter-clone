@@ -66,4 +66,7 @@ services:
 volumes:
   static-volume:
     driver: local
-    type: none
+    driver_opts:
+      type: none
+      device: /static
+      o: bind
