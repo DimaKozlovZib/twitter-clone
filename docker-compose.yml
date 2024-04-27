@@ -54,7 +54,7 @@ services:
       context: ./client
       dockerfile: ./Dockerfile
     volumes:
-      - static-volume:/static-volume
+      - static-volume:/static-images
     restart: unless-stopped
     depends_on:
       - api
