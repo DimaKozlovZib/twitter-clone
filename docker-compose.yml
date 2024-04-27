@@ -66,3 +66,4 @@ services:
 volumes:
   static-volume:
     driver: local
+    type: none
