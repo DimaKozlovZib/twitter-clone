@@ -18,7 +18,7 @@ export const addRetweetPath = (id = ':id') =>
 
 
 export const myFriendsPath = 'dreamscape/friends';
-export const messagesPath = 'dreamscape/messages';
+export const messagesPath = 'dreamscape';
 export const registrationPath = 'dreamscape/registration';
 export const loginPath = 'dreamscape/login';
 export const editPath = 'dreamscape/edit';

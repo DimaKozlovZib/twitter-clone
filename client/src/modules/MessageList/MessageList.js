@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './MessageList.css';
-import MessagePost from '../../components/messagePost/messagePost';
+import MessagePost from '../../components/messagePost/messagePost.js';
 import { setSavedDataAction, setViewedDataAction } from '../../store/index';
 import { connect } from 'react-redux';
 import { getMessages } from '../../API/messagesApi.js';

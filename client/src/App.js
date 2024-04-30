@@ -14,11 +14,9 @@ import LogoutModal from './modules/LogoutModal/LogoutModal';
 import { loginPath, NavigatePath, registrationPath } from './routes';
 import RetweetModal from './modules/RetweetModal/RetweetModal';
 import MediaSlider from './modules/MediaSlider/MediaSlider';
-import { Helmet } from 'react-helmet-async'
-import logo57 from './images/logo57.png'
-import logo72 from './images/logo72.png'
-import { DOMAIN, PROJECT_NAME } from './constans';
 import { $authHost, $host } from './API';
+import { Helmet } from 'react-helmet-async';
+import { DOMAIN } from './constans';
 
 function App() {
   const location = useLocation();
@@ -53,7 +51,7 @@ function App() {
         }
       })
 
-    if (isAuth === null) dispatch(getUser(setIsLoaderModalActive))
+    if (isAuth === null) dispatch(getUser())
 
     return () => {
       dispatch(setSavedDataAction({}))
@@ -66,24 +64,24 @@ function App() {
   }, [theme]);
 
   useEffect(() => {
-    console.log(location.pathname)
-    if (isAuth !== false) return;
-    if ([registrationPath, loginPath].includes(location.pathname.slice(1))) return;
+    if (isAuth === null) return;
+
+    if (
+      isAuth === true ||
+      [registrationPath, loginPath].includes(location.pathname.slice(1))
+    ) return setIsLoaderModalActive(false);
+
     navigate(NavigatePath(registrationPath))
+    setIsLoaderModalActive(false)
   }, [location?.pathname, isAuth]);
 
   return (
     <>
-      <Helmet htmlAttributes={{ "lang": "ru", "amp": undefined }}>
+      <Helmet>
         <base target="_blank" href={DOMAIN} />
-        <title>{PROJECT_NAME}</title>
-        <link rel='icon' type='image/png' href={logo57} />
-        <link rel='apple-touch-icon' href={logo57} />
-        <link rel='apple-touch-icon' sizes='72x72' href={logo72} />
-        <meta property='og:type' content='article' />
-        <meta name='description' content={`${PROJECT_NAME} - cовременная социальная сеть для туристов (school project)`} />
       </Helmet>
-      <LoadModal />
+      {isLoaderModalActive ? <LoadModal /> : <></>}
+
       {(modalType.type === 'ADD_COVER-MODAL') && <AddCover />}
       {(modalType.type === 'DELETE_MESSAGE-MODAL') && <DeleteMessage data={modalType.data} />}
       {(modalType.type === 'CHANGE-AVATAR-MODAL') && <ChangeAvatar />}

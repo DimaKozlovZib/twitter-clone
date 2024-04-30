@@ -25,7 +25,11 @@ const UserAvatar = memo(({ url, id, isNotLink, ...events }) => {
     return (
         isNotLink ?
             Avatar
-            : <Link to={NavigatePath(userInfoPath(id))}>{Avatar}</Link >
+            :
+            (<Link to={NavigatePath(userInfoPath(id))}>
+                {Avatar}
+                <span className='hiddenText'>Страница пользователя</span>
+            </Link >)
     );
 })
 

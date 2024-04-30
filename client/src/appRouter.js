@@ -30,7 +30,7 @@ const AppRouter = () => {
             <Route path={addRetweetPath()} element={<AddPostPage retweet />} />
             <Route path={NotFoundPath} element={<NotFoundPage />} />
             <Route path={onlyAuthPath} element={<OnlyUsersPage />} />
-            <Route path={'*'} element={<NotFoundPage />} />
+            <Route path={'*'} element={<MessagesPage />} />
         </Routes>
     )
 }
