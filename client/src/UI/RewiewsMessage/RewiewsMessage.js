@@ -8,6 +8,11 @@ import { useEffect } from 'react';
 import { NavigatePath, addRetweetPath, messagePath } from '../../routes';
 
 const RewiewsMessage = ({ data }) => {
+    const userId = useSelector(state => state.user.id)
+    const isAuth = useSelector(state => state.isAuth)
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
     const { commentsCount, retweetCount, likes, likesNum, messageData } = data;
     const { id } = messageData;
 
@@ -24,12 +29,6 @@ const RewiewsMessage = ({ data }) => {
             setActiveLikeClass(isLikedByUser ? 'active' : '')
         }
     }, [likes]);
-
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
-
-    const userId = useSelector(state => state.user.id)
-    const isAuth = useSelector(state => state.isAuth)
 
     const postLike = async () => {
         if (!isAuth) return;
