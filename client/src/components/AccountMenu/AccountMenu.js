@@ -50,7 +50,7 @@ const AccountMenu = memo(({ isActive, setActiveMenu }) => {
                     </svg>
                 </div>
 
-                <h5>Друзья</h5>
+                <h5>Подписки</h5>
             </button>
 
             <button className='AccountMenu--item' onClick={changeTheme}>

@@ -13,7 +13,8 @@
 		justify-content: space-between;
 		gap: 10px;
 		align-items: center;
-		padding: 6px 0px;
+		padding-top: 6px;
+		padding-bottom: 6px;
 		max-width: 1200px;
 		margin: 0px auto;
 		box-sizing: border-box;
@@ -123,7 +124,8 @@
 	}
 	.header .container {
 		justify-content: space-between;
-		padding: 8px 0px;
+		padding-top: 8px;
+		padding-bottom: 8px;
 		.search {
 			max-width: 100%;
 		}

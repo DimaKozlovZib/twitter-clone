@@ -30,14 +30,14 @@ const FriendsList = memo(() => {
         <>
             <div className='FriendsList'>
                 <div className='FriendsList-title'>
-                    <h4>Ваши друзья</h4>
+                    <h4>Ваши подписки</h4>
                 </div>
                 <div className='FriendsList-box'>
                     {isLoadData ?
                         (
                             friends.length > 0 ?
                                 friends.map(user => <UserElement user={user} />) :
-                                <p className='noOneFriend'>У вас нет друзей :(</p>
+                                <p className='noOneFriend'>Вы ни на кого не подписаны</p>
                         ) :
                         <LoaderHorizontally />
                     }
